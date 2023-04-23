@@ -7,9 +7,9 @@ public class UIManager : Singleton<UIManager>
 {
     Dictionary<string, IUIInterface> UIDictionary = new Dictionary<string, IUIInterface>();
 
-    public IUIInterface OpenUI<T>() where T : IUIInterface
+    public IUIInterface GetUI<T>() where T : IUIInterface
     {
-        IUIInterface ui = GetUI<T>();
+        IUIInterface ui = FindUI<T>();
 
         if (ui != null)
             return ui;
@@ -19,16 +19,16 @@ public class UIManager : Singleton<UIManager>
         GameObject uiObject = Instantiate(prefab);
 
         ui = uiObject.GetComponent<T>();
+        UIDictionary.Add(typeof(T).Name, ui);
 
         return ui;
     }
 
-    private IUIInterface GetUI<T>()
+    private IUIInterface FindUI<T>()
     {
         if (UIDictionary.ContainsKey(typeof(T).Name))
             return UIDictionary[typeof(T).Name];
 
         return null;
     }
-
 }
