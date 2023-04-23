@@ -6,7 +6,4 @@ public interface IUIInterface
 
     void ClostUI()
     { }
-
-    void SetUI()
-    { }
 }
