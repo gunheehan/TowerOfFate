@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class StartScene : MonoBehaviour
 {
+    [SerializeField] private FloorLoader floorLoader;
     void Start()
     {
-        UIManager.Instance.OpenUI<UIMenu>().SetUI();
+        UIMenu uiMenu = UIManager.Instance.GetUI<UIMenu>() as UIMenu;
+        uiMenu.SetPlayAction(() =>
+        {
+            floorLoader.CreateFloor();
+        });
+        uiMenu.OpenUI();
     }
 }
