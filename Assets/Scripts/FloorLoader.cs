@@ -26,6 +26,12 @@ public class FloorLoader : MonoBehaviour
             {
                 Vector3 position = startPosition + new Vector3(x, 0, z);
                 GameObject floorObject = Instantiate(floorPrefab, position, Quaternion.identity);
+                
+                if (x >= 1 && x <= 5 && z >= 1 && z <= 5)
+                    floorObject.GetComponent<Renderer>().material.color = Color.blue;
+                else 
+                    floorObject.GetComponent<Renderer>().material.color = Color.white;
+                                        
                 floorObject.SetActive(true);
             }
         }
