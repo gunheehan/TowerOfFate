@@ -5,6 +5,7 @@ using UnityEngine;
 public enum FloorType
 {
     Road,
+    RoadEdge,
     Placement
 }
 public class FloorLoader : MonoBehaviour
@@ -27,9 +28,18 @@ public class FloorLoader : MonoBehaviour
                 if (x >= 1 && x <= floorSize && z >= 1 && z <= floorSize)
                     SetFloor(FloorType.Placement, position);
                 else
-                    SetFloor(FloorType.Road, position);
+                {
+                    if ((x == 0 || x == floorLv - 1) && (z == 0 || z == floorLv - 1))
+                    {
+                        SetFloor(FloorType.RoadEdge, position);
+                    }
+                    else
+                    {
+                        SetFloor(FloorType.Road, position);
+                    }
+                }
             }
-        }
+        } 
     }
 
     private void SetFloor(FloorType floortype, Vector3 position)
@@ -44,6 +54,9 @@ public class FloorLoader : MonoBehaviour
 
             case FloorType.Placement:
                 floorObject.GetComponent<Renderer>().material.color = Color.blue;
+                break;
+            case FloorType.RoadEdge:
+                floorObject.GetComponent<Renderer>().material.color = Color.yellow;
                 break;
         }
         floorObject.SetActive(true);
