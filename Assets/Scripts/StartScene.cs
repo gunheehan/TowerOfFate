@@ -7,11 +7,6 @@ public class StartScene : MonoBehaviour
     [SerializeField] private FloorLoader floorLoader;
     void Start()
     {
-        UIMenu uiMenu = UIManager.Instance.GetUI<UIMenu>() as UIMenu;
-        uiMenu.SetPlayAction(() =>
-        {
-            floorLoader.CreateFloor();
-        });
-        uiMenu.OpenUI();
+        UIManager.Instance.GetUI<UIMenu>().OpenUI();
     }
 }

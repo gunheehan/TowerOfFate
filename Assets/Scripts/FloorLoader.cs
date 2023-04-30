@@ -4,30 +4,22 @@ using UnityEngine;
 
 public class FloorLoader : MonoBehaviour
 {
-    private GameObject floorPrefab; // 1x1 크기의 바닥 오브젝트 프리팹
-    private int floorCount = 7; // 7x7 크기의 바닥 오브젝트를 생성
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        floorPrefab = ObjectManager.Instance.GetObject<FloorObject>();
-        floorPrefab.SetActive(false);
-    }
+    private GameObject floorPrefab = null; // 1x1 크기의 바닥 오브젝트 프리팹
 
-    public void CreateFloor()
+    public void CreateFloor(int floorLv)
     {
-        // 시작 좌표 (0, 0)
         Vector3 startPosition = Vector3.zero;
 
-        // 7x7 바닥 오브젝트 생성
-        for (int x = 0; x < floorCount; x++)
+        int floorSize = floorLv - 2;
+
+        for (int x = 0; x < floorLv; x++)
         {
-            for (int z = 0; z < floorCount; z++)
+            for (int z = 0; z < floorLv; z++)
             {
                 Vector3 position = startPosition + new Vector3(x, 0, z);
-                GameObject floorObject = Instantiate(floorPrefab, position, Quaternion.identity);
+                GameObject floorObject = Instantiate(GetFloorPrefab(), position, Quaternion.identity);
                 
-                if (x >= 1 && x <= 5 && z >= 1 && z <= 5)
+                if (x >= 1 && x <= floorSize && z >= 1 && z <= floorSize)
                     floorObject.GetComponent<Renderer>().material.color = Color.blue;
                 else 
                     floorObject.GetComponent<Renderer>().material.color = Color.white;
@@ -35,5 +27,16 @@ public class FloorLoader : MonoBehaviour
                 floorObject.SetActive(true);
             }
         }
+    }
+
+    private GameObject GetFloorPrefab()
+    {
+        if (floorPrefab != null)
+            return floorPrefab;
+        
+        floorPrefab = ObjectManager.Instance.GetObject<FloorObject>();
+        floorPrefab.SetActive(false);
+
+        return floorPrefab;
     }
 }
