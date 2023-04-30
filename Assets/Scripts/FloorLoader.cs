@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum FloorType
+{
+    Road,
+    Placement
+}
 public class FloorLoader : MonoBehaviour
 {
     private GameObject floorContents = null;
@@ -18,16 +23,30 @@ public class FloorLoader : MonoBehaviour
             for (int z = 0; z < floorLv; z++)
             {
                 Vector3 position = startPosition + new Vector3(x, 0, z);
-                GameObject floorObject = Instantiate(GetFloorPrefab(), position, Quaternion.identity, floorContents.transform);
-                
+
                 if (x >= 1 && x <= floorSize && z >= 1 && z <= floorSize)
-                    floorObject.GetComponent<Renderer>().material.color = Color.blue;
-                else 
-                    floorObject.GetComponent<Renderer>().material.color = Color.white;
-                                        
-                floorObject.SetActive(true);
+                    SetFloor(FloorType.Placement, position);
+                else
+                    SetFloor(FloorType.Road, position);
             }
         }
+    }
+
+    private void SetFloor(FloorType floortype, Vector3 position)
+    {
+        GameObject floorObject = Instantiate(GetFloorPrefab(), position, Quaternion.identity, floorContents.transform);
+
+        switch (floortype)
+        {
+            case FloorType.Road:
+                floorObject.GetComponent<Renderer>().material.color = Color.white;
+                break;
+
+            case FloorType.Placement:
+                floorObject.GetComponent<Renderer>().material.color = Color.blue;
+                break;
+        }
+        floorObject.SetActive(true);
     }
 
     private GameObject GetFloorPrefab()
