@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,19 @@ public class FloorLoader : MonoBehaviour
 {
     private GameObject floorContents = null;
     private GameObject floorPrefab = null; // 1x1 크기의 바닥 오브젝트 프리팹
+
+    private List<FloorController> floorControllerList = new List<FloorController>();
+    private List<Vector3> roadEdgeTransform = new List<Vector3>();
+
+    public List<FloorController> GetFloorList()
+    {
+        return floorControllerList;
+    }
+
+    public List<Vector3> GetRoadEdgeList()
+    {
+        return roadEdgeTransform;
+    }
 
     public void CreateFloor(int floorLv)
     {
@@ -40,6 +54,8 @@ public class FloorLoader : MonoBehaviour
                 }
             }
         } 
+        UITowerState uITowerState = UIManager.Instance.GetUI<UITowerState>() as UITowerState;
+        uITowerState.SetFloorController(floorControllerList);
     }
 
     private void SetFloor(FloorType floortype, Vector3 position)
@@ -54,9 +70,12 @@ public class FloorLoader : MonoBehaviour
 
             case FloorType.Placement:
                 floorObject.GetComponent<Renderer>().material.color = Color.blue;
+                floorObject.AddComponent<FloorController>();
+                floorControllerList.Add(floorObject.GetComponent<FloorController>());
                 break;
             case FloorType.RoadEdge:
                 floorObject.GetComponent<Renderer>().material.color = Color.yellow;
+                roadEdgeTransform.Add(position);
                 break;
         }
         floorObject.SetActive(true);
