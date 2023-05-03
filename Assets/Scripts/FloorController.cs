@@ -7,6 +7,7 @@ public class FloorController : MonoBehaviour
     private TowerObject playObject = null;
 
     private bool isCanPlaced = true;
+    public bool IsCanPlaced => isCanPlaced;
 
     public bool SetTower(TowerObject towerObject)
     {
