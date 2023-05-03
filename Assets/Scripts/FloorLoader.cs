@@ -61,7 +61,8 @@ public class FloorLoader : MonoBehaviour
     private void SetFloor(FloorType floortype, Vector3 position)
     {
         GameObject floorObject = Instantiate(GetFloorPrefab(), position, Quaternion.identity, floorContents.transform);
-
+        floorObject.name = "Floor " + position.x + " / " + position.z;
+        
         switch (floortype)
         {
             case FloorType.Road:
@@ -70,6 +71,7 @@ public class FloorLoader : MonoBehaviour
 
             case FloorType.Placement:
                 floorObject.GetComponent<Renderer>().material.color = Color.blue;
+                floorObject.layer = LayerMask.NameToLayer("Floor");
                 floorObject.AddComponent<FloorController>();
                 floorControllerList.Add(floorObject.GetComponent<FloorController>());
                 break;
