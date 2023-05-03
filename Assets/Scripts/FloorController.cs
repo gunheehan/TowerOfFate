@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FloorController : MonoBehaviour
@@ -13,11 +11,19 @@ public class FloorController : MonoBehaviour
     {
         if (!isCanPlaced)
             return isCanPlaced;
-        
+
         playObject = towerObject;
+        playObject.transform.position = Vector3.zero;
         
-        isCanPlaced = true;
+        isCanPlaced = false;
         return isCanPlaced;
+    }
+
+    public void SetTowerList()
+    {
+        UITowerList uiTowerList = UIManager.Instance.GetUI<UITowerList>() as UITowerList;
+        uiTowerList.SetCurrentFloor(this);
+        uiTowerList.OpenUI();
     }
 
     public void CanPlaceOnFloor()
