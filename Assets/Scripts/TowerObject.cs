@@ -1,18 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerObject : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool isUsed = false;
+    public bool ISUsed => isUsed;
+    private float power = 0f;
+
+    private void Awake()
     {
-        
+        power = 10f;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetUsedState(bool isused)
     {
-        
+        isUsed = isused;
+        if (!isUsed)
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.white;
+        }
+        else
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.green;
+        }
     }
 }
