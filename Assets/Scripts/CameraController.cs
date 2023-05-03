@@ -4,10 +4,11 @@ public class CameraController : MonoBehaviour
 {
     private RaycastHit rayHit;
     private Ray ray;
+
+    private GameObject curSelectFloor = null;
     
     private void Update()
     {
-        
         if (Input.GetMouseButtonDown(0))
         {
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -28,7 +29,12 @@ public class CameraController : MonoBehaviour
 
     private void CheckPlaceItem(GameObject floor)
     {
+        if(curSelectFloor != null)
+            curSelectFloor.GetComponent<Renderer>().material.color = Color.blue;
+        curSelectFloor = floor;
+        floor.GetComponent<Renderer>().material.color = Color.red;
         FloorController floorController = floor.GetComponent<FloorController>();
+        floorController.SetTowerList();
         Debug.Log(floorController.IsCanPlaced);
     }
     
