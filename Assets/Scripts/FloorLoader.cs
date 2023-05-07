@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -54,6 +52,8 @@ public class FloorLoader : MonoBehaviour
                 }
             }
         } 
+        SetMonsterPath();
+
         UITowerState uITowerState = UIManager.Instance.GetUI<UITowerState>() as UITowerState;
         uITowerState.SetFloorController(floorControllerList);
     }
@@ -81,6 +81,19 @@ public class FloorLoader : MonoBehaviour
                 break;
         }
         floorObject.SetActive(true);
+    }
+
+    private void SetMonsterPath()
+    {
+        List<Vector3> positionlist = new List<Vector3>
+        {
+            roadEdgeTransform[0],
+            roadEdgeTransform[2],
+            roadEdgeTransform[3],
+            roadEdgeTransform[1]
+        };
+        
+        roadEdgeTransform = positionlist;
     }
 
     private GameObject GetFloorPrefab()
