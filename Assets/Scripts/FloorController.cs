@@ -13,7 +13,7 @@ public class FloorController : MonoBehaviour
             return isCanPlaced;
 
         playObject = towerObject;
-        playObject.transform.position = Vector3.zero;
+        playObject.transform.position = this.transform.position;
         
         isCanPlaced = false;
         return isCanPlaced;

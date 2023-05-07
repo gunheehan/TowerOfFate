@@ -37,7 +37,7 @@ public class UITowerList : MonoBehaviour, IUIInterface
     private void SetTowerList()
     {
         // 타워리스트를 어디선가 받아오던지 읽어오던지 동작 필요
-        towerItem.SetItem(TowerObjectPrefab, sprite_thumbnail);
+        towerItem.SetItem(TowerObjectPrefab, sprite_thumbnail, currentfloor);
     }
 
     public void SetCurrentFloor(FloorController floor)

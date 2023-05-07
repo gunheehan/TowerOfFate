@@ -29,9 +29,10 @@ public class TowerItem : MonoBehaviour
         towerObject.SetUsedState(setState);
     }
 
-    public void SetItem(TowerObject towerPrefab, Sprite spritethumnail)
+    public void SetItem(TowerObject towerPrefab, Sprite spritethumnail, FloorController floor)
     {
         towerObject = towerPrefab;
         Thumnail.sprite = spritethumnail;
+        floorController = floor;
     }
 }
