@@ -6,7 +6,18 @@ using UnityEngine;
 public class StageManager : Singleton<StageManager>
 {
     private FloorLoader floorLoader = null;
-    
+    private List<Vector3> roadtarget = null;
+
+    public List<Vector3> Roadtarget
+    {
+        get
+        {
+            if (roadtarget == null)
+                roadtarget = floorLoader.GetRoadEdgeList();
+            return roadtarget;
+        }
+    }
+
     public int stageLevel { get; private set; }
 
     private void Awake()
@@ -17,7 +28,7 @@ public class StageManager : Singleton<StageManager>
 
     public void OnLoadStage(int stageLv)
     {
-        SetFloor(stageLv);
+        SetFloor(3);
         stageLevel = stageLv;
     }
 

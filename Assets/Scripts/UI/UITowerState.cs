@@ -9,6 +9,7 @@ public class UITowerState : MonoBehaviour, IUIInterface
 {
     [SerializeField] private Button Btn_CheckPlaced;
     [SerializeField] private Button Btn_FinishPlaced;
+    [SerializeField] private Button Btn_Monster;
 
     private List<FloorController> floorControllerList;
 
@@ -16,6 +17,7 @@ public class UITowerState : MonoBehaviour, IUIInterface
     {
         Btn_CheckPlaced.onClick.AddListener(OnClickCheckPlaced);
         Btn_FinishPlaced.onClick.AddListener(OnClickFinishPlaced);
+        Btn_Monster.onClick.AddListener(OnClickMonster);
     }
 
     public void SetFloorController(List<FloorController> floorControllers)
@@ -37,5 +39,10 @@ public class UITowerState : MonoBehaviour, IUIInterface
         {
             floorController.FinishPlaceFloor();
         }
+    }
+
+    private void OnClickMonster()
+    {
+        ObjectManager.Instance.GetObject<FireMonster>();
     }
 }
