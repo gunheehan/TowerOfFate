@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,7 +6,7 @@ using UnityEngine.UI;
 public class UITowerList : MonoBehaviour, IUIInterface
 {
     private TowerObject TowerObjectPrefab = null;
-    [SerializeField] private TowerItem towerItem;
+    [SerializeField] private TowerListItem towerItem;
     private Sprite sprite_thumbnail;
 
     private FloorController currentfloor = null;
@@ -31,13 +32,27 @@ public class UITowerList : MonoBehaviour, IUIInterface
         
         Texture2D thumbnailTexture = AssetPreview.GetAssetPreview(tower);
         sprite_thumbnail = Sprite.Create(thumbnailTexture, new Rect(0, 0, thumbnailTexture.width, thumbnailTexture.height), Vector2.zero);
+        tower.SetActive(false);
         
         SetTowerList();
     }
     private void SetTowerList()
     {
         // 타워리스트를 어디선가 받아오던지 읽어오던지 동작 필요
-        towerItem.SetItem(TowerObjectPrefab, sprite_thumbnail, currentfloor);
+        towerItem.SetItem(sprite_thumbnail, InstantiateTower);
+    }
+
+    private void InstantiateTower()
+    {
+        bool setState = currentfloor.IsCanPlaced;
+        if (setState)
+        {
+            Object obj = Instantiate(TowerObjectPrefab);
+            TowerObject objectTower = obj as TowerObject;
+            currentfloor.SetTower(objectTower);
+            objectTower.gameObject.SetActive(true);
+            objectTower.SetUsedState(setState);
+        }
     }
 
     public void SetCurrentFloor(FloorController floor)
