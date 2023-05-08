@@ -19,6 +19,7 @@ public class FireMonster : MonoBehaviour
 
         gameObject.transform.position = roadtarget[0];
         anim.CrossFade("Anim_Run");
+        TargetManager.Instance.EnQueueTarget(this);
     }
 
     // Update is called once per frame
