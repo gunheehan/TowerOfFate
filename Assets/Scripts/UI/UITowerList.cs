@@ -51,7 +51,6 @@ public class UITowerList : MonoBehaviour, IUIInterface
             TowerObject objectTower = obj as TowerObject;
             currentfloor.SetTower(objectTower);
             objectTower.gameObject.SetActive(true);
-            objectTower.SetUsedState(setState);
         }
     }
 
