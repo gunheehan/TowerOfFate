@@ -28,7 +28,7 @@ public class StageManager : Singleton<StageManager>
 
     public void OnLoadStage(int stageLv)
     {
-        SetFloor(3);
+        SetFloor(stageLv);
         stageLevel = stageLv;
     }
 
