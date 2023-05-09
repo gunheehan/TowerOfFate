@@ -4,7 +4,6 @@ using UnityEngine;
 public enum FloorType
 {
     Road,
-    RoadEdge,
     Placement
 }
 public class FloorLoader : MonoBehaviour
@@ -14,6 +13,9 @@ public class FloorLoader : MonoBehaviour
 
     private List<FloorController> floorControllerList = new List<FloorController>();
     private List<Vector3> roadEdgeTransform = new List<Vector3>();
+    private List<GameObject> floorList = new List<GameObject>();
+
+    private Stack<GameObject> floorPool = new Stack<GameObject>();
 
     public List<FloorController> GetFloorList()
     {
@@ -25,8 +27,24 @@ public class FloorLoader : MonoBehaviour
         return roadEdgeTransform;
     }
 
+    private void AllFloorPushPool()
+    {
+        foreach (GameObject floor in floorList)
+        {
+            floor.layer = 0;
+            floor.name = "NotUsed";
+            floor.SetActive(false);
+            floorPool.Push(floor);
+        }
+        floorList.Clear();
+        floorControllerList.Clear();
+        roadEdgeTransform.Clear();
+    }
+
     public void CreateFloor(int floorLv)
     {
+        AllFloorPushPool();
+        
         Vector3 startPosition = Vector3.zero;
 
         int floorSize = floorLv - 2;
@@ -41,18 +59,11 @@ public class FloorLoader : MonoBehaviour
                     SetFloor(FloorType.Placement, position);
                 else
                 {
-                    if ((x == 0 || x == floorLv - 1) && (z == 0 || z == floorLv - 1))
-                    {
-                        SetFloor(FloorType.RoadEdge, position);
-                    }
-                    else
-                    {
-                        SetFloor(FloorType.Road, position);
-                    }
+                    SetFloor(FloorType.Road, position);
                 }
             }
         } 
-        SetMonsterPath();
+        SetMonsterPath(floorLv);
 
         UITowerState uITowerState = UIManager.Instance.GetUI<UITowerState>() as UITowerState;
         uITowerState.SetFloorController(floorControllerList);
@@ -60,9 +71,9 @@ public class FloorLoader : MonoBehaviour
 
     private void SetFloor(FloorType floortype, Vector3 position)
     {
-        GameObject floorObject = Instantiate(GetFloorPrefab(), position, Quaternion.identity, floorContents.transform);
+        GameObject floorObject = GetFloor(position);
         floorObject.name = "Floor " + position.x + " / " + position.z;
-        
+
         switch (floortype)
         {
             case FloorType.Road:
@@ -72,41 +83,51 @@ public class FloorLoader : MonoBehaviour
             case FloorType.Placement:
                 floorObject.GetComponent<Renderer>().material.color = Color.blue;
                 floorObject.layer = LayerMask.NameToLayer("Floor");
-                floorObject.AddComponent<FloorController>();
                 floorControllerList.Add(floorObject.GetComponent<FloorController>());
                 break;
-            case FloorType.RoadEdge:
-                floorObject.GetComponent<Renderer>().material.color = Color.yellow;
-                roadEdgeTransform.Add(position);
-                break;
         }
+        floorList.Add(floorObject);
+        floorObject.transform.SetAsLastSibling();
         floorObject.SetActive(true);
     }
 
-    private void SetMonsterPath()
+    private void SetMonsterPath(int floorSize)
     {
-        List<Vector3> positionlist = new List<Vector3>
-        {
-            roadEdgeTransform[0],
-            roadEdgeTransform[2],
-            roadEdgeTransform[3],
-            roadEdgeTransform[1]
-        };
+        int floorEndSize = floorSize - 1;
         
-        roadEdgeTransform = positionlist;
+        roadEdgeTransform = new List<Vector3>
+        {
+            new Vector3(0,0,0),
+            new Vector3(floorEndSize,0,0),
+            new Vector3(floorEndSize,0,floorEndSize),
+            new Vector3(0,0,floorEndSize)
+        };
     }
 
-    private GameObject GetFloorPrefab()
+    private GameObject GetFloor(Vector3 position)
     {
-        if (floorPrefab != null)
-            return floorPrefab;
-
-        floorContents = new GameObject();
-        floorContents.name = "FloorContents";
+        GameObject floorObject;
         
-        floorPrefab = ObjectManager.Instance.GetObject<FloorObject>();
-        floorPrefab.SetActive(false);
+        if (floorPrefab == null)
+        {
+            floorContents = new GameObject();
+            floorContents.name = "FloorContents";
+        
+            floorPrefab = ObjectManager.Instance.GetObject<FloorObject>();
+            floorPrefab.SetActive(false);
+        }
 
-        return floorPrefab;
+        if (floorPool.Count > 0)
+        {
+            floorObject = floorPool.Pop();
+            floorObject.transform.position = position;
+        }
+        else
+        {
+            floorObject = Instantiate(floorPrefab, position, Quaternion.identity, floorContents.transform);
+            floorObject.AddComponent<FloorController>();
+        }
+
+        return floorObject;
     }
 }
