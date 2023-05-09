@@ -26,10 +26,10 @@ public class StageManager : Singleton<StageManager>
         floorLoader = new FloorLoader();
     }
 
-    public void OnLoadStage(int stageLv)
+    public void OnLoadNextStage()
     {
-        SetFloor(stageLv);
-        stageLevel = stageLv;
+        stageLevel++;
+        SetFloor(stageLevel);
     }
 
     private void SetFloor(int Lv)
