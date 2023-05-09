@@ -1,50 +1,49 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireMonster : MonoBehaviour
+public class FireMonster : Monster
 {
-    private Animation anim;
-    private List<Vector3> roadtarget;
-    
-    public float moveSpeed = 1f; // 이동 속도
-
-    private int currentIndex = 0;
-    
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        anim = GetComponent<Animation>();
-        roadtarget = StageManager.Instance.Roadtarget;
-
-        gameObject.transform.position = roadtarget[0];
-        anim.CrossFade("Anim_Run");
+        roadTarget = StageManager.Instance.Roadtarget;
+        transform.position = roadTarget[0];
         TargetManager.Instance.EnQueueTarget(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Move()
     {
-        if (currentIndex < roadtarget.Count)
+        if (currentMoveIndex < roadTarget.Count)
         {
-            Vector3 targetPosition = roadtarget[currentIndex];
+            Vector3 targetPosition = roadTarget[currentMoveIndex];
 
-            // 목표 위치로 이동 방향 설정
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             transform.rotation = Quaternion.LookRotation(moveDirection);
 
-            // 목표 위치로 이동
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
-            // 목표 위치에 도달했을 때 다음 위치로 이동
             if (transform.position == targetPosition)
             {
-                currentIndex++;
+                currentMoveIndex++;
             }
         }
         else
         {
-            currentIndex = 0;
+            currentMoveIndex = 0;
         }
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        //데미지 부분
+        HP -= damage;
+        if (HP <= 0)
+            TargetManager.Instance.PushTargetDictionary(MonsterPropertyType.Fire, this);
+    }
+
+    public override void SetPropertice(int HP)
+    {
+        base.HP = HP;
     }
 }
