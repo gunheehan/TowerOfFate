@@ -16,6 +16,10 @@ public class StageManager : Singleton<StageManager>
                 roadtarget = floorLoader.GetRoadEdgeList();
             return roadtarget;
         }
+        set
+        {
+            roadtarget = value;
+        }
     }
 
     public int stageLevel { get; private set; }
@@ -24,6 +28,7 @@ public class StageManager : Singleton<StageManager>
     {
         stageLevel = 0;
         floorLoader = new FloorLoader();
+        Camera.main.AddComponent<CameraController>();
     }
 
     public void OnLoadNextStage()
@@ -36,6 +41,6 @@ public class StageManager : Singleton<StageManager>
     {
         int floorSize = 2 * Lv + 1;
         floorLoader.CreateFloor(floorSize);
-        Camera.main.AddComponent<CameraController>().SetCameraPosition(floorSize);
+        Camera.main.GetComponent<CameraController>().SetCameraPosition(floorSize);
     }
 }
