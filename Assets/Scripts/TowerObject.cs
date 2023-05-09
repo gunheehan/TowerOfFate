@@ -5,7 +5,7 @@ public class TowerObject : MonoBehaviour
 {
     private float power = 0f;
 
-    private FireMonster currentTarget = null;
+    private Monster currentTarget = null;
 
     private void OnEnable()
     {
@@ -30,7 +30,7 @@ public class TowerObject : MonoBehaviour
         }
     }
 
-    private void UpdataTarget(FireMonster target)
+    private void UpdataTarget(Monster target)
     {
         currentTarget = target;
     }
