@@ -50,6 +50,6 @@ public class UITowerState : MonoBehaviour, IUIInterface
 
     private void OnClickMonster()
     {
-        ObjectManager.Instance.GetObject<FireMonster>();
+        TargetManager.Instance.InstantiateTarget(MonsterPropertyType.Fire);
     }
 }

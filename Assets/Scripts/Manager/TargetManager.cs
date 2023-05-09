@@ -61,4 +61,16 @@ public class TargetManager : Singleton<TargetManager>
 
         currentTarget = null;
     }
+
+    public void InstantiateTarget(MonsterPropertyType monsterType)
+    {
+        switch (monsterType)
+        {
+            case MonsterPropertyType.None:
+                break;
+            case MonsterPropertyType.Fire:
+                ObjectManager.Instance.GetObject<FireMonster>();
+                break;
+        }
+    }
 }
