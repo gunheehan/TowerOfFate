@@ -66,7 +66,6 @@ public class FloorLoader : MonoBehaviour
         SetMonsterPath(floorLv);
 
         UITowerState uITowerState = UIManager.Instance.GetUI<UITowerState>() as UITowerState;
-        uITowerState.SetFloorController(floorControllerList);
     }
 
     private void SetFloor(FloorType floortype, Vector3 position)
@@ -113,7 +112,7 @@ public class FloorLoader : MonoBehaviour
             floorContents = new GameObject();
             floorContents.name = "FloorContents";
         
-            floorPrefab = ObjectManager.Instance.GetObject<FloorObject>();
+            floorPrefab = ObjectManager.Instance.GetObject("FloorObject");
             floorPrefab.SetActive(false);
         }
 

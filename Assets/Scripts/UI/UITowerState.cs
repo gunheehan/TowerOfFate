@@ -7,9 +7,7 @@ public class UITowerState : MonoBehaviour, IUIInterface
     [SerializeField] private Button Btn_CheckPlaced;
     [SerializeField] private Button Btn_FinishPlaced;
     [SerializeField] private Button Btn_Monster;
-
-    private List<FloorController> floorControllerList;
-
+    
     private Monster target = null;
 
     private void Start()
@@ -24,26 +22,13 @@ public class UITowerState : MonoBehaviour, IUIInterface
         TargetManager.Instance.TargetReceived += (value) => target = value;
     }
 
-    public void SetFloorController(List<FloorController> floorControllers)
-    {
-        floorControllerList = floorControllers;
-    }
-
     private void OnClickCheckPlaced()
     {
-        // foreach (FloorController floorController in floorControllerList)
-        // {
-        //     floorController.CanPlaceOnFloor();
-        // }
         target.TakeDamage(100);
     }
 
     private void OnClickFinishPlaced()
     {
-        // foreach (FloorController floorController in floorControllerList)
-        // {
-        //     floorController.FinishPlaceFloor();
-        // }
         StageManager.Instance.Roadtarget = null;
         StageManager.Instance.OnLoadNextStage();
     }

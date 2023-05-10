@@ -1,7 +1,5 @@
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 public class UITowerList : MonoBehaviour, IUIInterface
 {
@@ -12,17 +10,15 @@ public class UITowerList : MonoBehaviour, IUIInterface
     private FloorController currentfloor = null;
 
     private bool isinit = false;
-    public void OpenUI()
+
+    private void Start()
     {
-        if (isinit)
-            return;
-        
-        if (TowerObjectPrefab == null)
-            SetTowerPrefab();
-        else
-            SetTowerList();
-        
-        isinit = false;
+        SetTowerPrefab();
+    }
+
+    private void OnEnable()
+    {
+        SetTowerList();
     }
 
     private void SetTowerPrefab()

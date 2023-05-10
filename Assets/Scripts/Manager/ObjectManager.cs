@@ -6,11 +6,20 @@ public class ObjectManager : Singleton<ObjectManager>
 {
     public GameObject GetObject<T>(Action callback = null)
     {
-        string path = "Assets/Prefabs/" + typeof(T).Name + ".prefab"; // UI 프리팹 경로
+        string path = "Assets/Prefabs/" + typeof(T).Name + ".prefab";
         GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
         GameObject Obj = Instantiate(prefab);
 
         callback?.Invoke();
+        return Obj;
+    }
+
+    public GameObject GetObject(string prefabName)
+    {
+        string path = "Assets/Prefabs/" + prefabName + ".prefab";
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+        GameObject Obj = Instantiate(prefab);
+
         return Obj;
     }
 }

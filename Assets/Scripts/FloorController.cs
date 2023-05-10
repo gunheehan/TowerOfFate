@@ -18,24 +18,4 @@ public class FloorController : MonoBehaviour
         isCanPlaced = false;
         return isCanPlaced;
     }
-
-    public void SetTowerList()
-    {
-        UITowerList uiTowerList = UIManager.Instance.GetUI<UITowerList>() as UITowerList;
-        uiTowerList.SetCurrentFloor(this);
-        uiTowerList.OpenUI();
-    }
-
-    public void CanPlaceOnFloor()
-    {
-        if(playObject == null)
-            gameObject.GetComponent<Renderer>().material.color = Color.green;
-        else
-            gameObject.GetComponent<Renderer>().material.color = Color.red;
-    }
-
-    public void FinishPlaceFloor()
-    {
-        gameObject.GetComponent<Renderer>().material.color = Color.blue;
-    }
 }
