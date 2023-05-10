@@ -45,13 +45,13 @@ public class CameraController : MonoBehaviour
         uiTowerList.SetCurrentFloor(floorController);
     }
     
-    public void SetCameraPosition(int level)
+    public void SetCameraPosition(int floorSise)
     {
         // 바닥의 가운데 포지션을 구합니다.
-        Vector3 floorCenter = new Vector3((level - 1) / 2f, 0f, (level - 1) / 2f);
+        Vector3 floorCenter = new Vector3((floorSise - 1) / 2f, 0f, (floorSise - 1) / 2f);
 
         // 카메라가 바닥 위에 위치할 거리(distance)를 결정합니다.
-        float cameraDistance = level;
+        float cameraDistance = floorSise;
 
         // 바닥의 크기를 기준으로 카메라가 바닥 위에서 얼마나 떨어져있어야 하는지 구합니다.
         float cameraHeight = cameraDistance / Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
