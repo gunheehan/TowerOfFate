@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,18 +8,19 @@ public class UITowerState : MonoBehaviour, IUIInterface
     [SerializeField] private Button Btn_FinishPlaced;
     [SerializeField] private Button Btn_Monster;
     
-    private Monster target = null;
+    private IMonster target = null;
 
     private void Start()
     {
         Btn_CheckPlaced.onClick.AddListener(OnClickCheckPlaced);
         Btn_FinishPlaced.onClick.AddListener(OnClickFinishPlaced);
         Btn_Monster.onClick.AddListener(OnClickMonster);
+        TargetManager.Instance.TargetReceived += (value) => target = value;
     }
 
-    private void OnEnable()
+    private void OnDestroy()
     {
-        TargetManager.Instance.TargetReceived += (value) => target = value;
+        TargetManager.Instance.TargetReceived -= (value) => target = value;
     }
 
     private void OnClickCheckPlaced()

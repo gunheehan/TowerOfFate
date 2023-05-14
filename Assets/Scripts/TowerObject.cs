@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 
 public class TowerObject : MonoBehaviour
 {
     private float power = 0f;
 
-    private Monster currentTarget = null;
+    private GameObject currentTarget = null;
 
     private void OnEnable()
     {
@@ -30,8 +29,8 @@ public class TowerObject : MonoBehaviour
         }
     }
 
-    private void UpdataTarget(Monster target)
+    private void UpdataTarget(IMonster target)
     {
-        currentTarget = target;
+        currentTarget = target.GetMonster();
     }
 }

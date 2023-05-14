@@ -1,24 +1,35 @@
 using UnityEngine;
 
-public class FireMonster : Monster
+public class FireMonster : MonoBehaviour, IMonster
 {
-    private void OnEnable()
+    public Animation anim { get; }
+    public int currentMoveIndex { get; set; }
+    public Monsterproperty monsterproperty { get; set; }
+    private float HP = 100f;
+
+    private bool isinit = false;
+
+    private void OnDisable()
     {
-        roadTarget = StageManager.Instance.Roadtarget;
-        transform.position = roadTarget[0];
-        TargetManager.Instance.EnQueueTarget(this);
+        isinit = false;
     }
 
-    public override void Move()
+    private void Update()
     {
-        if (currentMoveIndex < roadTarget.Count)
+        if(isinit)
+            Move();
+    }
+
+    public void Move()
+    {
+        if (currentMoveIndex < monsterproperty.roadPoint.Count)
         {
-            Vector3 targetPosition = roadTarget[currentMoveIndex];
+            Vector3 targetPosition = monsterproperty.roadPoint[currentMoveIndex];
 
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             transform.rotation = Quaternion.LookRotation(moveDirection);
 
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, monsterproperty.speed * Time.deltaTime);
 
             if (transform.position == targetPosition)
             {
@@ -31,16 +42,33 @@ public class FireMonster : Monster
         }
     }
 
-    public override void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         //데미지 부분
         HP -= damage;
         if (HP <= 0)
+        {
             TargetManager.Instance.PushTargetDictionary(MonsterPropertyType.Fire, this);
+            gameObject.SetActive(false);
+        }
     }
 
-    public override void SetPropertice(int HP)
+    public void SetMove(float speed)
     {
-        base.HP = HP;
+        monsterproperty = new Monsterproperty()
+        {
+            roadPoint = StageManager.Instance.Roadtarget,
+            speed = speed
+        };
+        gameObject.SetActive(true);
+        transform.position = monsterproperty.roadPoint[0];
+        TargetManager.Instance.EnQueueTarget(this);
+
+        isinit = true;
+    }
+
+    public GameObject GetMonster()
+    {
+        return this.gameObject;
     }
 }

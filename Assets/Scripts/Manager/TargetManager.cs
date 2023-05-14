@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public enum MonsterPropertyType
 {
@@ -10,15 +7,15 @@ public enum MonsterPropertyType
 }
 public class TargetManager : Singleton<TargetManager>
 {
-    private Queue<Monster> monsterQueue = new Queue<Monster>();
+    private Queue<IMonster> monsterQueue = new Queue<IMonster>();
 
-    private Dictionary<MonsterPropertyType, List<Monster>> MonsterPooldic =
-        new Dictionary<MonsterPropertyType, List<Monster>>();
+    private Dictionary<MonsterPropertyType, List<IMonster>> MonsterPooldic =
+        new Dictionary<MonsterPropertyType, List<IMonster>>();
     
 
-    private static Monster currentTarget = null;
+    private static IMonster currentTarget = null;
                       
-    public delegate void TargetEventHandler(Monster target);
+    public delegate void TargetEventHandler(IMonster target);
     
     private static TargetEventHandler targetUpdateReceived = null;
     public event TargetEventHandler TargetReceived
@@ -40,23 +37,22 @@ public class TargetManager : Singleton<TargetManager>
         }
     }
 
-    public void EnQueueTarget(Monster target)
+    public void EnQueueTarget(IMonster target)
     {
         monsterQueue.Enqueue(target);
     }
 
-    private void UpdataTarget(Monster target)
+    private void UpdataTarget(IMonster target)
     {
         currentTarget = target;
         targetUpdateReceived?.Invoke(target);
     }
 
-    public void PushTargetDictionary(MonsterPropertyType monsterType, Monster monster)
+    public void PushTargetDictionary(MonsterPropertyType monsterType, IMonster monster)
     {
         if(!MonsterPooldic.ContainsKey(monsterType))
-            MonsterPooldic.Add(monsterType, new List<Monster>());
+            MonsterPooldic.Add(monsterType, new List<IMonster>());
         
-        monster.gameObject.SetActive(false);
         MonsterPooldic[monsterType].Add(monster);
 
         currentTarget = null;
@@ -69,7 +65,8 @@ public class TargetManager : Singleton<TargetManager>
             case MonsterPropertyType.None:
                 break;
             case MonsterPropertyType.Fire:
-                ObjectManager.Instance.GetObject<FireMonster>();
+                FireMonster FireMonster = ObjectManager.Instance.GetObject<FireMonster>().GetComponent<FireMonster>();
+                FireMonster.SetMove(1f);
                 break;
         }
     }
