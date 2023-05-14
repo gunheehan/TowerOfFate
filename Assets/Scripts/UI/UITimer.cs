@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,15 +8,17 @@ public class UITimer : MonoBehaviour, IUIInterface
     public float timeInSeconds = 0f;
 
     private bool isSetting = false;
+    private Action endAction = null;
 
     private void OnDisable()
     {
         isSetting = false;
     }
 
-    public void SetTimer(float time)
+    public void SetTimer(float time, Action EndAction = null)
     {
         timeInSeconds = time;
+        endAction = EndAction;
         isSetting = true;
     }
 
@@ -32,5 +35,11 @@ public class UITimer : MonoBehaviour, IUIInterface
         string timeString = string.Format("{0:00}:{1:00}", minutes, seconds); // 형식 지정
 
         Text_Timer.text = timeString;
+
+        if (timeInSeconds <= 0)
+        {
+            endAction?.Invoke();
+            gameObject.SetActive(false);
+        }
     }
 }
