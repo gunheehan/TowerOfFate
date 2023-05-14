@@ -12,6 +12,7 @@ public class UITimer : MonoBehaviour, IUIInterface
 
     private void OnDisable()
     {
+        timeInSeconds = 0f;
         isSetting = false;
     }
 
@@ -19,6 +20,8 @@ public class UITimer : MonoBehaviour, IUIInterface
     {
         timeInSeconds = time;
         endAction = EndAction;
+        this.gameObject.SetActive(true);
+        
         isSetting = true;
     }
 

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -42,5 +41,34 @@ public class StageManager : Singleton<StageManager>
         int floorSize = 2 * Lv + 1;
         floorLoader.CreateFloor(floorSize);
         Camera.main.GetComponent<CameraController>().SetCameraPosition(floorSize);
+    }
+
+    public void OnPlayStage()
+    {
+        UITimer UITimer = UIManager.Instance.GetUI<UITimer>() as UITimer;
+        UITimer.SetTimer(10f, NextStage);
+        UITimer.gameObject.SetActive(true);
+        InvokeRepeating("CreateMonster",1f,3f);
+    }
+
+    private void CreateMonster()
+    {
+        TargetManager.Instance.InstantiateTarget(MonsterPropertyType.Fire);
+    }
+
+    private void NextStage()
+    {
+        bool isComplete = CheckCompleteStage();
+    }
+
+    private bool CheckCompleteStage()
+    {
+        if (TargetManager.Instance.GetMonsterCount() > 0)
+        {
+            Debug.Log("클리어 실패");
+            return false;
+        }
+
+        return true;
     }
 }

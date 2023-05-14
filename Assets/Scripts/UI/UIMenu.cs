@@ -29,7 +29,7 @@ public class UIMenu : MonoBehaviour, IUIInterface
     {
         StageManager.Instance.OnLoadNextStage();
         UITimer UITimer = UIManager.Instance.GetUI<UITimer>() as UITimer;
-        UITimer.SetTimer(3f);
+        UITimer.SetTimer(3f, StageManager.Instance.OnPlayStage);
         CloseUI();
     }
 }

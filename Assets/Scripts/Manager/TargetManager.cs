@@ -42,6 +42,11 @@ public class TargetManager : Singleton<TargetManager>
         monsterQueue.Enqueue(target);
     }
 
+    public int GetMonsterCount()
+    {
+        return monsterQueue.Count;
+    }
+
     private void UpdataTarget(IMonster target)
     {
         currentTarget = target;
