@@ -47,6 +47,7 @@ public class UITowerList : MonoBehaviour, IUIInterface
             Object obj = Instantiate(TowerObjectPrefab);
             TowerObject objectTower = obj as TowerObject;
             currentfloor.SetTower(objectTower);
+            objectTower.Init();
             objectTower.gameObject.SetActive(true);
         }
     }
