@@ -48,7 +48,8 @@ public class StageManager : Singleton<StageManager>
         UITimer UITimer = UIManager.Instance.GetUI<UITimer>() as UITimer;
         UITimer.SetTimer(10f, NextStage);
         UITimer.gameObject.SetActive(true);
-        InvokeRepeating("CreateMonster",1f,3f);
+        //InvokeRepeating("CreateMonster",1f,3f);
+        CreateMonster();
     }
 
     private void CreateMonster()
