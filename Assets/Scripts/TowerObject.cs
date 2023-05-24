@@ -50,8 +50,8 @@ public class TowerObject : MonoBehaviour
 
     private void InstantiateBounds()
     {
-        boundsObject = new GameObject("BoundsObject"); // 새로운 게임 오브젝트 생성
-        boundsObject.transform.parent = transform; // 생성한 3D 객체의 자식으로 설정
+        boundsObject = new GameObject("BoundsObject");
+        boundsObject.transform.parent = transform;
         
         boundsObject.AddComponent<BoundsController>().SetBounds();
     }
