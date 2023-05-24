@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4372769990449160}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4244191954350522}
   - component: {fileID: 137944918822585846}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: StoneMonster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4337812796121360}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4266849179980070}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,7 +195,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4966007699546920}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,7 +231,8 @@ GameObject:
   - component: {fileID: 4788319935855200}
   - component: {fileID: 111495423891279680}
   - component: {fileID: 6423310074831737203}
-  m_Layer: 0
+  - component: {fileID: 1772383156143843348}
+  m_Layer: 7
   m_Name: FireMonster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +288,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 503231dbac7e54be5b5b2f12e63ba320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+--- !u!135 &1772383156143843348
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713781036754730}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1753159918419610
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +310,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4574649352997690}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4201210078927136}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4836351918659748}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bone006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
