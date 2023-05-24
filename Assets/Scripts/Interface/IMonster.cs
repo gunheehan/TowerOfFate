@@ -9,12 +9,11 @@ public struct Monsterproperty
 
 public interface IMonster
 {
-    Animation anim { get; }
     int currentMoveIndex { get; set; }
     Monsterproperty monsterproperty { get; set; }
 
     void Move();
     void TakeDamage(int damage);
-    void SetMove(float speed);
+    void SetMonsterProperty(float speed);
     GameObject GetMonster();
 }

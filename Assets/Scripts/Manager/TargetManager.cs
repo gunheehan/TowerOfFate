@@ -71,7 +71,7 @@ public class TargetManager : Singleton<TargetManager>
                 break;
             case MonsterPropertyType.Fire:
                 FireMonster FireMonster = ObjectManager.Instance.GetObject<FireMonster>().GetComponent<FireMonster>();
-                FireMonster.SetMove(1f);
+                FireMonster.SetMonsterProperty(1f);
                 break;
         }
     }

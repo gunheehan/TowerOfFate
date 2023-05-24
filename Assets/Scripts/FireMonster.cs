@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class FireMonster : MonoBehaviour, IMonster
 {
-    public Animation anim { get; }
     public int currentMoveIndex { get; set; }
     public Monsterproperty monsterproperty { get; set; }
     private float HP = 100f;
@@ -53,7 +52,7 @@ public class FireMonster : MonoBehaviour, IMonster
         }
     }
 
-    public void SetMove(float speed)
+    public void SetMonsterProperty(float speed)
     {
         monsterproperty = new Monsterproperty()
         {
