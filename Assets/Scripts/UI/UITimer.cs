@@ -27,9 +27,12 @@ public class UITimer : MonoBehaviour, IUIInterface
 
     void Update()
     {
-        if (!isSetting)
-            return;
-        
+        if (isSetting)
+            PlayTimer();
+    }
+
+    private void PlayTimer()
+    {
         timeInSeconds -= Time.deltaTime; // 경과 시간 업데이트
 
         int minutes = Mathf.FloorToInt(timeInSeconds / 60); // 분 계산
@@ -41,6 +44,7 @@ public class UITimer : MonoBehaviour, IUIInterface
 
         if (timeInSeconds <= 0)
         {
+            isSetting = false;
             endAction?.Invoke();
         }
     }

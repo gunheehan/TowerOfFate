@@ -45,7 +45,7 @@ public class StageManager : Singleton<StageManager>
         stageLevel++;
         if(stageLevel % comparisonValue == 0 || stageLevel <= 1)
             SetFloor(stageLevel);
-        Ready();
+        ReadyStage();
     }
 
     private void SetFloor(int Lv)
@@ -55,15 +55,15 @@ public class StageManager : Singleton<StageManager>
         Camera.main.GetComponent<CameraController>().SetCameraPosition(floorSize);
     }
 
-    private void Ready()
+    private void ReadyStage()
     {
         UITimer UITimer = UIManager.Instance.GetUI<UITimer>() as UITimer;
         float timertime = GetPlayStateTiem();
-        UITimer.SetTimer(timertime, OnPlayStage);
+        UITimer.SetTimer(timertime, PlayStage);
         UITimer.gameObject.SetActive(true);
     }
 
-    public void OnPlayStage()
+    private void PlayStage()
     {
         UITimer UITimer = UIManager.Instance.GetUI<UITimer>() as UITimer;
         float timertime = GetPlayStateTiem();
@@ -79,10 +79,10 @@ public class StageManager : Singleton<StageManager>
         switch (currentPlayType)
         {
             case PlayType.Ready:
-                time = 10f + 5f * stageLevel;
+                time = 5f + 5f * stageLevel;
                 break;
             case PlayType.Play:
-                time = 20f + 10f * stageLevel;
+                time = 10f + 10f * stageLevel;
                 break;
         }
 
