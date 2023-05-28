@@ -16,10 +16,10 @@ public class UITimer : MonoBehaviour, IUIInterface
         isSetting = false;
     }
 
-    public void SetTimer(float time, Action EndAction = null)
+    public void SetTimer(float time, Action EndStageAction = null)
     {
         timeInSeconds = time;
-        endAction = EndAction;
+        endAction = EndStageAction;
         this.gameObject.SetActive(true);
         
         isSetting = true;
@@ -42,7 +42,6 @@ public class UITimer : MonoBehaviour, IUIInterface
         if (timeInSeconds <= 0)
         {
             endAction?.Invoke();
-            gameObject.SetActive(false);
         }
     }
 }

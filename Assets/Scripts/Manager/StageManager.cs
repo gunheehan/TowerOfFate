@@ -1,6 +1,13 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+
+public enum PlayType
+{
+    Ready,
+    Play
+}
 
 public class StageManager : Singleton<StageManager>
 {
@@ -22,7 +29,9 @@ public class StageManager : Singleton<StageManager>
     }
 
     public int stageLevel { get; private set; }
-
+    private const int comparisonValue = 5;
+    private PlayType currentPlayType = PlayType.Ready;
+    
     private void Awake()
     {
         stageLevel = 0;
@@ -32,8 +41,11 @@ public class StageManager : Singleton<StageManager>
 
     public void OnLoadNextStage()
     {
+        currentPlayType = PlayType.Ready;
         stageLevel++;
-        SetFloor(stageLevel);
+        if(stageLevel % comparisonValue == 0 || stageLevel <= 1)
+            SetFloor(stageLevel);
+        Ready();
     }
 
     private void SetFloor(int Lv)
@@ -43,13 +55,38 @@ public class StageManager : Singleton<StageManager>
         Camera.main.GetComponent<CameraController>().SetCameraPosition(floorSize);
     }
 
+    private void Ready()
+    {
+        UITimer UITimer = UIManager.Instance.GetUI<UITimer>() as UITimer;
+        float timertime = GetPlayStateTiem();
+        UITimer.SetTimer(timertime, OnPlayStage);
+        UITimer.gameObject.SetActive(true);
+    }
+
     public void OnPlayStage()
     {
         UITimer UITimer = UIManager.Instance.GetUI<UITimer>() as UITimer;
-        UITimer.SetTimer(10f, NextStage);
-        UITimer.gameObject.SetActive(true);
+        float timertime = GetPlayStateTiem();
+        UITimer.SetTimer(timertime, NextStage);
         //InvokeRepeating("CreateMonster",1f,3f);
         CreateMonster();
+        currentPlayType = PlayType.Play;
+    }
+
+    private float GetPlayStateTiem()
+    {
+        float time = 0;
+        switch (currentPlayType)
+        {
+            case PlayType.Ready:
+                time = 10f + 5f * stageLevel;
+                break;
+            case PlayType.Play:
+                time = 20f + 10f * stageLevel;
+                break;
+        }
+
+        return time;
     }
 
     private void CreateMonster()
@@ -59,7 +96,8 @@ public class StageManager : Singleton<StageManager>
 
     private void NextStage()
     {
-        bool isComplete = CheckCompleteStage();
+        if(CheckCompleteStage())
+            OnLoadNextStage();
     }
 
     private bool CheckCompleteStage()
