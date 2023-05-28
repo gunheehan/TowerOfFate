@@ -39,11 +39,18 @@ public class CameraController : MonoBehaviour
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out rayHit, 50, layermask))
         {
+            int hitLayer = rayHit.collider.gameObject.layer;
+
+            if (LayerMask.NameToLayer("Floor") == hitLayer)
             {
-                CheckPlaceItem(rayHit.transform.gameObject);
-                Debug.Log(rayHit.transform.name);
+                CheckFloorItem(rayHit.transform.gameObject);
+                Debug.DrawLine(ray.origin, rayHit.point, Color.magenta);
             }
-            Debug.DrawLine(ray.origin,rayHit.point,Color.magenta);
+            
+            else if(LayerMask.NameToLayer("Tower") == hitLayer)
+                Debug.Log("타워 오브젝트 충돌처리");
+            
+            //Debug.Log(rayHit.transform.name);
         }
         else
         {
@@ -51,7 +58,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    private void CheckPlaceItem(GameObject floor)
+    private void CheckFloorItem(GameObject floor)
     {
         if(curSelectFloor != null)
             curSelectFloor.GetComponent<Renderer>().material.color = Color.blue;
