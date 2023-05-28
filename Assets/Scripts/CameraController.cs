@@ -6,34 +6,48 @@ public class CameraController : MonoBehaviour
     private RaycastHit rayHit;
     private Ray ray;
     UITowerList uiTowerList = null;
+    
+    private int floorLayerMask;
+    private int towerLayerMask;
+
+    private int layerMask;
 
     private GameObject curSelectFloor = null;
 
     private void Start()
     {
         uiTowerList = UIManager.Instance.GetUI<UITowerList>() as UITowerList;
+        floorLayerMask = 1 << LayerMask.NameToLayer("Floor");
+        towerLayerMask = 1 << LayerMask.NameToLayer("Tower");
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (StageManager.Instance.CurrentPlayType != PlayType.Ready)
-                return;
-            
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out rayHit, 50, 1<<LayerMask.NameToLayer("Floor")))
-            {
-                {
-                    CheckPlaceItem(rayHit.transform.gameObject);
-                    Debug.Log(rayHit.transform.name);
-                }
-                Debug.DrawLine(ray.origin,rayHit.point,Color.magenta);
-            }
+            if (StageManager.Instance.CurrentPlayType == PlayType.Ready)
+                layerMask = floorLayerMask | towerLayerMask;
             else
+                layerMask = towerLayerMask;
+
+            ProcessLayerRaycast(layerMask);
+        }
+    }
+
+    private void ProcessLayerRaycast(int layermask)
+    {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out rayHit, 50, layermask))
+        {
             {
-                Debug.DrawLine(ray.origin,rayHit.point,Color.cyan);
+                CheckPlaceItem(rayHit.transform.gameObject);
+                Debug.Log(rayHit.transform.name);
             }
+            Debug.DrawLine(ray.origin,rayHit.point,Color.magenta);
+        }
+        else
+        {
+            Debug.DrawLine(ray.origin,rayHit.point,Color.cyan);
         }
     }
 
