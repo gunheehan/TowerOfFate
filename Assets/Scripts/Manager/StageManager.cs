@@ -31,6 +31,7 @@ public class StageManager : Singleton<StageManager>
     public int stageLevel { get; private set; }
     private const int comparisonValue = 5;
     private PlayType currentPlayType = PlayType.Ready;
+    public PlayType CurrentPlayType => currentPlayType;
     
     private void Awake()
     {
@@ -57,23 +58,24 @@ public class StageManager : Singleton<StageManager>
 
     private void ReadyStage()
     {
+        PlaySetting(true);
         UITimer UITimer = UIManager.Instance.GetUI<UITimer>() as UITimer;
-        float timertime = GetPlayStateTiem();
+        float timertime = GetPlayStateTime();
         UITimer.SetTimer(timertime, PlayStage);
-        UITimer.gameObject.SetActive(true);
     }
 
     private void PlayStage()
     {
+        PlaySetting(false);
         UITimer UITimer = UIManager.Instance.GetUI<UITimer>() as UITimer;
-        float timertime = GetPlayStateTiem();
+        float timertime = GetPlayStateTime();
         UITimer.SetTimer(timertime, NextStage);
         //InvokeRepeating("CreateMonster",1f,3f);
         CreateMonster();
         currentPlayType = PlayType.Play;
     }
 
-    private float GetPlayStateTiem()
+    private float GetPlayStateTime()
     {
         float time = 0;
         switch (currentPlayType)
@@ -87,6 +89,12 @@ public class StageManager : Singleton<StageManager>
         }
 
         return time;
+    }
+
+    private void PlaySetting(bool isReady)
+    {
+        UITowerList uiTowerList = UIManager.Instance.GetUI<UITowerList>() as UITowerList;
+        uiTowerList.gameObject.SetActive(isReady);
     }
 
     private void CreateMonster()

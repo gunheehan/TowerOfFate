@@ -18,6 +18,9 @@ public class CameraController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (StageManager.Instance.CurrentPlayType != PlayType.Ready)
+                return;
+            
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out rayHit, 50, 1<<LayerMask.NameToLayer("Floor")))
             {
