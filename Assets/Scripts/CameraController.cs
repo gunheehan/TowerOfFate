@@ -1,22 +1,21 @@
-using System;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     private RaycastHit rayHit;
     private Ray ray;
-    UITowerList uiTowerList = null;
     
     private int floorLayerMask;
     private int towerLayerMask;
 
     private int layerMask;
 
-    private GameObject curSelectFloor = null;
+    private LayerInteractionController layerInteractionController;
 
     private void Start()
     {
-        uiTowerList = UIManager.Instance.GetUI<UITowerList>() as UITowerList;
+        layerInteractionController = new LayerInteractionController();
+        layerInteractionController.SetController();
         floorLayerMask = 1 << LayerMask.NameToLayer("Floor");
         towerLayerMask = 1 << LayerMask.NameToLayer("Tower");
     }
@@ -39,18 +38,8 @@ public class CameraController : MonoBehaviour
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out rayHit, 50, layermask))
         {
-            int hitLayer = rayHit.collider.gameObject.layer;
-
-            if (LayerMask.NameToLayer("Floor") == hitLayer)
-            {
-                CheckFloorItem(rayHit.transform.gameObject);
-                Debug.DrawLine(ray.origin, rayHit.point, Color.magenta);
-            }
-            
-            else if(LayerMask.NameToLayer("Tower") == hitLayer)
-                Debug.Log("타워 오브젝트 충돌처리");
-            
-            //Debug.Log(rayHit.transform.name);
+            layerInteractionController.ProcessLayerCollision(rayHit.collider.gameObject);
+            Debug.DrawLine(ray.origin, rayHit.point, Color.magenta);
         }
         else
         {
@@ -58,16 +47,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    private void CheckFloorItem(GameObject floor)
-    {
-        if(curSelectFloor != null)
-            curSelectFloor.GetComponent<Renderer>().material.color = Color.blue;
-        curSelectFloor = floor;
-        floor.GetComponent<Renderer>().material.color = Color.red;
-        
-        FloorController floorController = floor.GetComponent<FloorController>();
-        uiTowerList.SetCurrentFloor(floorController);
-    }
+    
     
     public void SetCameraPosition(int floorSise)
     {
