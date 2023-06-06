@@ -4,7 +4,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private Transform target;
-    private float speed = 10f;
+    private float speed = 5f;
     private float arrivalDistance = 0.1f;
     private Action onTargetReached;
     private bool isSet = false;
@@ -37,6 +37,7 @@ public class Bullet : MonoBehaviour
         if (Vector3.Distance(transform.position, target.position) <= arrivalDistance)
         {
             onTargetReached?.Invoke();
+            BulletManager.Instance.SpawnBullet(this);
         }
     }
 
