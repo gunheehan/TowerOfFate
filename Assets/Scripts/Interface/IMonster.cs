@@ -13,7 +13,7 @@ public interface IMonster
     Monsterproperty monsterproperty { get; set; }
 
     void Move();
-    void TakeDamage(int damage);
+    void TakeDamage(float damage);
     void SetMonsterProperty(float speed);
-    GameObject GetMonster();
+    FireMonster GetMonster();
 }

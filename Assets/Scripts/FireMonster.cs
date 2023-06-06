@@ -4,7 +4,7 @@ public class FireMonster : MonoBehaviour, IMonster
 {
     public int currentMoveIndex { get; set; }
     public Monsterproperty monsterproperty { get; set; }
-    private float HP = 100f;
+    private float HP = 50f;
 
     private bool isinit = false;
 
@@ -41,7 +41,7 @@ public class FireMonster : MonoBehaviour, IMonster
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         //데미지 부분
         HP -= damage;
@@ -66,8 +66,8 @@ public class FireMonster : MonoBehaviour, IMonster
         isinit = true;
     }
 
-    public GameObject GetMonster()
+    public FireMonster GetMonster()
     {
-        return this.gameObject;
+        return this;
     }
 }
