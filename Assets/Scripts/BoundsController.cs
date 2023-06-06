@@ -1,11 +1,8 @@
-using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class BoundsController : MonoBehaviour
 {
-    private Bounds bounds;
-    private Vector3 boundsSize = Vector3.one;
+    private Vector3 boundsSize;
     private GameObject movingObject;
     private LayerMask layerMask;
 
@@ -21,13 +18,12 @@ public class BoundsController : MonoBehaviour
 
     public void SetBounds()
     {
-        bounds = new Bounds(Vector3.zero, boundsSize);
         SphereCollider collider = gameObject.AddComponent<SphereCollider>();
         Rigidbody rigidbody = gameObject.AddComponent<Rigidbody>();
         rigidbody.isKinematic = true;
         collider.isTrigger = true;
         collider.center = transform.position;
-        collider.radius = boundsSize.magnitude / 2f;
+        collider.radius = StageManager.Instance.floorSize / 2f;
     }
 
     private void OnTriggerEnter(Collider other)

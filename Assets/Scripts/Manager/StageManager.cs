@@ -29,6 +29,7 @@ public class StageManager : Singleton<StageManager>
     }
 
     public int stageLevel { get; private set; }
+    public int floorSize { get; private set; }
     private const int comparisonValue = 5;
     private PlayType currentPlayType = PlayType.Ready;
     public PlayType CurrentPlayType => currentPlayType;
@@ -51,7 +52,7 @@ public class StageManager : Singleton<StageManager>
 
     private void SetFloor(int Lv)
     {
-        int floorSize = 2 * Lv + 1;
+        floorSize = 2 * Lv + 1;
         floorLoader.CreateFloor(floorSize);
         Camera.main.GetComponent<CameraController>().SetCameraPosition(floorSize);
     }
