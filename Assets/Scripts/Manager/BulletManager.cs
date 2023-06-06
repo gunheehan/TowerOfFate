@@ -8,15 +8,6 @@ public class BulletManager : Singleton<BulletManager>
 
     private List<Bullet> bulletList = new List<Bullet>();
     private Stack<Bullet> bulletPool = new Stack<Bullet>();
-    
-    void Start()
-    {
-        GameObject bulletObject = ObjectManager.Instance.GetObject("Bullet");
-        bulletPrefab = bulletObject.GetComponent<Bullet>();
-        
-        bulletContents = new GameObject();
-        bulletContents.name = "BulletContents";
-    }
 
     private void PushAllBullet()
     {
@@ -31,6 +22,17 @@ public class BulletManager : Singleton<BulletManager>
     public Bullet GetBullet()
     {
         Bullet bulletobj;
+
+        if (bulletPrefab == null)
+        {
+            bulletContents = new GameObject();
+            bulletContents.name = "BulletContents";
+            
+            GameObject bulletObject = ObjectManager.Instance.GetObject("Bullet");
+            bulletPrefab = bulletObject.GetComponent<Bullet>();
+
+            bulletPrefab.transform.SetParent(bulletContents.transform);
+        }
 
         if (bulletPool.Count > 0)
         {
