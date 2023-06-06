@@ -7,15 +7,22 @@ public class TowerObject : MonoBehaviour
     private int level = 1;
     public float Level => level;
     [SerializeField] private Transform TowerBase;
-
-    private GameObject currentTarget = null;
+    [SerializeField] private Transform shootPosition;
+    [SerializeField] private Animator animator;
+    private float shootSpeed = 3f;
+    private FireMonster currentTarget = null;
     private GameObject boundsObject = null;
 
     private bool isinit = false;
 
     private void Awake()
     {
-        power = 10f;
+        power = 30f;
+    }
+
+    private void Start()
+    {
+        InvokeRepeating("Shoot", 0f, shootSpeed);
     }
 
     private void Update()
@@ -44,7 +51,26 @@ public class TowerObject : MonoBehaviour
         InstantiateBounds();
         isinit = true;
     }
+    
+    private void Shoot()
+    {
+        if (!currentTarget.gameObject.activeSelf)
+            return;
 
+        Bullet bullet = BulletManager.Instance.GetBullet();
+
+        bullet.transform.position = shootPosition.position;
+        
+        bullet.SetBullet(currentTarget.transform,OnHitAction);
+        
+        animator.Play("Shoot");
+    }
+
+    private void OnHitAction()
+    {
+        currentTarget.TakeDamage(power);
+    }
+    
     private void UpdataTarget(IMonster target)
     {
         currentTarget = target.GetMonster();
