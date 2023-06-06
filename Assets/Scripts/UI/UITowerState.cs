@@ -4,18 +4,21 @@ using UnityEngine.UI;
 
 public class UITowerState : MonoBehaviour, IUIInterface
 {
-    [SerializeField] private Button Btn_CheckPlaced;
-    [SerializeField] private Button Btn_FinishPlaced;
-    [SerializeField] private Button Btn_Monster;
-    
+    [SerializeField] private Text Text_name;
+    [SerializeField] private Text Text_level;
+    [SerializeField] private Text Text_power;
+
+    [SerializeField] private Button Btn_Upgrade;
+    [SerializeField] private Button Btn_Close;
+
     private IMonster target = null;
+    private TowerObject towerModel;
 
     private void Start()
     {
-        Btn_CheckPlaced.onClick.AddListener(OnClickCheckPlaced);
-        Btn_FinishPlaced.onClick.AddListener(OnClickFinishPlaced);
-        Btn_Monster.onClick.AddListener(OnClickMonster);
         TargetManager.Instance.TargetReceived += (value) => target = value;
+        Btn_Upgrade.onClick.AddListener(OnClickUpgrade);
+        Btn_Close.onClick.AddListener(()=>gameObject.SetActive(false));
     }
 
     private void OnDestroy()
@@ -23,19 +26,23 @@ public class UITowerState : MonoBehaviour, IUIInterface
         TargetManager.Instance.TargetReceived -= (value) => target = value;
     }
 
-    private void OnClickCheckPlaced()
+    public void SetTower(TowerObject towerObject)
     {
-        target.TakeDamage(100);
+        towerModel = towerObject;
+        SetData();
+        gameObject.SetActive(true);
     }
 
-    private void OnClickFinishPlaced()
+    private void SetData()
     {
-        StageManager.Instance.Roadtarget = null;
-        StageManager.Instance.OnLoadNextStage();
+        Text_name.text = towerModel.name;
+        Text_level.text = towerModel.Level.ToString();
+        Text_power.text = towerModel.Power.ToString();
     }
 
-    private void OnClickMonster()
+    private void OnClickUpgrade()
     {
-        TargetManager.Instance.InstantiateTarget(MonsterPropertyType.Fire);
+        towerModel.UpgradeTower();
+        SetData();
     }
 }
