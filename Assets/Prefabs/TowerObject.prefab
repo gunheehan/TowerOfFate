@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4000014011301926}
   - component: {fileID: 33000012524792460}
   - component: {fileID: 23000012129090856}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: canon_lvl_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4000013869490946}
   - component: {fileID: 33000013619817420}
   - component: {fileID: 23000011053105318}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: gunpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,8 @@ GameObject:
   - component: {fileID: 23000011533064888}
   - component: {fileID: 95000012794672780}
   - component: {fileID: 3338866969842316539}
-  m_Layer: 0
+  - component: {fileID: 4643022701270539798}
+  m_Layer: 8
   m_Name: TowerObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,3 +287,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TowerBase: {fileID: 4000014011301926}
+--- !u!65 &4643022701270539798
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013566905100}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5942931, y: 0.4864268, z: 0.5927341}
+  m_Center: {x: 0, y: 0.23358168, z: 0.0042273253}
