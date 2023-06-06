@@ -3,7 +3,9 @@ using UnityEngine;
 public class TowerObject : MonoBehaviour
 {
     private float power = 0f;
-
+    public float Power => power;
+    private int level = 1;
+    public float Level => level;
     [SerializeField] private Transform TowerBase;
 
     private GameObject currentTarget = null;
@@ -54,5 +56,11 @@ public class TowerObject : MonoBehaviour
         boundsObject.transform.parent = transform;
         
         boundsObject.AddComponent<BoundsController>().SetBounds();
+    }
+
+    public void UpgradeTower()
+    {
+        level++;
+        power += power * level;
     }
 }

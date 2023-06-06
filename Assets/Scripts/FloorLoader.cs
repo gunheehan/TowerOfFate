@@ -64,8 +64,6 @@ public class FloorLoader : MonoBehaviour
             }
         } 
         SetMonsterPath(floorLv);
-
-        UITowerState uITowerState = UIManager.Instance.GetUI<UITowerState>() as UITowerState;
     }
 
     private void SetFloor(FloorType floortype, Vector3 position)

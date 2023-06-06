@@ -19,8 +19,11 @@ public class LayerInteractionController
             CheckFloorItem(hitObj.transform.gameObject);
         }
             
-        else if(LayerMask.NameToLayer("Tower") == hitLayer)
+        else if (LayerMask.NameToLayer("Tower") == hitLayer)
+        {
+            CheckTowerItem(hitObj.transform.gameObject);
             Debug.Log("타워 오브젝트 충돌처리");
+        }
     }
     
     private void CheckFloorItem(GameObject floor)
@@ -32,5 +35,12 @@ public class LayerInteractionController
         
         FloorController floorController = floor.GetComponent<FloorController>();
         uiTowerList.SetCurrentFloor(floorController);
+    }
+
+    private void CheckTowerItem(GameObject tower)
+    {
+        UITowerState uITowerState = UIManager.Instance.GetUI<UITowerState>() as UITowerState;
+        TowerObject towerObject = tower.GetComponent<TowerObject>();
+        uITowerState.SetTower(towerObject);
     }
 }
