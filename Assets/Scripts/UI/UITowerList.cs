@@ -54,6 +54,8 @@ public class UITowerList : MonoBehaviour, IUIInterface
 
     public void SetCurrentFloor(FloorController floor)
     {
+        if(currentfloor != null)
+            currentfloor.OnDeselected();
         currentfloor = floor;
     }
 }

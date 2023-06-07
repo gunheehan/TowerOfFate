@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -18,27 +19,40 @@ public class CameraController : MonoBehaviour
         layerInteractionController.SetController();
         floorLayerMask = 1 << LayerMask.NameToLayer("Floor");
         towerLayerMask = 1 << LayerMask.NameToLayer("Tower");
+        SetLayerMask(PlayType.Ready);
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (StageManager.Instance.CurrentPlayType == PlayType.Ready)
-                layerMask = floorLayerMask | towerLayerMask;
-            else
-                layerMask = towerLayerMask;
-
-            ProcessLayerRaycast(layerMask);
+            ProcessLayerRaycast();
         }
     }
 
-    private void ProcessLayerRaycast(int layermask)
+    public void SetLayerMask(PlayType type)
+    {
+        Debug.Log(type.ToString());
+        switch (type)
+        {
+            case PlayType.Ready:
+                layerMask = floorLayerMask | towerLayerMask;
+                break;
+            case PlayType.Play:
+                layerMask = towerLayerMask;
+                break;
+        }
+    }
+
+    private void ProcessLayerRaycast()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out rayHit, 50, layermask))
+        if (Physics.Raycast(ray, out rayHit, 50, layerMask))
         {
-            layerInteractionController.ProcessLayerCollision(rayHit.collider.gameObject);
+            ILayerInteraction LayerInteraction = rayHit.collider.gameObject.GetComponent<ILayerInteraction>();
+            if(LayerInteraction != null)
+                LayerInteraction.ProcessLayerCollision();
+            //layerInteractionController.ProcessLayerCollision(rayHit.collider.gameObject);
             Debug.DrawLine(ray.origin, rayHit.point, Color.magenta);
         }
         else

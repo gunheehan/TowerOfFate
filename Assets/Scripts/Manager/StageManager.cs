@@ -30,6 +30,7 @@ public class StageManager : Singleton<StageManager>
 
     public int stageLevel { get; private set; }
     public int floorSize { get; private set; }
+    private CameraController cameraController;
     private const int comparisonValue = 5;
     private PlayType currentPlayType = PlayType.Ready;
     public PlayType CurrentPlayType => currentPlayType;
@@ -38,12 +39,11 @@ public class StageManager : Singleton<StageManager>
     {
         stageLevel = 0;
         floorLoader = new FloorLoader();
-        Camera.main.AddComponent<CameraController>();
+        cameraController = Camera.main.AddComponent<CameraController>();
     }
 
     public void OnLoadNextStage()
     {
-        currentPlayType = PlayType.Ready;
         stageLevel++;
         if(stageLevel % comparisonValue == 0 || stageLevel <= 1)
             SetFloor(stageLevel);
@@ -54,7 +54,7 @@ public class StageManager : Singleton<StageManager>
     {
         floorSize = 2 * Lv + 1;
         floorLoader.CreateFloor(floorSize);
-        Camera.main.GetComponent<CameraController>().SetCameraPosition(floorSize);
+        cameraController.SetCameraPosition(floorSize);
     }
 
     private void ReadyStage()
@@ -73,7 +73,6 @@ public class StageManager : Singleton<StageManager>
         UITimer.SetTimer(timertime, NextStage);
         //InvokeRepeating("CreateMonster",1f,3f);
         CreateMonster();
-        currentPlayType = PlayType.Play;
     }
 
     private float GetPlayStateTime()
@@ -94,6 +93,13 @@ public class StageManager : Singleton<StageManager>
 
     private void PlaySetting(bool isReady)
     {
+        if (isReady)
+            currentPlayType = PlayType.Ready;
+        else
+            currentPlayType = PlayType.Play;
+        
+        cameraController.SetLayerMask(currentPlayType);
+
         UITowerList uiTowerList = UIManager.Instance.GetUI<UITowerList>() as UITowerList;
         uiTowerList.gameObject.SetActive(isReady);
     }

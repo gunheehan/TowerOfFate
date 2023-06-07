@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TowerObject : MonoBehaviour
+public class TowerObject : MonoBehaviour, ILayerInteraction
 {
     private float power = 0f;
     public float Power => power;
@@ -12,6 +12,7 @@ public class TowerObject : MonoBehaviour
     private float shootSpeed = 3f;
     private FireMonster currentTarget = null;
     private GameObject boundsObject = null;
+    private UITowerState uITowerState = null;
 
     private bool isinit = false;
 
@@ -54,6 +55,8 @@ public class TowerObject : MonoBehaviour
     
     private void Shoot()
     {
+        if (currentTarget == null)
+            return;
         if (!currentTarget.gameObject.activeSelf)
             return;
 
@@ -88,5 +91,13 @@ public class TowerObject : MonoBehaviour
     {
         level++;
         power += power * level;
+    }
+
+    public void ProcessLayerCollision()
+    {
+        if(uITowerState == null) 
+            uITowerState = UIManager.Instance.GetUI<UITowerState>() as UITowerState;
+        
+        uITowerState.SetTower(this);
     }
 }
