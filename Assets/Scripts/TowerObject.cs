@@ -9,6 +9,7 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
     [SerializeField] private Transform TowerBase;
     [SerializeField] private Transform shootPosition;
     [SerializeField] private Animator animator;
+    [SerializeField] private BoundsDetector boundsDetector;
     private float shootSpeed = 3f;
     private FireMonster currentTarget = null;
     private GameObject boundsObject = null;
@@ -81,10 +82,11 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 
     private void InstantiateBounds()
     {
-        boundsObject = new GameObject("BoundsObject");
-        boundsObject.transform.parent = transform;
-        
-        boundsObject.AddComponent<BoundsController>().SetBounds();
+        boundsDetector.SetBoundsSize(StageManager.Instance.floorSize);
+        // boundsObject = new GameObject("BoundsObject");
+        // boundsObject.transform.parent = transform;
+        //
+        // boundsObject.AddComponent<BoundsController>().SetBounds();
     }
 
     public void UpgradeTower()
