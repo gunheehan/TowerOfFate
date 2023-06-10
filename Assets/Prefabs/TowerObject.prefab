@@ -350,9 +350,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd84cd05e2e9748578f7b6754b3356d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
   Obj_Area: {fileID: 7530440641659880215}
 --- !u!1 &7530440641659880215
 GameObject:
@@ -365,7 +362,6 @@ GameObject:
   - component: {fileID: 769050173572988623}
   - component: {fileID: 709822501835662362}
   - component: {fileID: 1153247219146674101}
-  - component: {fileID: 1455192324746713501}
   m_Layer: 8
   m_Name: Area
   m_TagString: Untagged
@@ -438,19 +434,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &1455192324746713501
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7530440641659880215}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9167060434309961917
 GameObject:
   m_ObjectHideFlags: 0
