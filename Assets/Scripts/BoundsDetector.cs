@@ -1,16 +1,18 @@
+using System;
 using UnityEngine;
 
 public class BoundsDetector : MonoBehaviour
 {
-    public Bounds detectionBounds;
+    private Bounds detectionBounds;
     [SerializeField] private GameObject Obj_Area;
     
     private GameObject targetMonster = null;
-
+    private Action<IMonster> targetUpdate;
     private bool isInit = false;
+    
     private void FixedUpdate()
     {
-        if (targetMonster != null)
+        if (targetMonster != null && targetMonster.activeSelf)
         {
             CheckObjectExit();
             return;
@@ -19,14 +21,14 @@ public class BoundsDetector : MonoBehaviour
         CheckObjectEntrance();
     }
 
-    public void SetBoundsSize(float radius)
+    public void SetBoundsSize(float radius, Action<IMonster> updateTarget)
     {
         radius = 1;
         detectionBounds.size = new Vector3(radius, radius, radius) * 2f;
         detectionBounds.center = Vector3.zero;
 
         Obj_Area.transform.localScale = detectionBounds.size;
-
+        targetUpdate = updateTarget;
         isInit = true;
     }
 
@@ -39,7 +41,11 @@ public class BoundsDetector : MonoBehaviour
             IMonster monster = enteredObject.GetComponent<IMonster>();
 
             if (monster != null)
+            {
                 targetMonster = enteredObject;
+                targetUpdate?.Invoke(monster);
+            }
+
             Debug.Log(enteredObject.name + " Entered the bounds.");
         }
     }

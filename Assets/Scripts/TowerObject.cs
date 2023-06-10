@@ -34,16 +34,6 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
             TowerBase.LookAt(currentTarget.transform);
         }
     }
-    
-    private void OnEnable()
-    {
-        TargetManager.Instance.TargetReceived += UpdataTarget;
-    }
-
-    private void OnDisable()
-    {
-        TargetManager.Instance.TargetReceived -= UpdataTarget;
-    }
 
     public void Init()
     {
@@ -82,11 +72,7 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 
     private void InstantiateBounds()
     {
-        boundsDetector.SetBoundsSize(StageManager.Instance.floorSize);
-        // boundsObject = new GameObject("BoundsObject");
-        // boundsObject.transform.parent = transform;
-        //
-        // boundsObject.AddComponent<BoundsController>().SetBounds();
+        boundsDetector.SetBoundsSize(StageManager.Instance.floorSize,UpdataTarget);
     }
 
     public void UpgradeTower()
