@@ -36,8 +36,8 @@ public class UITowerState : MonoBehaviour, IUIInterface
     private void SetData()
     {
         Text_name.text = towerModel.name;
-        Text_level.text = towerModel.Level.ToString();
-        Text_power.text = towerModel.Power.ToString();
+        Text_level.text = towerModel.TowerData.level.ToString();
+        Text_power.text = towerModel.TowerData.power.ToString();
     }
 
     private void OnClickUpgrade()
