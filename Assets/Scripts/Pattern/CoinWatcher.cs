@@ -16,8 +16,8 @@ public static class CoinWatcher
         }
         remove { updateWalletData -= value; }
     }
-    
-    private static int money = 0;
+
+    public static int money { get; private set; }
     
     public static void UpdateWallet(int newMoney)
     {
