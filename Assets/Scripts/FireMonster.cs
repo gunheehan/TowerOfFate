@@ -49,6 +49,7 @@ public class FireMonster : MonoBehaviour, IMonster
         {
             TargetManager.Instance.PushTargetDictionary(MonsterPropertyType.Fire, this);
             gameObject.SetActive(false);
+            CoinWatcher.UpdateWallet(200);
         }
     }
 

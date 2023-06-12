@@ -85,6 +85,10 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 
     public void UpgradeTower()
     {
+        if (CoinWatcher.money < 300)
+            return;
+        
+        CoinWatcher.UpdateWallet(-300);
         TowerData.level++;
         TowerData.power += TowerData.power * TowerData.level;
     }
