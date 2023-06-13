@@ -28,7 +28,7 @@ public class UIMenu : MonoBehaviour, IUIInterface
     public void Onplay()
     {
         StageManager.Instance.OnLoadNextStage();
-        UIManager.Instance.GetUI<UIPlayState>();
+        UIManager.Instance.GetUI<UIPlayStateTracker>();
         CloseUI();
     }
 }

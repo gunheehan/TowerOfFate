@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 5202909504106274105}
   - component: {fileID: 1938330124649594033}
   m_Layer: 5
-  m_Name: UIPlayState
+  m_Name: UIPlayStateTracker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

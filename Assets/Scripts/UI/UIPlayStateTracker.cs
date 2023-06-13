@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIPlayState : MonoBehaviour, IUIInterface
+public class UIPlayStateTracker : MonoBehaviour, IUIInterface
 {
     [SerializeField] private Text Text_Money;
 
