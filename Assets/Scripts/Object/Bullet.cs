@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
 
     private void Move()
     {
-        if (target == null)
+        if (!target.gameObject.activeSelf)
         {
             BulletManager.Instance.SpawnBullet(this);
             return;
