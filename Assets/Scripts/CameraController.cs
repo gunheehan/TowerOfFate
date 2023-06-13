@@ -52,7 +52,7 @@ public class CameraController : MonoBehaviour
             ILayerInteraction LayerInteraction = rayHit.collider.gameObject.GetComponent<ILayerInteraction>();
             if(LayerInteraction != null)
                 LayerInteraction.ProcessLayerCollision();
-            //layerInteractionController.ProcessLayerCollision(rayHit.collider.gameObject);
+
             Debug.DrawLine(ray.origin, rayHit.point, Color.magenta);
         }
         else

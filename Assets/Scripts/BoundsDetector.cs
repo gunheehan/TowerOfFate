@@ -14,17 +14,17 @@ public class BoundsDetector : MonoBehaviour
     {
         if (targetMonster != null && targetMonster.activeSelf)
         {
-            CheckObjectExit();
+            TargetExitcheck();
             return;
         }
         
-        CheckObjectEntrance();
+        TargetUpdate();
     }
 
     public void SetBoundsSize(float radius, Action<IMonster> updateTarget)
     {
-        radius = 1;
-        detectionBounds.size = new Vector3(radius, radius, radius) * 2f;
+        radius = 2;
+        detectionBounds.size = new Vector3(radius, radius, radius);
         detectionBounds.center = Vector3.zero;
 
         Obj_Area.transform.localScale = detectionBounds.size;
@@ -32,7 +32,7 @@ public class BoundsDetector : MonoBehaviour
         isInit = true;
     }
 
-    private void CheckObjectEntrance()
+    private void TargetUpdate()
     {
         Collider[] colliders = Physics.OverlapSphere(detectionBounds.center, detectionBounds.extents.x);
         foreach (Collider collider in colliders)
@@ -45,16 +45,13 @@ public class BoundsDetector : MonoBehaviour
                 targetMonster = enteredObject;
                 targetUpdate?.Invoke(monster);
             }
-
-            Debug.Log(enteredObject.name + " Entered the bounds.");
         }
     }
 
-    private void CheckObjectExit()
+    private void TargetExitcheck()
     {
         if (!detectionBounds.Contains(targetMonster.transform.position))
         {
-            Debug.Log(targetMonster.name + " Exited the bounds.");
             targetMonster = null;
         }
     }
