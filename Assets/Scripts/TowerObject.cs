@@ -11,7 +11,7 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 {
     [HideInInspector] public TowerData TowerData;
     [SerializeField] private Transform TowerBase;
-    [SerializeField] private Transform shootPosition;
+    [SerializeField] private Transform[] shootPosition;
     [SerializeField] private Animator animator;
     [SerializeField] private BoundsDetector boundsDetector;
     private FireMonster currentTarget = null;
@@ -59,13 +59,16 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
         if (!currentTarget.gameObject.activeSelf)
             return;
 
-        Bullet bullet = BulletManager.Instance.GetBullet();
+        foreach (Transform ShootPos in shootPosition)
+        {
+            Bullet bullet = BulletManager.Instance.GetBullet();
 
-        bullet.transform.position = shootPosition.position;
+            bullet.transform.position = ShootPos.position;
         
-        bullet.SetBullet(currentTarget.transform,OnHitAction);
+            bullet.SetBullet(currentTarget.transform,OnHitAction);
         
-        animator.Play("Shoot");
+            animator.Play("Shoot");
+        }
     }
 
     private void OnHitAction()
