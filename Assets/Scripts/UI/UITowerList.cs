@@ -24,7 +24,7 @@ public class UITowerList : MonoBehaviour, IUIInterface
 
     private void SetTowerPrefab()
     {
-        GameObject tower = ObjectManager.Instance.GetObject<TowerObject>();
+        GameObject tower = ObjectManager.Instance.GetObject("NT_1");
         TowerObjectPrefab = tower.GetComponent<TowerObject>();
         
         Texture2D thumbnailTexture = AssetPreview.GetAssetPreview(tower);
