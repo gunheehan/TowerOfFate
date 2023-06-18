@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BoundsDetector : MonoBehaviour
@@ -9,7 +10,18 @@ public class BoundsDetector : MonoBehaviour
     private GameObject targetMonster = null;
     private Action<IMonster> targetUpdate;
     private bool isInit = false;
-    
+    private List<IMonster> targetList;
+
+    private void OnEnable()
+    {
+        TargetManager.Instance.TargetReceived += (value) => targetList = value;
+    }
+
+    private void OnDisable()
+    {
+        TargetManager.Instance.TargetReceived -= (value) => targetList = value;
+    }
+
     private void FixedUpdate()
     {
         if (targetMonster != null && targetMonster.activeSelf)
@@ -34,15 +46,15 @@ public class BoundsDetector : MonoBehaviour
 
     private void TargetUpdate()
     {
-        Collider[] colliders = Physics.OverlapSphere(detectionBounds.center, detectionBounds.extents.x);
-        foreach (Collider collider in colliders)
+        if (targetList == null)
+            return;
+        
+        foreach (var monster in targetList)
         {
-            GameObject enteredObject = collider.gameObject;
-            IMonster monster = enteredObject.GetComponent<IMonster>();
-
-            if (monster != null)
+            GameObject target = monster.GetMonster();
+            if (detectionBounds.Contains(target.transform.position))
             {
-                targetMonster = enteredObject;
+                targetMonster = target;
                 targetUpdate?.Invoke(monster);
             }
         }

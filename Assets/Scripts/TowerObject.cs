@@ -14,7 +14,8 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
     [SerializeField] private Transform[] shootPosition;
     [SerializeField] private Animator animator;
     [SerializeField] private BoundsDetector boundsDetector;
-    private FireMonster currentTarget = null;
+    private IMonster currentTarget = null;
+    private Transform targetPos;
     private GameObject boundsObject = null;
     private UITowerState uITowerState = null;
 
@@ -39,7 +40,7 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
     {
         if (currentTarget != null)
         {
-            TowerBase.LookAt(currentTarget.transform);
+            TowerBase.LookAt(targetPos);
         }
     }
 
@@ -56,7 +57,7 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
     {
         if (currentTarget == null)
             return;
-        if (!currentTarget.gameObject.activeSelf)
+        if (!currentTarget.GetMonster().activeSelf)
             return;
 
         foreach (Transform ShootPos in shootPosition)
@@ -65,7 +66,7 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 
             bullet.transform.position = ShootPos.position;
         
-            bullet.SetBullet(currentTarget.transform,OnHitAction);
+            bullet.SetBullet(targetPos, OnHitAction);
         
             animator.Play("Shoot");
         }
@@ -78,7 +79,8 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
     
     private void UpdataTarget(IMonster target)
     {
-        currentTarget = target.GetMonster();
+        currentTarget = target;
+        targetPos = currentTarget.GetMonster().transform;
     }
 
     private void InstantiateBounds()

@@ -13,9 +13,9 @@ public class TargetManager : Singleton<TargetManager>
         new Dictionary<MonsterPropertyType, List<IMonster>>();
     
 
-    private static IMonster currentTarget = null;
+    private static List<IMonster> targetList = new List<IMonster>();
                       
-    public delegate void TargetEventHandler(IMonster target);
+    public delegate void TargetEventHandler(List<IMonster> targetList);
     
     private static TargetEventHandler targetUpdateReceived = null;
     public event TargetEventHandler TargetReceived
@@ -23,34 +23,22 @@ public class TargetManager : Singleton<TargetManager>
         add
         {
             targetUpdateReceived += value;
-            if(currentTarget != null)
-                value?.Invoke(currentTarget);
+            if(targetList != null)
+                value?.Invoke(targetList);
         }
         remove { targetUpdateReceived -= value; }
-    }
-
-    void Update()
-    {
-        if (monsterQueue.Count > 0 && currentTarget == null)
-        {
-            UpdataTarget(monsterQueue.Dequeue());
-        }
     }
 
     public void EnQueueTarget(IMonster target)
     {
         monsterQueue.Enqueue(target);
+        targetList.Add(target);
+        targetUpdateReceived?.Invoke(targetList);
     }
 
     public int GetMonsterCount()
     {
         return monsterQueue.Count;
-    }
-
-    private void UpdataTarget(IMonster target)
-    {
-        currentTarget = target;
-        targetUpdateReceived?.Invoke(target);
     }
 
     public void PushTargetDictionary(MonsterPropertyType monsterType, IMonster monster)
@@ -59,8 +47,7 @@ public class TargetManager : Singleton<TargetManager>
             MonsterPooldic.Add(monsterType, new List<IMonster>());
         
         MonsterPooldic[monsterType].Add(monster);
-
-        currentTarget = null;
+        targetList.Remove(monster);
     }
 
     public void InstantiateTarget(MonsterPropertyType monsterType)

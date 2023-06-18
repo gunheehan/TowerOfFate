@@ -15,5 +15,5 @@ public interface IMonster
     void Move();
     void TakeDamage(float damage);
     void SetMonsterProperty(float speed);
-    FireMonster GetMonster();
+    GameObject GetMonster();
 }

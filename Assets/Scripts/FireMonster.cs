@@ -67,8 +67,8 @@ public class FireMonster : MonoBehaviour, IMonster
         isinit = true;
     }
 
-    public FireMonster GetMonster()
+    public GameObject GetMonster()
     {
-        return this;
+        return gameObject;
     }
 }

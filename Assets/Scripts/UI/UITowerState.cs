@@ -11,19 +11,12 @@ public class UITowerState : MonoBehaviour, IUIInterface
     [SerializeField] private Button Btn_Upgrade;
     [SerializeField] private Button Btn_Close;
 
-    private IMonster target = null;
     private TowerObject towerModel;
 
     private void Start()
     {
-        TargetManager.Instance.TargetReceived += (value) => target = value;
         Btn_Upgrade.onClick.AddListener(OnClickUpgrade);
-        Btn_Close.onClick.AddListener(()=>gameObject.SetActive(false));
-    }
-
-    private void OnDestroy()
-    {
-        TargetManager.Instance.TargetReceived -= (value) => target = value;
+        Btn_Close.onClick.AddListener(() => gameObject.SetActive(false));
     }
 
     public void SetTower(TowerObject towerObject)
