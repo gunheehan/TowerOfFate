@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public enum MonsterType
+public enum TowerType
 {
-    Normal,
-    Fire
+    Normal
 }
 
-public struct StageDate
+public struct TowerData
 {
+    public string name;
+    public TowerType TowerType;
     public int Level;
-    public int FloorLevel;
-    public float PlayTime;
-    public float ReLoadTime;
-    public MonsterType MonsterType;
-    public int MonsterAmount;
+    public float Power;
+    public float Speed;
+    public int AttackArea;
+    public int Price;
 }
 
-public class StageInfoTable : ICsvDataInterface
+public class TowerInfoTable : ICsvDataInterface
 {
-    private List<StageDate> stageDataList = new List<StageDate>();
+    private List<TowerData> towerDataList = new List<TowerData>();
 
     public void LoadData()
     {
         string folderPath = "Assets/DataSheets/";
-        string[] csvFiles = Directory.GetFiles(folderPath, this.ToString() +".csv");
+        string[] csvFiles = Directory.GetFiles(folderPath, this.ToString() + ".csv");
 
         foreach (string csvFile in csvFiles)
         {
@@ -37,7 +37,7 @@ public class StageInfoTable : ICsvDataInterface
             DataParsing(csvData);
         }
     }
-
+    
     private void DataParsing(string data)
     {
         string[] downloadData_split = data.Split("\r\n");
@@ -50,14 +50,15 @@ public class StageInfoTable : ICsvDataInterface
 
                 if (!string.IsNullOrEmpty(_data[0]))
                 {
-                    stageDataList.Add(new StageDate()
+                    towerDataList.Add(new TowerData()
                     {
-                        Level = int.Parse(_data[0]),
-                        FloorLevel = int.Parse(_data[1]),
-                        PlayTime = float.Parse(_data[2]),
-                        ReLoadTime = float.Parse(_data[3]),
-                        MonsterType = (MonsterType)int.Parse(_data[4]),
-                        MonsterAmount = int.Parse(_data[5])
+                        name = _data[0],
+                        TowerType = (TowerType)int.Parse(_data[1]),
+                        Level = int.Parse(_data[2]),
+                        Power = float.Parse(_data[3]),
+                        Speed = float.Parse(_data[4]),
+                        AttackArea = int.Parse(_data[5]),
+                        Price = int.Parse(_data[6])
                     });
                 }
             }
@@ -67,14 +68,14 @@ public class StageInfoTable : ICsvDataInterface
             Debug.Log("StageInfoTable Parsing Error");
         }
     }
-    
+
     public T GetData<T>(string key)
     {
         if (int.TryParse(key, out int index))
         {
-            if (index >= 0 && index < stageDataList.Count)
+            if (index >= 0 && index < towerDataList.Count)
             {
-                return (T)Convert.ChangeType(stageDataList[index], typeof(T));
+                return (T)Convert.ChangeType(towerDataList[index], typeof(T));
             }
             else
             {

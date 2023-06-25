@@ -1,15 +1,9 @@
 using UnityEngine;
 
-public struct TowerData
-{
-    public int level;
-    public float power;
-    public float shootspeed;
-}
-
 public class TowerObject : MonoBehaviour, ILayerInteraction
 {
-    [HideInInspector] public TowerData TowerData;
+    [HideInInspector] public TowerData currentTowerData;
+    private TowerData NextTowerData;
     [SerializeField] private Transform TowerBase;
     [SerializeField] private Transform[] shootPosition;
     [SerializeField] private Animator animator;
@@ -23,17 +17,13 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 
     private void Awake()
     {
-        TowerData = new TowerData()
-        {
-            level = 1,
-            power = 30f,
-            shootspeed = 3f
-        };
+        currentTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,"0");
+        NextTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,"1");
     }
 
     private void Start()
     {
-        InvokeRepeating("Shoot", 0f, TowerData.shootspeed);
+        InvokeRepeating("Shoot", 0f, currentTowerData.Speed);
     }
 
     private void Update()
@@ -74,7 +64,7 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 
     private void OnHitAction()
     {
-        currentTarget.TakeDamage(TowerData.power);
+        currentTarget.TakeDamage(currentTowerData.Power);
     }
     
     private void UpdataTarget(IMonster target)
@@ -90,12 +80,17 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 
     public void UpgradeTower()
     {
-        if (CoinWatcher.money < 300)
+        if (CoinWatcher.money < NextTowerData.Price)
             return;
         
-        CoinWatcher.UpdateWallet(-300);
-        TowerData.level++;
-        TowerData.power += TowerData.power * TowerData.level;
+        CoinWatcher.UpdateWallet(-NextTowerData.Price);
+        UpdateTower();
+    }
+
+    private void UpdateTower()
+    {
+        currentTowerData = NextTowerData;
+        NextTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,currentTowerData.Level.ToString());
     }
 
     public void ProcessLayerCollision()
