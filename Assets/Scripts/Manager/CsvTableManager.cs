@@ -22,8 +22,8 @@ public class CsvTableManager
 
     private Dictionary<TableType, ICsvDataInterface> tableDic = new Dictionary<TableType, ICsvDataInterface>();  
 
-    private StageInfoTable StageInfoTable;
-    private TowerInfoTable TowerInfoTable;
+    private StageInfoTable StageInfoTable = new StageInfoTable();
+    private TowerInfoTable TowerInfoTable = new TowerInfoTable();
 
     public void LoadData()
     {
