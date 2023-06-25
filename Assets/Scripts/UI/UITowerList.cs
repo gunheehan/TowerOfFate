@@ -21,6 +21,14 @@ public class UITowerList : MonoBehaviour, IUIInterface
     {
         SetTowerList();
     }
+    public void OpenUI()
+    {
+        gameObject.SetActive(true);
+    }
+    public void CloseUI()
+    {
+        gameObject.SetActive(false);
+    }
 
     private void SetTowerPrefab()
     {
