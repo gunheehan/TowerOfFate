@@ -7,7 +7,7 @@ public enum MonsterPropertyType
 }
 public class TargetManager : Singleton<TargetManager>
 {
-    private Queue<IMonster> monsterQueue = new Queue<IMonster>();
+    //private Queue<IMonster> monsterQueue = new Queue<IMonster>();
 
     private Dictionary<MonsterPropertyType, List<IMonster>> MonsterPooldic =
         new Dictionary<MonsterPropertyType, List<IMonster>>();
@@ -31,14 +31,13 @@ public class TargetManager : Singleton<TargetManager>
 
     public void EnQueueTarget(IMonster target)
     {
-        monsterQueue.Enqueue(target);
         targetList.Add(target);
         targetUpdateReceived?.Invoke(targetList);
     }
 
     public int GetMonsterCount()
     {
-        return monsterQueue.Count;
+        return targetList.Count;
     }
 
     public void PushTargetDictionary(MonsterPropertyType monsterType, IMonster monster)
@@ -48,18 +47,49 @@ public class TargetManager : Singleton<TargetManager>
         
         MonsterPooldic[monsterType].Add(monster);
         targetList.Remove(monster);
+
+        if (invokeCount >= totalTargetCount && targetList.Count <= 0)
+        {
+            StageManager.Instance.NextStage();
+        }
     }
 
     public void InstantiateTarget(MonsterPropertyType monsterType)
     {
+        FireMonster FireMonster;
         switch (monsterType)
         {
             case MonsterPropertyType.None:
-                break;
-            case MonsterPropertyType.Fire:
-                FireMonster FireMonster = ObjectManager.Instance.GetObject<FireMonster>().GetComponent<FireMonster>();
+                FireMonster = ObjectManager.Instance.GetObject<FireMonster>().GetComponent<FireMonster>();
                 FireMonster.SetMonsterProperty(1f);
                 break;
+            case MonsterPropertyType.Fire:
+                FireMonster = ObjectManager.Instance.GetObject<FireMonster>().GetComponent<FireMonster>();
+                FireMonster.SetMonsterProperty(1f);
+                break;
+        }
+    }
+
+    private int invokeCount;
+    private int totalTargetCount;
+    private MonsterPropertyType currentType;
+    public void SetStageTarget(MonsterPropertyType monsterType, int monsterAmount)
+    {
+        invokeCount = 0;
+        totalTargetCount = monsterAmount;
+        currentType = monsterType;
+        InvokeRepeating("InvokeAction", 0f, 1f);
+    }
+
+    private void InvokeAction()
+    {
+        // Invoke 실행할 동작
+
+        invokeCount++;
+        InstantiateTarget(currentType);
+        if (invokeCount >= totalTargetCount)
+        {
+            CancelInvoke("InvokeAction");
         }
     }
 }
