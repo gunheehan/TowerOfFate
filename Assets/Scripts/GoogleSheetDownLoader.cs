@@ -72,9 +72,6 @@ public class GoogleSheetDownLoader : MonoBehaviour
         EditorUtility.ClearProgressBar();
         Debug.Log("CSV Download Complete");
         AssetDatabase.Refresh();
-
-        StageInfoTable StageInfoTable = new StageInfoTable();
-        StageInfoTable.LoadSheetData();
     }
     static Task<string> DownloadData(string dbUrl, string dbName,float _progress)
     {
