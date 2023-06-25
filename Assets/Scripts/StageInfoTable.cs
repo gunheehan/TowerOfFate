@@ -3,19 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public enum MonsterType
-{
-    Normal,
-    Fire
-}
-
 public struct StageDate
 {
     public int Level;
     public int FloorLevel;
     public float PlayTime;
     public float ReLoadTime;
-    public MonsterType MonsterType;
+    public MonsterPropertyType MonsterType;
     public int MonsterAmount;
 }
 
@@ -56,7 +50,7 @@ public class StageInfoTable : ICsvDataInterface
                         FloorLevel = int.Parse(_data[1]),
                         PlayTime = float.Parse(_data[2]),
                         ReLoadTime = float.Parse(_data[3]),
-                        MonsterType = (MonsterType)int.Parse(_data[4]),
+                        MonsterType = (MonsterPropertyType)int.Parse(_data[4]),
                         MonsterAmount = int.Parse(_data[5])
                     });
                 }
