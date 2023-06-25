@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 102749954853506395}
   - component: {fileID: 2994654642975617035}
   m_Layer: 5
-  m_Name: Text_Name
+  m_Name: Text_Money
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
