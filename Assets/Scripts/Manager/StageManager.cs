@@ -30,8 +30,8 @@ public class StageManager : Singleton<StageManager>
 
     public int stageLevel { get; private set; }
     public int floorSize { get; private set; }
+    private StageDate currentData;
     private CameraController cameraController;
-    private const int comparisonValue = 5;
     private PlayType currentPlayType = PlayType.Ready;
     public PlayType CurrentPlayType => currentPlayType;
     
@@ -42,12 +42,21 @@ public class StageManager : Singleton<StageManager>
         cameraController = Camera.main.AddComponent<CameraController>();
     }
 
-    public void OnLoadNextStage()
+    public void NextStage()
     {
-        stageLevel++;
-        if(stageLevel % comparisonValue == 0 || stageLevel <= 1)
-            SetFloor(stageLevel);
+        StageDate stagedata = CsvTableManager.Instance.GetData<StageDate>(TableType.Stage, stageLevel.ToString());
+        currentData = stagedata;
+        OnLoadNextStage();
         ReadyStage();
+    }
+
+    private void OnLoadNextStage()
+    {
+        if (currentData.FloorLevel != stageLevel)
+        {
+            stageLevel = currentData.FloorLevel;
+            SetFloor(stageLevel);
+        }
     }
 
     private void SetFloor(int Lv)
@@ -61,7 +70,7 @@ public class StageManager : Singleton<StageManager>
     {
         PlaySetting(true);
         UITimer UITimer = UIManager.Instance.GetUI<UITimer>() as UITimer;
-        float timertime = GetPlayStateTime();
+        float timertime = GetPlayStateTime(PlayType.Ready);
         UITimer.SetTimer(timertime, PlayStage);
     }
 
@@ -69,60 +78,51 @@ public class StageManager : Singleton<StageManager>
     {
         PlaySetting(false);
         UITimer UITimer = UIManager.Instance.GetUI<UITimer>() as UITimer;
-        float timertime = GetPlayStateTime();
-        UITimer.SetTimer(timertime, NextStage);
-        //InvokeRepeating("CreateMonster",1f,3f);
-        CreateMonster();
+        float timertime = GetPlayStateTime(PlayType.Play);
+        UITimer.SetTimer(timertime, CheckCompleteStage);
+       
+        TargetManager.Instance.SetStageTarget(currentData.MonsterType, currentData.MonsterAmount);
     }
-
-    private float GetPlayStateTime()
+    
+    private float GetPlayStateTime(PlayType currentPlayType)
     {
         float time = 0;
         switch (currentPlayType)
         {
             case PlayType.Ready:
-                time = 5f + 5f * stageLevel;
+                time = currentData.ReLoadTime;
                 break;
             case PlayType.Play:
-                time = 10f + 10f * stageLevel;
+                time = currentData.PlayTime;
                 break;
         }
 
         return time;
     }
-
-    private void PlaySetting(bool isReady)
+    
+    public void PlaySetting(bool isReady)
     {
         if (isReady)
             currentPlayType = PlayType.Ready;
         else
             currentPlayType = PlayType.Play;
         
-        cameraController.SetLayerMask(currentPlayType);
-
-        UITowerList uiTowerList = UIManager.Instance.GetUI<UITowerList>() as UITowerList;
-        uiTowerList.gameObject.SetActive(isReady);
+        cameraController.SetLayerMask(CurrentPlayType);
+        
+        if (isReady)
+            UIManager.Instance.GetUI<UITowerList>().OpenUI();
+        else
+            UIManager.Instance.GetUI<UITowerList>().ClostUI();
     }
-
-    private void CreateMonster()
-    {
-        TargetManager.Instance.InstantiateTarget(MonsterPropertyType.Fire);
-    }
-
-    private void NextStage()
-    {
-        if(CheckCompleteStage())
-            OnLoadNextStage();
-    }
-
-    private bool CheckCompleteStage()
+    
+    private void CheckCompleteStage()
     {
         if (TargetManager.Instance.GetMonsterCount() > 0)
         {
             Debug.Log("클리어 실패");
-            return false;
+            return;
         }
 
-        return true;
+        NextStage();
     }
 }

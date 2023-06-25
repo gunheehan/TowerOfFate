@@ -13,6 +13,7 @@ public class UIMenu : MonoBehaviour, IUIInterface
         Btn_Start.onClick.AddListener(Onplay);
         Btn_Preference.onClick.AddListener(()=>Debug.Log("설정"));
         Btn_Logout.onClick.AddListener(()=>Debug.Log("종료"));
+        CsvTableManager.Instance.LoadData();
     }
 
     public void OpenUI()
@@ -27,7 +28,7 @@ public class UIMenu : MonoBehaviour, IUIInterface
 
     public void Onplay()
     {
-        StageManager.Instance.OnLoadNextStage();
+        StageManager.Instance.NextStage();
         UIManager.Instance.GetUI<UIPlayStateTracker>();
         CloseUI();
     }
