@@ -75,7 +75,7 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 
     private void InstantiateBounds()
     {
-        boundsDetector.SetBoundsSize(StageManager.Instance.floorSize,UpdataTarget);
+        boundsDetector.SetBoundsSize(currentTowerData.AttackArea,UpdataTarget);
     }
 
     public void UpgradeTower()

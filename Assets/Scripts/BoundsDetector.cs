@@ -35,7 +35,6 @@ public class BoundsDetector : MonoBehaviour
 
     public void SetBoundsSize(float radius, Action<IMonster> updateTarget)
     {
-        radius = 2;
         detectionBounds.size = new Vector3(radius, radius, radius);
         detectionBounds.center = Vector3.zero;
 
