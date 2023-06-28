@@ -42,7 +42,6 @@ public class BoundsDetector : MonoBehaviour
         targetUpdate = updateTarget;
         isInit = true;
     }
-
     private void TargetUpdate()
     {
         if (targetList == null)

@@ -8,9 +8,10 @@ using UnityEngine.UI;
 public class TowerListItem : MonoBehaviour
 {
     [SerializeField] private Button Btn_PlacedTower;
-    [SerializeField] private Image Thumnail;
+    [SerializeField] private Text Text_name;
 
-    private Action towerPlacedAction = null;
+    private TowerData data;
+    private Action<TowerData> towerPlacedAction = null;
 
     void Start()
     {
@@ -19,12 +20,13 @@ public class TowerListItem : MonoBehaviour
 
     private void OnClickPlacedTower()
     {
-        towerPlacedAction?.Invoke();
+        towerPlacedAction?.Invoke(data);
     }
 
-    public void SetItem(Sprite spritethumnail, Action TowerPlacedAcion)
+    public void SetItem(TowerData towerdata, Action<TowerData> TowerPlacedAcion)
     {
-        Thumnail.sprite = spritethumnail;
+        data = towerdata;
         towerPlacedAction = TowerPlacedAcion;
+        Text_name.text = data.name;
     }
 }

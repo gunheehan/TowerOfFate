@@ -15,17 +15,6 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 
     private bool isinit = false;
 
-    private void Awake()
-    {
-        currentTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,"0");
-        NextTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,"1");
-    }
-
-    private void Start()
-    {
-        InvokeRepeating("Shoot", 0f, currentTowerData.Speed);
-    }
-
     private void Update()
     {
         if (currentTarget != null)
@@ -41,6 +30,14 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 
         InstantiateBounds();
         isinit = true;
+    }
+
+    public void SetTowerLevel(int level = 0)
+    {
+        currentTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,level.ToString());
+        NextTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,level.ToString());
+        
+        InvokeRepeating("Shoot", 0f, currentTowerData.Speed);
     }
     
     private void Shoot()
