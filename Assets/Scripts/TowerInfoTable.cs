@@ -71,6 +71,11 @@ public class TowerInfoTable : ICsvDataInterface
 
     public T GetData<T>(string key)
     {
+        if (string.IsNullOrEmpty(key))
+        {
+            return (T)Convert.ChangeType(towerDataList, typeof(T));
+        }
+        
         if (int.TryParse(key, out int index))
         {
             if (index >= 0 && index < towerDataList.Count)
