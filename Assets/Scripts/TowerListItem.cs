@@ -9,6 +9,7 @@ public class TowerListItem : MonoBehaviour
 {
     [SerializeField] private Button Btn_PlacedTower;
     [SerializeField] private Text Text_name;
+    [SerializeField] private Text Text_price;
 
     private TowerData data;
     private Action<TowerData> towerPlacedAction = null;
@@ -28,5 +29,6 @@ public class TowerListItem : MonoBehaviour
         data = towerdata;
         towerPlacedAction = TowerPlacedAcion;
         Text_name.text = data.name;
+        Text_price.text = data.Price.ToString();
     }
 }
