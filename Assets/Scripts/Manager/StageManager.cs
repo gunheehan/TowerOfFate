@@ -54,6 +54,7 @@ public class StageManager : Singleton<StageManager>
     {
         if (currentData.FloorLevel != stageLevel)
         {
+            roadtarget = null;
             stageLevel = currentData.FloorLevel;
             SetFloor(stageLevel);
         }
