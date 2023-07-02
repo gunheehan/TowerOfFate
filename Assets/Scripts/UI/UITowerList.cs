@@ -32,6 +32,11 @@ public class UITowerList : MonoBehaviour, IUIInterface
         gameObject.SetActive(true);
     }
 
+    public void CloseUI()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void AllPushPoolItem()
     {
         foreach (TowerListItem item in toweritemList)

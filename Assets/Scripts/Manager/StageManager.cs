@@ -113,7 +113,7 @@ public class StageManager : Singleton<StageManager>
         if (isReady)
             UIManager.Instance.GetUI<UITowerList>().OpenUI();
         else
-            UIManager.Instance.GetUI<UITowerList>().ClostUI();
+            UIManager.Instance.GetUI<UITowerList>().CloseUI();
     }
     
     private void CheckCompleteStage()
