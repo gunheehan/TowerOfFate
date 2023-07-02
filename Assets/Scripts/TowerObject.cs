@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class TowerObject : MonoBehaviour, ILayerInteraction
 {
-    [HideInInspector] public TowerData currentTowerData;
+    private TowerData currentTowerData;
+    public TowerData CurrentTowerData => currentTowerData;
     private TowerData NextTowerData;
     [SerializeField] private Transform TowerBase;
     [SerializeField] private Transform[] shootPosition;
@@ -26,7 +27,7 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 
     public void SetTowerLevel(int level = 0)
     {
-        currentTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,level.ToString());
+        currentTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,(level - 1).ToString());
         NextTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,level.ToString());
         
         InstantiateBounds();
