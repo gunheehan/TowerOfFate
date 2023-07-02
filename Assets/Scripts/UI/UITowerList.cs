@@ -85,7 +85,6 @@ public class UITowerList : MonoBehaviour, IUIInterface
         {
             GameObject obj = ObjectManager.Instance.GetObject(tower.name);
             TowerObject objectTower = obj.GetComponent<TowerObject>();
-            objectTower.Init();
             objectTower.SetTowerLevel(tower.Level);
             currentfloor.SetTower(objectTower);
             objectTower.gameObject.SetActive(true);

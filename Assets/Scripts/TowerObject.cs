@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TowerObject : MonoBehaviour, ILayerInteraction
@@ -23,20 +24,13 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
         }
     }
 
-    public void Init()
-    {
-        if (isinit)
-            return;
-
-        InstantiateBounds();
-        isinit = true;
-    }
-
     public void SetTowerLevel(int level = 0)
     {
         currentTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,level.ToString());
         NextTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,level.ToString());
         
+        InstantiateBounds();
+
         InvokeRepeating("Shoot", 0f, currentTowerData.Speed);
     }
     
