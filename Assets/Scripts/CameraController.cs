@@ -11,12 +11,9 @@ public class CameraController : MonoBehaviour
 
     private int layerMask;
 
-    private LayerInteractionController layerInteractionController;
 
     private void Start()
     {
-        layerInteractionController = new LayerInteractionController();
-        layerInteractionController.SetController();
         floorLayerMask = 1 << LayerMask.NameToLayer("Floor");
         towerLayerMask = 1 << LayerMask.NameToLayer("Tower");
         SetLayerMask(PlayType.Ready);
