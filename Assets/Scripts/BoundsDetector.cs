@@ -8,9 +8,9 @@ public class BoundsDetector : MonoBehaviour
     [SerializeField] private GameObject Obj_Area;
     
     private GameObject targetMonster = null;
-    private Action<IMonster> targetUpdate;
+    private Action<GameObject> targetUpdate;
     private bool isInit = false;
-    private List<IMonster> targetList;
+    private List<GameObject> targetList;
 
     private void OnEnable()
     {
@@ -26,6 +26,7 @@ public class BoundsDetector : MonoBehaviour
     {
         if (targetMonster != null && targetMonster.activeSelf)
         {
+            Debug.Log("TargetAlive");
             TargetExitcheck();
             return;
         }
@@ -33,7 +34,7 @@ public class BoundsDetector : MonoBehaviour
         TargetUpdate();
     }
 
-    public void SetBoundsSize(float radius, Action<IMonster> updateTarget)
+    public void SetBoundsSize(float radius, Action<GameObject> updateTarget)
     {
         detectionBounds.size = new Vector3(radius, radius, radius);
         detectionBounds.center = Vector3.zero;
@@ -44,15 +45,15 @@ public class BoundsDetector : MonoBehaviour
     }
     private void TargetUpdate()
     {
+        Debug.Log(targetList.Count);
         if (targetList == null)
             return;
         
         foreach (var monster in targetList)
         {
-            GameObject target = monster.GetMonster();
-            if (detectionBounds.Contains(target.transform.position))
+            if (detectionBounds.Contains(monster.transform.position))
             {
-                targetMonster = target;
+                targetMonster = monster;
                 targetUpdate?.Invoke(monster);
             }
         }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public enum MonsterPropertyType
 {
@@ -9,13 +10,13 @@ public class TargetManager : Singleton<TargetManager>
 {
     //private Queue<IMonster> monsterQueue = new Queue<IMonster>();
 
-    private Dictionary<MonsterPropertyType, List<IMonster>> MonsterPooldic =
-        new Dictionary<MonsterPropertyType, List<IMonster>>();
+    private Dictionary<MonsterPropertyType, List<GameObject>> MonsterPooldic =
+        new Dictionary<MonsterPropertyType, List<GameObject>>();
     
 
-    private static List<IMonster> targetList = new List<IMonster>();
+    private static List<GameObject> targetList = new List<GameObject>();
                       
-    public delegate void TargetEventHandler(List<IMonster> targetList);
+    public delegate void TargetEventHandler(List<GameObject> targetList);
     
     private static TargetEventHandler targetUpdateReceived = null;
     public event TargetEventHandler TargetReceived
@@ -29,7 +30,7 @@ public class TargetManager : Singleton<TargetManager>
         remove { targetUpdateReceived -= value; }
     }
 
-    public void EnQueueTarget(IMonster target)
+    public void EnQueueTarget(GameObject target)
     {
         targetList.Add(target);
         targetUpdateReceived?.Invoke(targetList);
@@ -40,10 +41,10 @@ public class TargetManager : Singleton<TargetManager>
         return targetList.Count;
     }
 
-    public void PushTargetDictionary(MonsterPropertyType monsterType, IMonster monster)
+    public void PushTargetDictionary(MonsterPropertyType monsterType, GameObject monster)
     {
         if(!MonsterPooldic.ContainsKey(monsterType))
-            MonsterPooldic.Add(monsterType, new List<IMonster>());
+            MonsterPooldic.Add(monsterType, new List<GameObject>());
         
         MonsterPooldic[monsterType].Add(monster);
         targetList.Remove(monster);

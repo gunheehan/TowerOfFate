@@ -47,7 +47,7 @@ public class FireMonster : MonoBehaviour, IMonster
         HP -= damage;
         if (HP <= 0)
         {
-            TargetManager.Instance.PushTargetDictionary(MonsterPropertyType.Fire, this);
+            TargetManager.Instance.PushTargetDictionary(MonsterPropertyType.Fire, this.gameObject);
             gameObject.SetActive(false);
             CoinWatcher.UpdateWallet(200);
         }
@@ -62,7 +62,7 @@ public class FireMonster : MonoBehaviour, IMonster
         };
         gameObject.SetActive(true);
         transform.position = monsterproperty.roadPoint[0];
-        TargetManager.Instance.EnQueueTarget(this);
+        TargetManager.Instance.EnQueueTarget(this.gameObject);
 
         isinit = true;
     }

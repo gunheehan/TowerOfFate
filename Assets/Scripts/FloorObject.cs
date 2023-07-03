@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class FloorObject : MonoBehaviour, ILayerInteraction
 {
-    private TowerObject playObject = null;
+    private TowerObject placedtower = null;
 
     private bool isCanPlaced = true;
     public bool IsCanPlaced => isCanPlaced;
@@ -21,11 +21,23 @@ public class FloorObject : MonoBehaviour, ILayerInteraction
         if (!isCanPlaced)
             return isCanPlaced;
 
-        playObject = towerObject;
-        playObject.transform.position = this.transform.position;
+        placedtower = towerObject;
+        placedtower.transform.position = this.transform.position;
         
         isCanPlaced = false;
         return isCanPlaced;
+    }
+
+    public void ChangeTower(TowerObject towerObject = null)
+    {
+        if (towerObject == null)
+        {
+            isCanPlaced = true;
+            DestroyImmediate(placedtower);
+            return;
+        }
+
+        SetTower(towerObject);
     }
 
     public void OnDeselected()

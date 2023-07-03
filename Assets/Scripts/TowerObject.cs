@@ -59,10 +59,10 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
         currentTarget.TakeDamage(currentTowerData.Power);
     }
     
-    private void UpdataTarget(IMonster target)
+    private void UpdataTarget(GameObject target)
     {
-        currentTarget = target;
-        targetPos = currentTarget.GetMonster().transform;
+        target.TryGetComponent<IMonster>(out currentTarget);
+        targetPos = target.transform;
     }
 
     private void InstantiateBounds()
