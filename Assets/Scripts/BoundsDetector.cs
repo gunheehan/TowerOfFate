@@ -26,7 +26,6 @@ public class BoundsDetector : MonoBehaviour
     {
         if (targetMonster != null && targetMonster.activeSelf)
         {
-            Debug.Log("TargetAlive");
             TargetExitcheck();
             return;
         }
@@ -45,7 +44,6 @@ public class BoundsDetector : MonoBehaviour
     }
     private void TargetUpdate()
     {
-        Debug.Log(targetList.Count);
         if (targetList == null)
             return;
         
