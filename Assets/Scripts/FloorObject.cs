@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class FloorController : MonoBehaviour, ILayerInteraction
+public class FloorObject : MonoBehaviour, ILayerInteraction
 {
     private TowerObject playObject = null;
 

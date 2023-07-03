@@ -11,13 +11,13 @@ public class FloorLoader : MonoBehaviour
     private GameObject floorContents = null;
     private GameObject floorPrefab = null; // 1x1 크기의 바닥 오브젝트 프리팹
 
-    private List<FloorController> floorControllerList = new List<FloorController>();
+    private List<FloorObject> floorControllerList = new List<FloorObject>();
     private List<Vector3> roadEdgeTransform = new List<Vector3>();
     private List<GameObject> floorList = new List<GameObject>();
 
     private Stack<GameObject> floorPool = new Stack<GameObject>();
 
-    public List<FloorController> GetFloorList()
+    public List<FloorObject> GetFloorList()
     {
         return floorControllerList;
     }
@@ -33,6 +33,7 @@ public class FloorLoader : MonoBehaviour
         {
             floor.layer = 0;
             floor.name = "NotUsed";
+            floor.GetComponent<Renderer>().material.color = Color.white;
             floor.SetActive(false);
             floorPool.Push(floor);
         }
@@ -71,18 +72,13 @@ public class FloorLoader : MonoBehaviour
         GameObject floorObject = GetFloor(position);
         floorObject.name = "Floor " + position.x + " / " + position.z;
 
-        switch (floortype)
+        if (floortype == FloorType.Placement)
         {
-            case FloorType.Road:
-                floorObject.GetComponent<Renderer>().material.color = Color.white;
-                break;
-
-            case FloorType.Placement:
-                floorObject.GetComponent<Renderer>().material.color = Color.blue;
-                floorObject.layer = LayerMask.NameToLayer("Floor");
-                floorControllerList.Add(floorObject.GetComponent<FloorController>());
-                break;
+            floorObject.GetComponent<Renderer>().material.color = Color.blue;
+            floorObject.layer = LayerMask.NameToLayer("Floor");
+            floorControllerList.Add(floorObject.GetComponent<FloorObject>());
         }
+
         floorList.Add(floorObject);
         floorObject.transform.SetAsLastSibling();
         floorObject.SetActive(true);
@@ -122,7 +118,7 @@ public class FloorLoader : MonoBehaviour
         else
         {
             floorObject = Instantiate(floorPrefab, position, Quaternion.identity, floorContents.transform);
-            floorObject.AddComponent<FloorController>();
+            floorObject.AddComponent<FloorObject>();
         }
 
         return floorObject;

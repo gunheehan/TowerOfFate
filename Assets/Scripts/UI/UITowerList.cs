@@ -13,7 +13,7 @@ public class UITowerList : MonoBehaviour, IUIInterface
     private Stack<TowerListItem> toweritemPool = new Stack<TowerListItem>();
     private Sprite sprite_thumbnail;
 
-    private FloorController currentfloor = null;
+    private FloorObject currentfloor = null;
 
     private bool isinit = false;
 
@@ -55,9 +55,6 @@ public class UITowerList : MonoBehaviour, IUIInterface
 
         foreach (TowerData data in towerData)
         {
-            Debug.Log(data.name);
-            //GameObject tower = ObjectManager.Instance.GetObject(data.name);
-
             TowerListItem towerpreitem;
             if (toweritemPool.Count > 0)
                 towerpreitem = toweritemPool.Pop();
@@ -69,19 +66,7 @@ public class UITowerList : MonoBehaviour, IUIInterface
             towerpreitem.transform.SetAsLastSibling();
             towerpreitem.gameObject.SetActive(true);
         }
-        //GameObject tower = ObjectManager.Instance.GetObject("NT_1");
-        
-        //Texture2D thumbnailTexture = AssetPreview.GetAssetPreview(tower);
-        //sprite_thumbnail = Sprite.Create(thumbnailTexture, new Rect(0, 0, thumbnailTexture.width, thumbnailTexture.height), Vector2.zero);
-        //tower.SetActive(false);
-        
-        //SetTowerList();
     }
-    // private void SetTowerList()
-    // {
-    //     // 타워리스트를 어디선가 받아오던지 읽어오던지 동작 필요
-    //     towerItem.SetItem(sprite_thumbnail, InstantiateTower);
-    // }
 
     private void InstantiateTower(TowerData tower)
     {
@@ -96,7 +81,7 @@ public class UITowerList : MonoBehaviour, IUIInterface
         }
     }
 
-    public void SetCurrentFloor(FloorController floor)
+    public void SetCurrentFloor(FloorObject floor)
     {
         if(currentfloor != null)
             currentfloor.OnDeselected();

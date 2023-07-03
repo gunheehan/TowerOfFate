@@ -33,8 +33,8 @@ public class LayerInteractionController
         curSelectFloor = floor;
         floor.GetComponent<Renderer>().material.color = Color.red;
         
-        FloorController floorController = floor.GetComponent<FloorController>();
-        uiTowerList.SetCurrentFloor(floorController);
+        FloorObject floorObject = floor.GetComponent<FloorObject>();
+        uiTowerList.SetCurrentFloor(floorObject);
     }
 
     private void CheckTowerItem(GameObject tower)
