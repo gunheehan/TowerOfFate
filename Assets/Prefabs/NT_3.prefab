@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 23000010303888186}
   - component: {fileID: 95000013924364946}
   - component: {fileID: 4284126869193508343}
-  - component: {fileID: 1282176444282841869}
   m_Layer: 0
   m_Name: NT_3
   m_TagString: Untagged
@@ -126,19 +125,6 @@ MonoBehaviour:
   - {fileID: 588641861306900342}
   animator: {fileID: 95000013924364946}
   boundsDetector: {fileID: 5280062124736720767}
---- !u!65 &1282176444282841869
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012105359850}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
-  m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!1 &1000012389614952
 GameObject:
   m_ObjectHideFlags: 0
