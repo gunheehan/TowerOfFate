@@ -41,6 +41,6 @@ public class LayerInteractionController
     {
         UITowerState uITowerState = UIManager.Instance.GetUI<UITowerState>() as UITowerState;
         TowerObject towerObject = tower.GetComponent<TowerObject>();
-        uITowerState.SetTower(towerObject);
+        //uITowerState.SetTower(towerObject);
     }
 }

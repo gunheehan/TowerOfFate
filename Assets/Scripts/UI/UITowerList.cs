@@ -73,11 +73,13 @@ public class UITowerList : MonoBehaviour, IUIInterface
         bool setState = currentfloor.IsCanPlaced;
         if (setState)
         {
-            GameObject obj = ObjectManager.Instance.GetObject(tower.name);
-            TowerObject objectTower = obj.GetComponent<TowerObject>();
-            objectTower.SetTowerLevel(tower.Level);
-            currentfloor.SetTower(objectTower);
-            objectTower.gameObject.SetActive(true);
+            GameObject newTower = new GameObject("TowerBuilder");
+            newTower.transform.position = transform.position;
+            newTower.layer = LayerMask.NameToLayer("Tower");
+            TowerBuilder towerBuilder = newTower.AddComponent<TowerBuilder>();
+            towerBuilder.InitBuild(tower);
+            //objectTower.SetTowerLevel(tower.Level);
+            currentfloor.SetTowerBuilder(towerBuilder);
         }
     }
 

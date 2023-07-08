@@ -11,7 +11,7 @@ public class UITowerState : MonoBehaviour, IUIInterface
     [SerializeField] private Button Btn_Upgrade;
     [SerializeField] private Button Btn_Close;
 
-    private TowerObject towerModel;
+    private TowerBuilder towerBuilder;
 
     private void Start()
     {
@@ -19,23 +19,26 @@ public class UITowerState : MonoBehaviour, IUIInterface
         Btn_Close.onClick.AddListener(() => gameObject.SetActive(false));
     }
 
-    public void SetTower(TowerObject towerObject)
+    public void SetTower(TowerBuilder towerObject)
     {
-        towerModel = towerObject;
-        SetData();
+        towerBuilder = towerObject;
+        SetData(towerObject.CurrentTowerDB);
         gameObject.SetActive(true);
     }
 
-    private void SetData()
+    private void SetData(TowerData towerdb)
     {
-        Text_name.text = towerModel.name;
-        Text_level.text = towerModel.CurrentTowerData.Level.ToString();
-        Text_power.text = towerModel.CurrentTowerData.Power.ToString();
+        if (towerdb.Equals(default(TowerData)))
+            return;
+        
+        Text_name.text = towerdb.name;
+        Text_level.text = towerdb.Level.ToString();
+        Text_power.text = towerdb.Power.ToString();
     }
 
     private void OnClickUpgrade()
     {
-        towerModel.UpgradeTower();
-        SetData();
+        TowerData upGrageTowerDB = towerBuilder.UpdateTower();
+        SetData(upGrageTowerDB);
     }
 }

@@ -1,11 +1,8 @@
 using System;
 using UnityEngine;
 
-public class TowerObject : MonoBehaviour, ILayerInteraction
+public class TowerObject : MonoBehaviour
 {
-    private TowerData currentTowerData;
-    public TowerData CurrentTowerData => currentTowerData;
-    private TowerData NextTowerData;
     [SerializeField] private Transform TowerBase;
     [SerializeField] private Transform[] shootPosition;
     [SerializeField] private Animator animator;
@@ -14,6 +11,7 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
     private Transform targetPos;
     private GameObject boundsObject = null;
     private UITowerState uITowerState = null;
+    private float power;
 
     private bool isinit = false;
 
@@ -25,14 +23,11 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
         }
     }
 
-    public void SetTowerLevel(int level = 0)
+    public void SetTowerData(TowerData towerdata)
     {
-        currentTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,(level - 1).ToString());
-        NextTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,level.ToString());
-        
-        InstantiateBounds();
-
-        InvokeRepeating("Shoot", 0f, currentTowerData.Speed);
+        power = towerdata.Power;
+        InstantiateBounds(towerdata.AttackArea);
+        InvokeRepeating("Shoot", 0f, towerdata.Speed);
     }
     
     private void Shoot()
@@ -56,7 +51,7 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
 
     private void OnHitAction()
     {
-        currentTarget.TakeDamage(currentTowerData.Power);
+        currentTarget.TakeDamage(power);
     }
     
     private void UpdataTarget(GameObject target)
@@ -65,31 +60,8 @@ public class TowerObject : MonoBehaviour, ILayerInteraction
         targetPos = target.transform;
     }
 
-    private void InstantiateBounds()
+    private void InstantiateBounds(int area)
     {
-        boundsDetector.SetBoundsSize(currentTowerData.AttackArea,UpdataTarget);
-    }
-
-    public void UpgradeTower()
-    {
-        if (CoinWatcher.money < NextTowerData.Price)
-            return;
-        
-        CoinWatcher.UpdateWallet(-NextTowerData.Price);
-        UpdateTower();
-    }
-
-    private void UpdateTower()
-    {
-        currentTowerData = NextTowerData;
-        NextTowerData = CsvTableManager.Instance.GetData<TowerData>(TableType.Tower,currentTowerData.Level.ToString());
-    }
-
-    public void ProcessLayerCollision()
-    {
-        if(uITowerState == null) 
-            uITowerState = UIManager.Instance.GetUI<UITowerState>() as UITowerState;
-        
-        uITowerState.SetTower(this);
+        boundsDetector.SetBoundsSize(area, UpdataTarget);
     }
 }

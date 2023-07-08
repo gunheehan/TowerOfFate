@@ -28,6 +28,7 @@ public class UIMenu : MonoBehaviour, IUIInterface
 
     public void Onplay()
     {
+        CoinWatcher.UpdateWallet(1000);
         StageManager.Instance.NextStage();
         UIManager.Instance.GetUI<UIPlayStateTracker>();
         CloseUI();

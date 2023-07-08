@@ -14,11 +14,11 @@ public class ObjectManager : Singleton<ObjectManager>
         return Obj;
     }
 
-    public GameObject GetObject(string prefabName)
+    public GameObject GetObject(string prefabName,Transform parents = null)
     {
         string path = "Assets/Prefabs/" + prefabName + ".prefab";
         GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-        GameObject Obj = Instantiate(prefab);
+        GameObject Obj = Instantiate(prefab, parents);
 
         return Obj;
     }
