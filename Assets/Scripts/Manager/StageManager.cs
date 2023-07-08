@@ -44,7 +44,7 @@ public class StageManager : Singleton<StageManager>
 
     public void NextStage()
     {
-        StageDate stagedata = CsvTableManager.Instance.GetData<StageDate>(TableType.Stage, stageLevel.ToString());
+        StageDate stagedata = CsvTableManager.Instance.GetStageData(stageLevel.ToString());
         currentData = stagedata;
         OnLoadNextStage();
         ReadyStage();

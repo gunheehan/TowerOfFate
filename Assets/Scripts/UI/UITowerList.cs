@@ -51,7 +51,7 @@ public class UITowerList : MonoBehaviour, IUIInterface
     {
         AllPushPoolItem();
         
-        List<TowerData> towerData = CsvTableManager.Instance.GetData<List<TowerData>>(TableType.Tower,null);
+        List<TowerData> towerData = CsvTableManager.Instance.GetTowerList();
 
         foreach (TowerData data in towerData)
         {
