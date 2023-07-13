@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerObject : MonoBehaviour
@@ -7,6 +8,7 @@ public class TowerObject : MonoBehaviour
     [SerializeField] private Transform[] shootPosition;
     [SerializeField] private Animator animator;
     [SerializeField] private BoundsDetector boundsDetector;
+    private List<GameObject> effectList = new List<GameObject>();
     private IMonster currentTarget = null;
     private Transform targetPos;
     private GameObject boundsObject = null;
@@ -27,25 +29,53 @@ public class TowerObject : MonoBehaviour
     {
         power = towerdata.Power;
         InstantiateBounds(towerdata.AttackArea);
+        SetEffectPrefab();
         InvokeRepeating("Shoot", 0f, towerdata.Speed);
+    }
+
+    private void SetEffectPrefab()
+    {
+        foreach (Transform ShootPos in shootPosition)
+        {
+            GameObject particle = ParticlePool.instance.GetImpactObject(particleType.muzzzle,ShootPos);
+            particle.transform.SetParent(ShootPos.transform);
+            particle.SetActive(false);
+            effectList.Add(particle);
+        }
+    }
+
+    private void SetParticleActive(bool isActive)
+    {
+        foreach (GameObject obj in effectList)
+        {
+            obj.SetActive(isActive);
+        }
     }
     
     private void Shoot()
     {
         if (currentTarget == null)
+        {
+            SetParticleActive(false);
             return;
-        if (!currentTarget.GetMonster().activeSelf)
-            return;
+        }
 
+        if (!currentTarget.GetMonster().activeSelf)
+        {
+            SetParticleActive(false);
+            return;
+        }
+        
         foreach (Transform ShootPos in shootPosition)
         {
             Bullet bullet = BulletManager.Instance.GetBullet();
 
             bullet.transform.position = ShootPos.position;
-        
+
             bullet.SetBullet(targetPos, OnHitAction);
         
             animator.Play("Shoot");
+            SetParticleActive(true);
         }
     }
 
