@@ -25,12 +25,20 @@ public class TowerObject : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (currentTarget != null)
+        {
+            Shoot();
+        }
+    }
+
     public void SetTowerData(TowerData towerdata)
     {
         power = towerdata.Power;
         InstantiateBounds(towerdata.AttackArea);
         SetEffectPrefab();
-        InvokeRepeating("Shoot", 0f, towerdata.Speed);
+        //InvokeRepeating("Shoot", 0f, towerdata.Speed);
     }
 
     private void SetEffectPrefab()
@@ -54,29 +62,29 @@ public class TowerObject : MonoBehaviour
     
     private void Shoot()
     {
-        if (currentTarget == null)
+        if (currentTarget.GetMonster().activeSelf)
         {
-            SetParticleActive(false);
-            return;
-        }
-
-        if (!currentTarget.GetMonster().activeSelf)
-        {
-            SetParticleActive(false);
-            return;
-        }
-        
-        foreach (Transform ShootPos in shootPosition)
-        {
-            Bullet bullet = BulletManager.Instance.GetBullet();
-
-            bullet.transform.position = ShootPos.position;
-
-            bullet.SetBullet(targetPos, OnHitAction);
-        
-            animator.Play("Shoot");
             SetParticleActive(true);
         }
+        else
+        {
+            SetParticleActive(false);
+            return;
+        }
+
+        OnHitAction();
+        
+        // foreach (Transform ShootPos in shootPosition)
+        // {
+        //     Bullet bullet = BulletManager.Instance.GetBullet();
+        //
+        //     bullet.transform.position = ShootPos.position;
+        //
+        //     bullet.SetBullet(targetPos, OnHitAction);
+        //
+        //     animator.Play("Shoot");
+        //     SetParticleActive(true);
+        // }
     }
 
     private void OnHitAction()
