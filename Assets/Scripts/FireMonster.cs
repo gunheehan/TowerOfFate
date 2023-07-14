@@ -1,16 +1,24 @@
+using System;
 using UnityEngine;
 
 public class FireMonster : MonoBehaviour, IMonster
 {
     public int currentMoveIndex { get; set; }
     public Monsterproperty monsterproperty { get; set; }
-    private float HP = 50f;
+    [SerializeField] private UIHpbar uihpbar;
+    private float HP = 100f;
 
     private bool isinit = false;
+
+    private void OnEnable()
+    {
+        uihpbar.SetHpbar(HP);
+    }
 
     private void OnDisable()
     {
         isinit = false;
+        HP = 100;
     }
 
     private void Update()
@@ -45,6 +53,7 @@ public class FireMonster : MonoBehaviour, IMonster
     {
         //데미지 부분
         HP -= damage;
+        uihpbar.UpdateHP(HP);
         if (HP <= 0)
         {
             TargetManager.Instance.PushTargetDictionary(MonsterPropertyType.Fire, this.gameObject);
