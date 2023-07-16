@@ -12,6 +12,9 @@ public class FireMonster : MonoBehaviour, IMonster
 
     private void OnEnable()
     {
+        if (uihpbar == null)
+            uihpbar = UIManager.Instance.GetUI<UIHpbar>() as UIHpbar;
+        uihpbar.SetMonsterTransform(transform);
         uihpbar.SetHpbar(HP);
     }
 

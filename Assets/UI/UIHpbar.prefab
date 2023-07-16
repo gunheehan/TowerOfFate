@@ -307,7 +307,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 2757358204315669313}
   m_HandleRect: {fileID: 0}
@@ -348,7 +348,7 @@ RectTransform:
   m_GameObject: {fileID: 8985282026548950477}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5274220641170051759}
@@ -359,7 +359,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &4526599646176982255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75886441edaaa4e25b78fac5cef61981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpslider: {fileID: 0}
+  hpslider: {fileID: 2546351426552794625}
 --- !u!223 &4744187271250168883
 Canvas:
   m_ObjectHideFlags: 0
@@ -382,7 +382,7 @@ Canvas:
   m_GameObject: {fileID: 8985282026548950477}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 2
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -416,7 +416,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6835473821245546117
 MonoBehaviour:
   m_ObjectHideFlags: 0
