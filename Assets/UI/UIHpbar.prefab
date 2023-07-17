@@ -373,6 +373,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpslider: {fileID: 2546351426552794625}
+  rectCanvas: {fileID: 5861387523600484201}
+  rectHp: {fileID: 5274220641170051759}
+  offset: {x: 0, y: 1, z: 0}
 --- !u!223 &4744187271250168883
 Canvas:
   m_ObjectHideFlags: 0
