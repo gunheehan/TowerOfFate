@@ -12,16 +12,17 @@ public class FireMonster : MonoBehaviour, IMonster
 
     private void OnEnable()
     {
-        if (uihpbar == null)
-            uihpbar = UIManager.Instance.GetUI<UIHpbar>() as UIHpbar;
+        uihpbar = UIManager.Instance.GetMultiUI<UIHpbar>() as UIHpbar;
         uihpbar.SetMonsterTransform(transform);
         uihpbar.SetHpbar(HP);
+        uihpbar.gameObject.SetActive(true);
     }
 
     private void OnDisable()
     {
         isinit = false;
         HP = 100;
+        UIManager.Instance.PushMultiUI<UIHpbar>(uihpbar);
     }
 
     private void Update()

@@ -25,7 +25,16 @@ public class UIHpbar : MonoBehaviour, IUIInterface
             UpdateHpBarPos();
         }
     }
+    
+    public void OpenUI()
+    {
+        gameObject.SetActive(true);
+    }
 
+    public void CloseUI()
+    {
+        gameObject.SetActive(false);
+    }
     private void UpdateHpBarPos()
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(monsterPos.position + offset);
