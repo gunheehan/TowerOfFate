@@ -11,10 +11,18 @@ public enum TowerType
     Freeze
 }
 
+public enum AttackType
+{
+    Hit,
+    Slow,
+    Fire
+}
+
 public struct TowerData
 {
     public string name;
     public TowerType TowerType;
+    public AttackType AttackType;
     public int Level;
     public float Power;
     public float Speed;
@@ -69,7 +77,8 @@ public class TowerInfoTable : ICsvDataInterface
                         Power = float.Parse(_data[3]),
                         Speed = float.Parse(_data[4]),
                         AttackArea = int.Parse(_data[5]),
-                        Price = int.Parse(_data[6])
+                        Price = int.Parse(_data[6]),
+                        AttackType = (AttackType)int.Parse(_data[7])
                     });
                 }
             }
