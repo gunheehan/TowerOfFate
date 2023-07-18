@@ -1,5 +1,5 @@
 public interface ICsvDataInterface
 {
     public void LoadData();
-    public T GetData<T>(string key);
+    public T GetData<T>(string key, string dickey = null);
 }

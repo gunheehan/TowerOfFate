@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum TowerType
 {
-    Normal
+    Normal,
+    Freeze
 }
 
 public struct TowerData
@@ -22,6 +24,7 @@ public struct TowerData
 public class TowerInfoTable : ICsvDataInterface
 {
     private List<TowerData> towerDataList = new List<TowerData>();
+    private Dictionary<TowerType, List<TowerData>> towerDic = new FlexibleDictionary<TowerType, List<TowerData>>();
 
     public void LoadData()
     {
@@ -37,7 +40,7 @@ public class TowerInfoTable : ICsvDataInterface
             DataParsing(csvData);
         }
     }
-    
+
     private void DataParsing(string data)
     {
         string[] downloadData_split = data.Split("\r\n");
@@ -50,7 +53,14 @@ public class TowerInfoTable : ICsvDataInterface
 
                 if (!string.IsNullOrEmpty(_data[0]))
                 {
-                    towerDataList.Add(new TowerData()
+                    List<TowerData> towerList;
+                    if (!towerDic.TryGetValue((TowerType)int.Parse(_data[1]), out towerList))
+                    {
+                        towerList = new List<TowerData>();
+                        towerDic.Add((TowerType)int.Parse(_data[1]), towerList);
+                    }
+                    
+                    towerList.Add(new TowerData()
                     {
                         name = _data[0],
                         TowerType = (TowerType)int.Parse(_data[1]),
@@ -69,7 +79,7 @@ public class TowerInfoTable : ICsvDataInterface
         }
     }
 
-    public T GetData<T>(string key)
+    public T GetData<T>(string key, string dickey = null)
     {
         if (string.IsNullOrEmpty(key))
         {

@@ -13,7 +13,7 @@ public struct StageDate
     public int MonsterAmount;
 }
 
-public class StageInfoTable : ICsvDataInterface
+public class StageInfoTable :  ICsvDataInterface
 {
     private List<StageDate> stageDataList = new List<StageDate>();
 
@@ -62,7 +62,7 @@ public class StageInfoTable : ICsvDataInterface
         }
     }
     
-    public T GetData<T>(string key)
+    public T GetData<T>(string key, string dickey = null)
     {
         if (int.TryParse(key, out int index))
         {
