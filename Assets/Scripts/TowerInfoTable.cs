@@ -25,7 +25,7 @@ public struct TowerData
     public AttackType AttackType;
     public int Level;
     public float Power;
-    public float Speed;
+    public float DaleySpeed;
     public int AttackArea;
     public int Price;
 }
@@ -75,7 +75,7 @@ public class TowerInfoTable : ICsvDataInterface
                         TowerType = (TowerType)int.Parse(_data[1]),
                         Level = int.Parse(_data[2]),
                         Power = float.Parse(_data[3]),
-                        Speed = float.Parse(_data[4]),
+                        DaleySpeed = float.Parse(_data[4]),
                         AttackArea = int.Parse(_data[5]),
                         Price = int.Parse(_data[6]),
                         AttackType = (AttackType)int.Parse(_data[7])

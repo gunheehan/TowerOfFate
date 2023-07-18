@@ -15,6 +15,7 @@ public class TowerObject : MonoBehaviour
     private UITowerState uITowerState = null;
     private float power;
 
+    private bool isDelayShoot = false;
     private bool isinit = false;
 
     private void Update()
@@ -27,7 +28,7 @@ public class TowerObject : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (currentTarget != null)
+        if (currentTarget != null && !isDelayShoot)
         {
             Shoot();
         }
@@ -35,10 +36,15 @@ public class TowerObject : MonoBehaviour
 
     public void SetTowerData(TowerData towerdata)
     {
+        isDelayShoot = false;
         power = towerdata.Power;
         InstantiateBounds(towerdata.AttackArea);
         SetEffectPrefab();
-        //InvokeRepeating("Shoot", 0f, towerdata.Speed);
+        if (towerdata.DaleySpeed > 0)
+        {
+            InvokeRepeating("Shoot", 0f, towerdata.DaleySpeed);
+            isDelayShoot = true;
+        }
     }
 
     private void SetEffectPrefab()
@@ -62,29 +68,27 @@ public class TowerObject : MonoBehaviour
     
     private void Shoot()
     {
-        if (currentTarget.GetMonster().activeSelf)
+        if (!currentTarget.GetMonster().activeSelf)
         {
-            SetParticleActive(true);
+            return;
+        }
+        if (!isDelayShoot)
+        {
+            OnHitAction();
         }
         else
         {
-            SetParticleActive(false);
-            return;
+            foreach (Transform ShootPos in shootPosition)
+            {
+                Bullet bullet = BulletManager.Instance.GetBullet();
+            
+                bullet.transform.position = ShootPos.position;
+            
+                bullet.SetBullet(targetPos, OnHitAction);
+            
+                animator.Play("Shoot");
+            }
         }
-
-        OnHitAction();
-        
-        // foreach (Transform ShootPos in shootPosition)
-        // {
-        //     Bullet bullet = BulletManager.Instance.GetBullet();
-        //
-        //     bullet.transform.position = ShootPos.position;
-        //
-        //     bullet.SetBullet(targetPos, OnHitAction);
-        //
-        //     animator.Play("Shoot");
-        //     SetParticleActive(true);
-        // }
     }
 
     private void OnHitAction()
@@ -96,10 +100,17 @@ public class TowerObject : MonoBehaviour
     {
         target.TryGetComponent<IMonster>(out currentTarget);
         targetPos = target.transform;
+        if(!isDelayShoot)
+            SetParticleActive(true);
+    }
+
+    private void OnLostTarget()
+    {
+        SetParticleActive(false);
     }
 
     private void InstantiateBounds(int area)
     {
-        boundsDetector.SetBoundsSize(area, UpdataTarget);
+        boundsDetector.SetBoundsSize(area, UpdataTarget, OnLostTarget);
     }
 }

@@ -9,6 +9,7 @@ public class BoundsDetector : MonoBehaviour
     
     private GameObject targetMonster = null;
     private Action<GameObject> targetUpdate;
+    private Action lostTarget;
     private bool isInit = false;
     private List<GameObject> targetList;
 
@@ -33,13 +34,14 @@ public class BoundsDetector : MonoBehaviour
         TargetUpdate();
     }
 
-    public void SetBoundsSize(float radius, Action<GameObject> updateTarget)
+    public void SetBoundsSize(float radius, Action<GameObject> updateTarget, Action onLostTarget)
     {
         detectionBounds.size = new Vector3(radius, radius, radius);
         detectionBounds.center = Vector3.zero;
 
         Obj_Area.transform.localScale = detectionBounds.size;
         targetUpdate = updateTarget;
+        lostTarget = onLostTarget;
         isInit = true;
     }
     private void TargetUpdate()
@@ -62,6 +64,7 @@ public class BoundsDetector : MonoBehaviour
         if (!detectionBounds.Contains(targetMonster.transform.position))
         {
             targetMonster = null;
+            lostTarget?.Invoke();
         }
     }
 }
