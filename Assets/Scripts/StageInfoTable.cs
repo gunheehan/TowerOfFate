@@ -62,7 +62,7 @@ public class StageInfoTable :  ICsvDataInterface
         }
     }
     
-    public T GetData<T>(string key, string dickey = null)
+    public T GetData<T>(string key, int? dickey = null)
     {
         if (int.TryParse(key, out int index))
         {

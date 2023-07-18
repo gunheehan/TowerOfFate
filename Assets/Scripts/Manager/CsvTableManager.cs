@@ -24,9 +24,9 @@ public class CsvTableManager
         TowerInfoTable.LoadData();
     }
 
-    public TowerData GetTowerData(string key)
+    public TowerData GetTowerData(string key, int? dickey)
     {
-        return TowerInfoTable.GetData<TowerData>(key);
+        return TowerInfoTable.GetData<TowerData>(key, dickey);
     }
 
     public List<TowerData> GetTowerList()

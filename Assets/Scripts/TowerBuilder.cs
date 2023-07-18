@@ -43,7 +43,7 @@ public class TowerBuilder : MonoBehaviour, ILayerInteraction
         
         InstantiateTower(nextTowerDB);
         currentTowerDB = nextTowerDB;
-        nextTowerDB = CsvTableManager.Instance.GetTowerData(currentTowerDB.Level.ToString());
+        nextTowerDB = CsvTableManager.Instance.GetTowerData(currentTowerDB.name,(int)currentTowerDB.TowerType);
         if (nextTowerDB.Equals(default(TowerData)))
             isMaxLv = true;
 

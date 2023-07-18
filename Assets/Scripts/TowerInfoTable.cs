@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -79,23 +80,25 @@ public class TowerInfoTable : ICsvDataInterface
         }
     }
 
-    public T GetData<T>(string key, string dickey = null)
+    public T GetData<T>(string key, int? dickey = null)
     {
-        if (string.IsNullOrEmpty(key))
+        if (typeof(T) == typeof(List<TowerData>))
         {
-            return (T)Convert.ChangeType(towerDataList, typeof(T));
+            T returnData = (T)(object)Convert.ChangeType(towerDic.Values.SelectMany(x=>x).ToList(), typeof(T));
+            return returnData;
         }
-        
-        if (int.TryParse(key, out int index))
+        if (dickey == null)
         {
-            if (index >= 0 && index < towerDataList.Count)
-            {
-                return (T)Convert.ChangeType(towerDataList[index], typeof(T));
-            }
-            else
-            {
-                Debug.LogWarning("Index out of range.");
-            }
+            return default(T);
+        }
+
+        List<TowerData> towerList;
+        if (towerDic.TryGetValue((TowerType)dickey,out towerList))
+        {
+            TowerData towerdata = towerList.Find(o => o.name.Equals(key));
+            
+            if(!towerdata.Equals(default(TowerData)))
+                return (T)Convert.ChangeType(towerdata, typeof(T));
         }
         else
         {
