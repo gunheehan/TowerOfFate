@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class FireMonster : MonoBehaviour, IMonster
@@ -40,7 +41,11 @@ public class FireMonster : MonoBehaviour, IMonster
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             transform.rotation = Quaternion.LookRotation(moveDirection);
 
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, monsterproperty.speed * Time.deltaTime);
+            float moveSpeed = monsterproperty.speed;
+            if (isSlowMove)
+                moveSpeed *= .5f;
+
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
             if (transform.position == targetPosition)
             {
@@ -53,10 +58,52 @@ public class FireMonster : MonoBehaviour, IMonster
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, AttackType type)
     {
-        //데미지 부분
         HP -= damage;
+        UpdateMonsterState();
+
+        switch (type)
+        {
+            case AttackType.Slow:
+                DebufferMove();
+                break;
+            case AttackType.Fire:
+                invokeDamage = damage;
+                ContinueDamaged(damage);
+                break;
+        }
+    }
+
+    private bool isSlowMove = false;
+    private void DebufferMove()
+    {
+        StopCoroutine(CourutineMoveSlow());
+        StartCoroutine(CourutineMoveSlow());
+    }
+
+    private IEnumerator CourutineMoveSlow()
+    {
+        isSlowMove = true;
+        yield return new WaitForSeconds(2f);
+        isSlowMove = false;
+    }
+
+    private float invokeDamage;
+    private void ContinueDamaged(float damage)
+    {
+        CancelInvoke("DamageCourutine");
+        InvokeRepeating("DamageCourutine", 1f, 5f);
+    }
+
+    private void DamageCourutine()
+    {
+        HP -= invokeDamage;
+        UpdateMonsterState();
+    }
+
+    private void UpdateMonsterState()
+    {
         uihpbar.UpdateHP(HP);
         if (HP <= 0)
         {

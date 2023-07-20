@@ -14,6 +14,7 @@ public class TowerObject : MonoBehaviour
     private GameObject boundsObject = null;
     private UITowerState uITowerState = null;
     private float power;
+    private AttackType attackType;
 
     private bool isDelayShoot = false;
     private bool isinit = false;
@@ -38,6 +39,7 @@ public class TowerObject : MonoBehaviour
     {
         isDelayShoot = false;
         power = towerdata.Power;
+        attackType = towerdata.AttackType;
         InstantiateBounds(towerdata.AttackArea);
         SetEffectPrefab();
         if (towerdata.DaleySpeed > 0)
@@ -93,7 +95,7 @@ public class TowerObject : MonoBehaviour
 
     private void OnHitAction()
     {
-        currentTarget.TakeDamage(power);
+        currentTarget.TakeDamage(power, attackType);
     }
     
     private void UpdataTarget(GameObject target)
