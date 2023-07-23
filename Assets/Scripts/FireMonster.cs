@@ -8,8 +8,10 @@ public class FireMonster : MonoBehaviour, IMonster
     public Monsterproperty monsterproperty { get; set; }
     [SerializeField] private UIHpbar uihpbar;
     private float HP = 100f;
+    private float moveSpeed;
 
     private bool isinit = false;
+    private bool isMoveDebuff = false;
 
     private void OnEnable()
     {
@@ -41,10 +43,6 @@ public class FireMonster : MonoBehaviour, IMonster
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             transform.rotation = Quaternion.LookRotation(moveDirection);
 
-            float moveSpeed = monsterproperty.speed;
-            if (isSlowMove)
-                moveSpeed *= .5f;
-
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
             if (transform.position == targetPosition)
@@ -74,19 +72,31 @@ public class FireMonster : MonoBehaviour, IMonster
                 break;
         }
     }
-
-    private bool isSlowMove = false;
+    
     private void DebufferMove()
     {
-        StopCoroutine(CourutineMoveSlow());
+        if (isMoveDebuff)
+            return;
+        SetMoveSpeed(true);
         StartCoroutine(CourutineMoveSlow());
     }
 
     private IEnumerator CourutineMoveSlow()
     {
-        isSlowMove = true;
         yield return new WaitForSeconds(2f);
-        isSlowMove = false;
+        SetMoveSpeed(false);
+    }
+
+    private void SetMoveSpeed(bool isSlow)
+    {
+        if (isSlow)
+            moveSpeed *= .5f;
+        else
+            moveSpeed = monsterproperty.speed;
+
+        isMoveDebuff = isSlow;
+        
+        Debug.Log("MoveSet : " + moveSpeed);
     }
 
     private float invokeDamage;
@@ -122,6 +132,7 @@ public class FireMonster : MonoBehaviour, IMonster
         };
         gameObject.SetActive(true);
         transform.position = monsterproperty.roadPoint[0];
+        moveSpeed = monsterproperty.speed;
         TargetManager.Instance.EnQueueTarget(this.gameObject);
 
         isinit = true;
