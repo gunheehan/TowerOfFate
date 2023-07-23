@@ -70,7 +70,7 @@ public class TowerObject : MonoBehaviour
     
     private void Shoot()
     {
-        if (!currentTarget.GetMonster().activeSelf)
+        if (currentTarget == null || !currentTarget.GetMonster().activeSelf)
         {
             return;
         }
