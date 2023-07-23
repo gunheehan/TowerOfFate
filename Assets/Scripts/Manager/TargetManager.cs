@@ -1,11 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MonsterPropertyType
-{
-    None,
-    Fire
-}
 public class TargetManager : Singleton<TargetManager>
 {
     //private Queue<IMonster> monsterQueue = new Queue<IMonster>();
@@ -60,11 +55,11 @@ public class TargetManager : Singleton<TargetManager>
         FireMonster FireMonster;
         switch (monsterType)
         {
-            case MonsterPropertyType.None:
+            case MonsterPropertyType.Fire:
                 FireMonster = ObjectManager.Instance.GetObject<FireMonster>().GetComponent<FireMonster>();
                 FireMonster.SetMonsterProperty(1f);
                 break;
-            case MonsterPropertyType.Fire:
+            case MonsterPropertyType.Zombie:
                 FireMonster = ObjectManager.Instance.GetObject<FireMonster>().GetComponent<FireMonster>();
                 FireMonster.SetMonsterProperty(1f);
                 break;

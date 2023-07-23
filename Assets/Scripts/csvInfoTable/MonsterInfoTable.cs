@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MonsterPropertyType
+{
+    Fire,
+    Zombie
+}
+
 public struct MonsterData
 {
     

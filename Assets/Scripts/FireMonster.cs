@@ -117,7 +117,7 @@ public class FireMonster : MonoBehaviour, IMonster
         uihpbar.UpdateHP(HP);
         if (HP <= 0)
         {
-            TargetManager.Instance.PushTargetDictionary(MonsterPropertyType.Fire, this.gameObject);
+            TargetManager.Instance.PushTargetDictionary(MonsterPropertyType.Zombie, this.gameObject);
             gameObject.SetActive(false);
             CoinWatcher.UpdateWallet(200);
         }
