@@ -52,18 +52,21 @@ public class TargetManager : Singleton<TargetManager>
 
     public void InstantiateTarget(MonsterPropertyType monsterType)
     {
-        FireMonster FireMonster;
+가        MonsterData monsterDB = new MonsterData();
+        IMonster Imonster;
         switch (monsterType)
         {
             case MonsterPropertyType.Fire:
-                FireMonster = ObjectManager.Instance.GetObject<FireMonster>().GetComponent<FireMonster>();
-                FireMonster.SetMonsterProperty(1f);
+                monsterDB = CsvTableManager.Instance.GetMonsterDB(MonsterPropertyType.Fire);
+                
                 break;
             case MonsterPropertyType.Zombie:
-                FireMonster = ObjectManager.Instance.GetObject<FireMonster>().GetComponent<FireMonster>();
-                FireMonster.SetMonsterProperty(1f);
+                monsterDB = CsvTableManager.Instance.GetMonsterDB(MonsterPropertyType.Zombie);
                 break;
         }
+        GameObject Monster = ObjectManager.Instance.GetObject(monsterDB.prefabName);
+        Monster.TryGetComponent<IMonster>(out Imonster);
+        Imonster.SetMonsterProperty(monsterDB.speed);
     }
 
     private int invokeCount;
