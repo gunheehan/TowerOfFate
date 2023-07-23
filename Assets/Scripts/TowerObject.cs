@@ -28,7 +28,7 @@ public class TowerObject : MonoBehaviour
     public void SetTowerData(TowerData towerdata)
     {
         towerShootController = gameObject.AddComponent<TowerShootController>();
-        towerShootController.SetShootData(towerdata.Power,towerdata.AttackType,towerdata.DaleySpeed,shootPosition);
+        towerShootController.SetShootData(towerdata.Power,towerdata.AttackType,towerdata.DelaySpeed,shootPosition);
         InstantiateBounds(towerdata.AttackArea);
     }
 

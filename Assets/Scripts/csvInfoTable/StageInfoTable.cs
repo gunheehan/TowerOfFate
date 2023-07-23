@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public struct StageDate
+public struct StageData
 {
     public int Level;
     public int FloorLevel;
@@ -15,7 +15,7 @@ public struct StageDate
 
 public class StageInfoTable :  ICsvDataInterface
 {
-    private List<StageDate> stageDataList = new List<StageDate>();
+    private List<StageData> stageDataList = new List<StageData>();
 
     public void LoadData()
     {
@@ -44,7 +44,7 @@ public class StageInfoTable :  ICsvDataInterface
 
                 if (!string.IsNullOrEmpty(_data[0]))
                 {
-                    stageDataList.Add(new StageDate()
+                    stageDataList.Add(new StageData()
                     {
                         Level = int.Parse(_data[0]),
                         FloorLevel = int.Parse(_data[1]),

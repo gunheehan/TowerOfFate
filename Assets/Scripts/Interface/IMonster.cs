@@ -12,7 +12,6 @@ public interface IMonster
     int currentMoveIndex { get; set; }
     Monsterproperty monsterproperty { get; set; }
 
-    void Move();
     void TakeDamage(float damage, AttackType type);
     void SetMonsterProperty(float speed);
     GameObject GetMonster();

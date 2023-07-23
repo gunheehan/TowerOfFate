@@ -34,8 +34,8 @@ public class CsvTableManager
         return TowerInfoTable.GetData<List<TowerData>>(null);
     }
 
-    public StageDate GetStageData(string key)
+    public StageData GetStageData(string key)
     {
-        return StageInfoTable.GetData<StageDate>(key);
+        return StageInfoTable.GetData<StageData>(key);
     }
 }

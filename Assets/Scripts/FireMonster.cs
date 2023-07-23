@@ -34,7 +34,7 @@ public class FireMonster : MonoBehaviour, IMonster
             Move();
     }
 
-    public void Move()
+    private void Move()
     {
         if (currentMoveIndex < monsterproperty.roadPoint.Count)
         {

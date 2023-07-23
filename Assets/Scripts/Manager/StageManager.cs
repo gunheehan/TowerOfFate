@@ -30,7 +30,7 @@ public class StageManager : Singleton<StageManager>
 
     public int stageLevel { get; private set; }
     public int floorSize { get; private set; }
-    private StageDate currentData;
+    private StageData currentData;
     private CameraController cameraController;
     private PlayType currentPlayType = PlayType.Ready;
     public PlayType CurrentPlayType => currentPlayType;
@@ -44,7 +44,7 @@ public class StageManager : Singleton<StageManager>
 
     public void NextStage()
     {
-        StageDate stagedata = CsvTableManager.Instance.GetStageData(stageLevel.ToString());
+        StageData stagedata = CsvTableManager.Instance.GetStageData(stageLevel.ToString());
         currentData = stagedata;
         OnLoadNextStage();
         ReadyStage();
