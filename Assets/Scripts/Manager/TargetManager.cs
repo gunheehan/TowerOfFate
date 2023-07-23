@@ -52,7 +52,7 @@ public class TargetManager : Singleton<TargetManager>
 
     public void InstantiateTarget(MonsterPropertyType monsterType)
     {
-가        MonsterData monsterDB = new MonsterData();
+        MonsterData monsterDB = new MonsterData();
         IMonster Imonster;
         switch (monsterType)
         {
