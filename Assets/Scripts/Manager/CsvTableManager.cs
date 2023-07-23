@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class CsvTableManager
@@ -17,11 +18,13 @@ public class CsvTableManager
     
     private StageInfoTable StageInfoTable = new StageInfoTable();
     private TowerInfoTable TowerInfoTable = new TowerInfoTable();
+    private MonsterInfoTable MonsterInfoTable = new MonsterInfoTable();
 
     public void LoadData()
     {
         StageInfoTable.LoadData();
         TowerInfoTable.LoadData();
+        MonsterInfoTable.LoadData();
     }
 
     public TowerData GetTowerData(string key, int? dickey)
@@ -37,5 +40,11 @@ public class CsvTableManager
     public StageData GetStageData(string key)
     {
         return StageInfoTable.GetData<StageData>(key);
+    }
+
+    public MonsterData GetMonsterDB(MonsterPropertyType monsterType)
+    {
+        string key = Enum.GetName(typeof(MonsterPropertyType),monsterType);
+        return MonsterInfoTable.GetData<MonsterData>(key);
     }
 }
