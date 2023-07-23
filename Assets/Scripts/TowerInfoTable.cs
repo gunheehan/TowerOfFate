@@ -15,7 +15,8 @@ public enum AttackType
 {
     Hit,
     Slow,
-    Fire
+    Fire,
+    None=99
 }
 
 public struct TowerData
