@@ -89,8 +89,8 @@ public class TargetManager : Singleton<TargetManager>
 
     private int invokeCount;
     private int totalTargetCount;
-    private MonsterPropertyType currentType;
-    public void SetStageTarget(MonsterPropertyType monsterType, int monsterAmount)
+    private MonsterPropertyType[] currentType;
+    public void SetStageTarget(MonsterPropertyType[] monsterType, int monsterAmount)
     {
         invokeCount = 0;
         totalTargetCount = monsterAmount;
@@ -103,7 +103,9 @@ public class TargetManager : Singleton<TargetManager>
         // Invoke 실행할 동작
 
         invokeCount++;
-        InstantiateTarget(currentType);
+        int randomIndex = Random.Range(0, currentType.Length); // 0 or 1
+        Debug.Log("Random Index : " + randomIndex);
+        InstantiateTarget((MonsterPropertyType)randomIndex);
         if (invokeCount >= totalTargetCount)
         {
             CancelInvoke("InvokeAction");

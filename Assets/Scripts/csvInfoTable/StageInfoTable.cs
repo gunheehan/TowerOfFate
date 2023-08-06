@@ -9,7 +9,7 @@ public struct StageData
     public int FloorLevel;
     public float PlayTime;
     public float ReLoadTime;
-    public MonsterPropertyType MonsterType;
+    public MonsterPropertyType[] MonsterType;
     public int MonsterAmount;
 }
 
@@ -50,7 +50,7 @@ public class StageInfoTable :  ICsvDataInterface
                         FloorLevel = int.Parse(_data[1]),
                         PlayTime = float.Parse(_data[2]),
                         ReLoadTime = float.Parse(_data[3]),
-                        MonsterType = (MonsterPropertyType)int.Parse(_data[4]),
+                        MonsterType = ConvertStringToMonsterProperties(_data[4]),
                         MonsterAmount = int.Parse(_data[5])
                     });
                 }
@@ -81,5 +81,25 @@ public class StageInfoTable :  ICsvDataInterface
         }
 
         return default(T);
+    }
+
+    private MonsterPropertyType[] ConvertStringToMonsterProperties(string Dbstring)
+    {
+        string[] propertyStrings = Dbstring.Split('|');
+        MonsterPropertyType[] monsterProperties = new MonsterPropertyType[propertyStrings.Length];
+
+        for (int i = 0; i < propertyStrings.Length; i++)
+        {
+            if (Enum.TryParse(propertyStrings[i], out MonsterPropertyType propertyType))
+            {
+                monsterProperties[i] = propertyType;
+            }
+            else
+            {
+                monsterProperties[i] = MonsterPropertyType.Fire;
+            }
+        }
+
+        return monsterProperties;
     }
 }
