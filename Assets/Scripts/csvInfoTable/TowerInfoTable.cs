@@ -105,7 +105,7 @@ public class TowerInfoTable : ICsvDataInterface
         List<TowerData> towerList;
         if (towerDic.TryGetValue((TowerType)dickey,out towerList))
         {
-            TowerData towerdata = towerList.Find(o => o.name.Equals(key));
+            TowerData towerdata = towerList.Find(o => o.Level == int.Parse(key));
             
             if(!towerdata.Equals(default(TowerData)))
                 return (T)Convert.ChangeType(towerdata, typeof(T));
