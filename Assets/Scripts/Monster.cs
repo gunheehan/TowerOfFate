@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class FireMonster : MonoBehaviour, IMonster
+public class Monster : MonoBehaviour, IMonster
 {
     public int currentMoveIndex { get; set; }
-    public Monsterproperty monsterproperty { get; set; }
+    public List<Vector3> roadPoint { get; set; }
+    public MonsterData monsterproperty { get; set; }
     [SerializeField] private UIHpbar uihpbar;
     private float HP = 100f;
     private float moveSpeed;
@@ -36,9 +38,9 @@ public class FireMonster : MonoBehaviour, IMonster
 
     private void Move()
     {
-        if (currentMoveIndex < monsterproperty.roadPoint.Count)
+        if (currentMoveIndex < roadPoint.Count)
         {
-            Vector3 targetPosition = monsterproperty.roadPoint[currentMoveIndex];
+            Vector3 targetPosition = roadPoint[currentMoveIndex];
 
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             transform.rotation = Quaternion.LookRotation(moveDirection);
@@ -117,24 +119,22 @@ public class FireMonster : MonoBehaviour, IMonster
         uihpbar.UpdateHP(HP);
         if (HP <= 0)
         {
-            TargetManager.Instance.PushTargetDictionary(MonsterPropertyType.Zombie, this.gameObject);
+            TargetManager.Instance.PushTargetDictionary(monsterproperty.monsterType, this.gameObject);
             gameObject.SetActive(false);
             CoinWatcher.UpdateWallet(200);
         }
     }
 
-    public void SetMonsterProperty(float speed)
+    public void SetMonsterData(MonsterData monsterdata)
     {
-        monsterproperty = new Monsterproperty()
-        {
-            roadPoint = StageManager.Instance.Roadtarget,
-            speed = speed
-        };
-        gameObject.SetActive(true);
-        transform.position = monsterproperty.roadPoint[0];
+        roadPoint = StageManager.Instance.Roadtarget;
+        transform.position = roadPoint[0];
+        monsterproperty = monsterdata;
         moveSpeed = monsterproperty.speed;
-        TargetManager.Instance.EnQueueTarget(this.gameObject);
+        HP = monsterproperty.hp;
+        //TargetManager.Instance.EnQueueTarget(this.gameObject);
 
+        gameObject.SetActive(true);
         isinit = true;
     }
 
