@@ -5,8 +5,8 @@ public class TargetManager : Singleton<TargetManager>
 {
     //private Queue<IMonster> monsterQueue = new Queue<IMonster>();
 
-    private Dictionary<MonsterPropertyType, List<GameObject>> MonsterPooldic =
-        new Dictionary<MonsterPropertyType, List<GameObject>>();
+    private Dictionary<MonsterPropertyType, Stack<GameObject>> MonsterPooldic =
+        new Dictionary<MonsterPropertyType, Stack<GameObject>>();
     
 
     private static List<GameObject> targetList = new List<GameObject>();
@@ -39,9 +39,9 @@ public class TargetManager : Singleton<TargetManager>
     public void PushTargetDictionary(MonsterPropertyType monsterType, GameObject monster)
     {
         if(!MonsterPooldic.ContainsKey(monsterType))
-            MonsterPooldic.Add(monsterType, new List<GameObject>());
+            MonsterPooldic.Add(monsterType, new Stack<GameObject>());
         
-        MonsterPooldic[monsterType].Add(monster);
+        MonsterPooldic[monsterType].Push(monster);
         targetList.Remove(monster);
 
         if (invokeCount >= totalTargetCount && targetList.Count <= 0)
@@ -50,23 +50,41 @@ public class TargetManager : Singleton<TargetManager>
         }
     }
 
+    private GameObject GetMonsterObject(MonsterPropertyType monsterType, string prefabName)
+    {
+        GameObject monsterObj;
+
+        if (MonsterPooldic.ContainsKey(monsterType))
+        {
+            if (MonsterPooldic[monsterType].Count > 0)
+            {
+                monsterObj = MonsterPooldic[monsterType].Pop();
+                targetList.Add(monsterObj);
+                return monsterObj;
+            }
+        }
+
+        monsterObj = ObjectManager.Instance.GetObject(prefabName);
+
+        EnQueueTarget(monsterObj);
+        return monsterObj;
+    }
+
     public void InstantiateTarget(MonsterPropertyType monsterType)
     {
-        MonsterData monsterDB = new MonsterData();
         IMonster Imonster;
-        switch (monsterType)
-        {
-            case MonsterPropertyType.Fire:
-                monsterDB = CsvTableManager.Instance.GetMonsterDB(MonsterPropertyType.Fire);
-                
-                break;
-            case MonsterPropertyType.Zombie:
-                monsterDB = CsvTableManager.Instance.GetMonsterDB(MonsterPropertyType.Zombie);
-                break;
-        }
-        GameObject Monster = ObjectManager.Instance.GetObject(monsterDB.prefabName);
-        Monster.TryGetComponent<IMonster>(out Imonster);
-        Imonster.SetMonsterProperty(monsterDB.speed);
+
+        MonsterData monsterDB;
+
+        monsterDB = CsvTableManager.Instance.GetMonsterDB(monsterType);
+
+        GameObject monsterObj = GetMonsterObject(monsterType, monsterDB.prefabName);
+        monsterObj.TryGetComponent<IMonster>(out Imonster);
+        
+        if(Imonster != null)
+            Imonster.SetMonsterData(monsterDB);
+        else
+            Debug.Log("Monster Type Setting Error");
     }
 
     private int invokeCount;

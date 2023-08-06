@@ -10,9 +10,10 @@ public struct Monsterproperty
 public interface IMonster
 {
     int currentMoveIndex { get; set; }
-    Monsterproperty monsterproperty { get; set; }
+    List<Vector3> roadPoint { get; set; }
+    MonsterData monsterproperty { get; set; }
 
     void TakeDamage(float damage, AttackType type);
-    void SetMonsterProperty(float speed);
+    void SetMonsterData(MonsterData monsterdata);
     GameObject GetMonster();
 }
