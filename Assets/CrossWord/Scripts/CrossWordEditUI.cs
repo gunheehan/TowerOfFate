@@ -1,17 +1,9 @@
 using UnityEngine;
 
-public enum WordItemType
-{
-    NONE,
-    ROW,
-    COL,
-    CROSS
-}
 public class CrossWordEditUI : MonoBehaviour
 {
     [SerializeField] private CrossWordView crossWordView = null;
     [SerializeField] private EditorView editorView = null;
-    private CrossWordModel crossWordModel = null;
 
     private bool isInit = false;
     private void Start()
@@ -28,7 +20,7 @@ public class CrossWordEditUI : MonoBehaviour
     {
         if(isInit)
             return;
-        crossWordModel = new CrossWordModel();
+
         Allow();
         isInit = true;
     }
@@ -39,6 +31,7 @@ public class CrossWordEditUI : MonoBehaviour
         {
             editorView.CreateMatrixAction += crossWordView.SetGridCellSize;
             editorView.CreateMatrixAction += crossWordView.SetCellItem;
+            editorView.CreateNewQuestion += crossWordView.GetNewQuestionData;
         }
     }
 
@@ -48,6 +41,7 @@ public class CrossWordEditUI : MonoBehaviour
         {
             editorView.CreateMatrixAction -= crossWordView.SetGridCellSize;
             editorView.CreateMatrixAction -= crossWordView.SetCellItem;
+            editorView.CreateNewQuestion -= crossWordView.GetNewQuestionData;
         }
     }
 }
