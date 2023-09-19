@@ -4,7 +4,7 @@ public enum WordItemType
 {
     NONE,
     ROW,
-    LOW,
+    COL,
     CROSS
 }
 public class CrossWordEditUI : MonoBehaviour
@@ -16,7 +16,7 @@ public class CrossWordEditUI : MonoBehaviour
     private bool isInit = false;
     private void Start()
     {
-        InitMVP();
+        InitMVC();
     }
 
     private void OnDestroy()
@@ -24,7 +24,7 @@ public class CrossWordEditUI : MonoBehaviour
         DisAllow();
     }
 
-    private void InitMVP()
+    private void InitMVC()
     {
         if(isInit)
             return;
@@ -38,6 +38,7 @@ public class CrossWordEditUI : MonoBehaviour
         if (editorView != null)
         {
             editorView.CreateMatrixAction += crossWordView.SetGridCellSize;
+            editorView.CreateMatrixAction += crossWordView.SetCellItem;
         }
     }
 
@@ -46,6 +47,7 @@ public class CrossWordEditUI : MonoBehaviour
         if (editorView != null)
         {
             editorView.CreateMatrixAction -= crossWordView.SetGridCellSize;
+            editorView.CreateMatrixAction -= crossWordView.SetCellItem;
         }
     }
 }
