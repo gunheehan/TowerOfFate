@@ -41,8 +41,8 @@ public class CrossWordView : MonoBehaviour
     public void GetNewQuestionData(string answer, string explantion, bool isrow)
     {
         int wordLengh = answer.Length;
-        int startIndex = currentSeletItem.GetMatrixIndex(isrow);
-        int fixIndex = currentSeletItem.GetMatrixIndex(!isrow);
+        int startIndex = currentSeletItem.GetMatrixIndex(!isrow);
+        int fixIndex = currentSeletItem.GetMatrixIndex(isrow);
         bool isCanInput = false;
         GetInputAreaWord(isrow, startIndex, startIndex + wordLengh, fixIndex);
 
