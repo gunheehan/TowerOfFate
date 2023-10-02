@@ -29,9 +29,9 @@ public class CrossWordEditUI : MonoBehaviour
     {
         if (editorView != null)
         {
-            editorView.CreateMatrixAction += crossWordView.SetGridCellSize;
-            editorView.CreateMatrixAction += crossWordView.SetCellItem;
-            editorView.CreateNewQuestion += crossWordView.GetNewQuestionData;
+            editorView.CreateMatrix += crossWordView.SetGridCellSize;
+            editorView.CreateMatrix += crossWordView.SetCellItem;
+            editorView.CreateNewQuestion += crossWordView.SetNewQuestionData;
         }
     }
 
@@ -39,9 +39,9 @@ public class CrossWordEditUI : MonoBehaviour
     {
         if (editorView != null)
         {
-            editorView.CreateMatrixAction -= crossWordView.SetGridCellSize;
-            editorView.CreateMatrixAction -= crossWordView.SetCellItem;
-            editorView.CreateNewQuestion -= crossWordView.GetNewQuestionData;
+            editorView.CreateMatrix -= crossWordView.SetGridCellSize;
+            editorView.CreateMatrix -= crossWordView.SetCellItem;
+            editorView.CreateNewQuestion -= crossWordView.SetNewQuestionData;
         }
     }
 }

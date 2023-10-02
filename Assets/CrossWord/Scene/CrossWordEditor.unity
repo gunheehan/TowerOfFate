@@ -1426,7 +1426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RootRect: {fileID: 1078799912}
-  LayoutGroup: {fileID: 1675589060}
+  gridLayoutGroup: {fileID: 1675589060}
   wordItemPrefab: {fileID: 1401831772}
   itemContentsTr: {fileID: 1675589059}
 --- !u!1 &1256817096

@@ -6,7 +6,7 @@ public class EditorView : MonoBehaviour
 {
     [SerializeField] private InputField inputField_MatrixSize = null;
     [SerializeField] private Button Btn_Matrix = null;
-    public event Action<int> CreateMatrixAction = null;
+    public event Action<int> CreateMatrix = null;
 
     [SerializeField] private InputField inputField_Answer = null;
     [SerializeField] private InputField inputField_Explanation = null;
@@ -23,7 +23,7 @@ public class EditorView : MonoBehaviour
 
     private void OnClickMatrix()
     {
-        CreateMatrixAction?.Invoke(int.Parse(inputField_MatrixSize.text));
+        CreateMatrix?.Invoke(int.Parse(inputField_MatrixSize.text));
     }
 
     private void OnClickWriteNewQuestion()

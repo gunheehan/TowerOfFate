@@ -10,9 +10,6 @@ public enum WordItemType
 
 public class CrossWordInfo
 {
-    public readonly string GROUPKEYFORMAT = $"{0}/{1}to{2}/{3}";
-    // {startrow}/{startcol}to{endrow}/{endcol}
-
     public class SingleWord
     {
         public List<string> answerKeyList = null;

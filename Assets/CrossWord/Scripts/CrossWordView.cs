@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class CrossWordView : MonoBehaviour
 {
     [SerializeField] private RectTransform RootRect = null;
-    [SerializeField] private GridLayoutGroup LayoutGroup = null;
+    [SerializeField] private GridLayoutGroup gridLayoutGroup = null;
 
     [SerializeField] private WordItem wordItemPrefab;
     [SerializeField] private Transform itemContentsTr;
@@ -25,12 +26,12 @@ public class CrossWordView : MonoBehaviour
 
     public void SetGridCellSize(int DPcount)
     {
-        LayoutGroup.constraintCount = DPcount;
+        gridLayoutGroup.constraintCount = DPcount;
 
-        int padding = ((int)LayoutGroup.spacing.x * (DPcount - 1)) + LayoutGroup.padding.left +
-                      LayoutGroup.padding.right;
+        int padding = ((int)gridLayoutGroup.spacing.x * (DPcount - 1)) + gridLayoutGroup.padding.left +
+                      gridLayoutGroup.padding.right;
         int cellsize = ((int)RootRect.rect.width - padding) / DPcount;
-        LayoutGroup.cellSize = new Vector2(cellsize, cellsize);
+        gridLayoutGroup.cellSize = new Vector2(cellsize, cellsize);
     }
 
     private WordItem GetMatrixItem(int row, int col)
@@ -38,13 +39,13 @@ public class CrossWordView : MonoBehaviour
         return itemMatrix[row, col];
     }
 
-    public void GetNewQuestionData(string answer, string explantion, bool isrow)
+    public void SetNewQuestionData(string answer, string explantion, bool isrow)
     {
         int wordLengh = answer.Length;
         int startIndex = currentSeletItem.GetMatrixIndex(!isrow);
         int fixIndex = currentSeletItem.GetMatrixIndex(isrow);
         bool isCanInput = false;
-        GetInputAreaWord(isrow, startIndex, startIndex + wordLengh, fixIndex);
+        SetInputAreaWord(isrow, startIndex, startIndex + wordLengh, fixIndex);
 
         if (isrow)
             isCanInput = wordModel.CheckNewQuestion(currentSelectItemList, answer, WordItemType.ROW);
@@ -62,7 +63,7 @@ public class CrossWordView : MonoBehaviour
         }
     }
 
-    private void GetInputAreaWord(bool isrow, int startIndex, int endIndex, int fixIndex)
+    private void SetInputAreaWord(bool isrow, int startIndex, int endIndex, int fixIndex)
     {
         currentSelectItemList.Clear();
         
