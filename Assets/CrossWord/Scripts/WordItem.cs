@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +10,7 @@ public class WordItem : MonoBehaviour
 
     private CrossWordInfo.SingleWord wordData = new CrossWordInfo.SingleWord();
     public CrossWordInfo.SingleWord WordData => wordData;
+    
     private void Start()
     {
         Btn_word.onClick.AddListener(OnClickWord);
@@ -30,11 +30,17 @@ public class WordItem : MonoBehaviour
         wordData.wordItemType = WordItemType.NONE;
     }
 
-    public void SetItemData(char word, WordItemType type)
+    public void SetItemData(char word, CrossWordInfo.GroupWord groupData)
     {
         Text_word.text = word.ToString();
         wordData.word = word;
-        ChangeWordType(type);
+
+        if (groupData.wordItemType == WordItemType.COL)
+            wordData.ColGroup = groupData;
+        else
+            wordData.RowGroup = groupData;
+        
+        ChangeWordType(groupData.wordItemType);
     }
 
     private void ChangeWordType(WordItemType type)
@@ -42,7 +48,6 @@ public class WordItem : MonoBehaviour
         if (wordData.wordItemType == WordItemType.NONE)
         {
             wordData.wordItemType = type;
-            return;
         }
         else
         {

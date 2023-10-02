@@ -1,5 +1,5 @@
-
 using System.Collections.Generic;
+
 public enum WordItemType
 {
     NONE,
@@ -12,10 +12,11 @@ public class CrossWordInfo
 {
     public class SingleWord
     {
-        public List<string> answerKeyList = null;
         public char word;
         public int rowIndex;
         public int colIndex;
+        public GroupWord RowGroup = null;
+        public GroupWord ColGroup = null;
         public WordItemType wordItemType = WordItemType.NONE;
     }
 
@@ -23,8 +24,8 @@ public class CrossWordInfo
     {
         public string answer;
         public string explanation;
-        public List<SingleWord> singleWordGroup;
         public int startRow;
         public int startCol;
+        public WordItemType wordItemType = WordItemType.NONE;
     }
 }

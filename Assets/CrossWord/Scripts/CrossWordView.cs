@@ -55,10 +55,19 @@ public class CrossWordView : MonoBehaviour
         if (isCanInput)
         {
             WordItemType type = isrow ? WordItemType.ROW : WordItemType.COL;
+
+            CrossWordInfo.GroupWord newWordGroup = new CrossWordInfo.GroupWord()
+            {
+                answer = answer,
+                explanation = explantion,
+                startCol = currentSelectItemList[0].WordData.colIndex,
+                startRow = currentSelectItemList[0].WordData.rowIndex,
+                wordItemType = type
+            };
             for (int index = 0; index < currentSelectItemList.Count; index++)
             {
                 WordItem checkItem = currentSelectItemList[index];
-                checkItem.SetItemData(answer[index], type);
+                checkItem.SetItemData(answer[index], newWordGroup);
             }
         }
     }
