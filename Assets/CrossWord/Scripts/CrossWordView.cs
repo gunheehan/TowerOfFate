@@ -42,7 +42,7 @@ public class CrossWordView : MonoBehaviour
         int startIndex = currentSeletItem.GetMatrixIndex(!isrow);
         int fixIndex = currentSeletItem.GetMatrixIndex(isrow);
         List<WordItem> currentSelectItemList = GetInputAreaWord(isrow, startIndex, startIndex + wordLengh, fixIndex);
-        wordModel.GetNewQuestionData(answer, isrow, currentSelectItemList);
+        wordModel.GetNewQuestionData(answer, explantion, isrow, currentSelectItemList);
     }
     
     private List<WordItem> GetInputAreaWord(bool isrow, int startIndex, int endIndex, int fixIndex)

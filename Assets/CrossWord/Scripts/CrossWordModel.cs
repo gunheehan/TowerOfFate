@@ -29,7 +29,7 @@ public class CrossWordModel
         }
         return true;
     }
-    public bool GetNewQuestionData(string answer, bool isrow, List<WordItem> wordItems)
+    public bool GetNewQuestionData(string answer, string explantion, bool isrow, List<WordItem> wordItems)
     {
         bool isCanInput = false;
 
@@ -41,10 +41,20 @@ public class CrossWordModel
         if (isCanInput)
         {
             WordItemType type = isrow ? WordItemType.ROW : WordItemType.COL;
+         
+            CrossWordInfo.GroupWord newWordGroup = new CrossWordInfo.GroupWord()
+            {
+                answer = answer,
+                explanation = explantion,
+                startCol = wordItems[0].WordData.colIndex,
+                startRow = wordItems[0].WordData.rowIndex,
+                wordItemType = type
+            };
+            
             for (int index = 0; index < wordItems.Count; index++)
             {
                 WordItem checkItem = wordItems[index];
-                checkItem.SetItemData(answer[index], type);
+                checkItem.SetItemData(answer[index], newWordGroup);
             }
         }
 
