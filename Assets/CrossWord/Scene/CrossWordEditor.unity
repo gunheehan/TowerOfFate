@@ -2281,7 +2281,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RootRect: {fileID: 1078799912}
   gridLayoutGroup: {fileID: 1675589060}
-  GroupInfoController: {fileID: 265710185}
   wordItemPrefab: {fileID: 1401831772}
   itemContentsTr: {fileID: 1675589059}
 --- !u!1 &1256817096
@@ -3477,6 +3476,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crossWordView: {fileID: 1078799915}
   editorView: {fileID: 1597278891}
+  GroupInfoController: {fileID: 265710185}
 --- !u!1 &1655607424
 GameObject:
   m_ObjectHideFlags: 0

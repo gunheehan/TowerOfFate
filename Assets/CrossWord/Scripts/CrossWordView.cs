@@ -1,12 +1,14 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CrossWordView : MonoBehaviour
 {
+    public Action<CrossWordInfo.GroupWord> AddQuestion = null;
+    public event Action<WordItem> SelctItem = null;
     [SerializeField] private RectTransform RootRect = null;
     [SerializeField] private GridLayoutGroup gridLayoutGroup = null;
-    [SerializeField] private GroupInfoController GroupInfoController = null;
 
     [SerializeField] private WordItem wordItemPrefab;
     [SerializeField] private Transform itemContentsTr;
@@ -43,7 +45,21 @@ public class CrossWordView : MonoBehaviour
         int startIndex = currentSeletItem.GetMatrixIndex(!isrow);
         int fixIndex = currentSeletItem.GetMatrixIndex(isrow);
         List<WordItem> currentSelectItemList = GetInputAreaWord(isrow, startIndex, startIndex + wordLengh, fixIndex);
-        wordModel.SetNewQuestion(answer, explantion, isrow, currentSelectItemList);
+        
+        WordItemType type = isrow ? WordItemType.ROW : WordItemType.COL;
+
+        CrossWordInfo.GroupWord newWordGroup = new CrossWordInfo.GroupWord()
+        {
+            answer = answer,
+            explanation = explantion,
+            startCol = currentSeletItem.WordData.colIndex,
+            startRow = currentSeletItem.WordData.rowIndex,
+            wordItemType = type
+        };
+        
+        bool isNewAdding = wordModel.SetNewQuestion(newWordGroup, currentSelectItemList);
+        if(isNewAdding)
+            AddQuestion?.Invoke(newWordGroup);
     }
     
     private List<WordItem> GetInputAreaWord(bool isrow, int startIndex, int endIndex, int fixIndex)
@@ -118,6 +134,6 @@ public class CrossWordView : MonoBehaviour
             SelectItem = null;
         
         currentSeletItem = SelectItem;
-        GroupInfoController.SetItemQuestionInfo(SelectItem);
+        SelctItem?.Invoke(SelectItem);
     }
 }

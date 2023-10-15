@@ -7,7 +7,7 @@ using UnityEngine;
 public class GroupInfoController : MonoBehaviour
 {
     [SerializeField] private List<WordGroupItem> groupItem = null;
-
+    public Action<string> DeleteActiom = null;
     private void Start()
     {
         DisAbleItem();
@@ -32,5 +32,10 @@ public class GroupInfoController : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         } 
+    }
+
+    private void OnClickDelete(string answerKey)
+    {
+        DeleteActiom?.Invoke(answerKey);
     }
 }

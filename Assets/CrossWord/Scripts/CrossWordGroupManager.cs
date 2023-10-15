@@ -5,19 +5,28 @@ public class CrossWordGroupManager
 {
     private Dictionary<string, CrossWordInfo.GroupWord> wordsQuestionDic = new Dictionary<string, CrossWordInfo.GroupWord>();
 
-    public bool AddQuestion(CrossWordInfo.GroupWord questionInfo)
+    public void AddQuestion(CrossWordInfo.GroupWord questionInfo)
     {
         if (wordsQuestionDic.ContainsKey(questionInfo.answer))
         {
             Debug.Log("Already answer");
-            return false;
+            return;
         }
         wordsQuestionDic.Add(questionInfo.answer,questionInfo);
-        return true;
     }
 
-    public bool DeleteQuestion(string answer)
+    public void DeleteQuestion(string answer)
     {
-        return wordsQuestionDic.Remove(answer);
+        wordsQuestionDic.Remove(answer);
+    }
+
+    public CrossWordInfo.GroupWord GetQuestionInfo(string answerKey)
+    {
+        if (wordsQuestionDic.ContainsKey(answerKey))
+        {
+            return wordsQuestionDic[answerKey];
+        }
+
+        return null;
     }
 }

@@ -4,7 +4,9 @@ public class CrossWordEditUI : MonoBehaviour
 {
     [SerializeField] private CrossWordView crossWordView = null;
     [SerializeField] private EditorView editorView = null;
+    [SerializeField] private GroupInfoController GroupInfoController = null;
 
+    private CrossWordGroupManager CrossWordGroupManager;
     private bool isInit = false;
     private void Start()
     {
@@ -20,7 +22,7 @@ public class CrossWordEditUI : MonoBehaviour
     {
         if(isInit)
             return;
-
+        CrossWordGroupManager = new CrossWordGroupManager();
         Allow();
         isInit = true;
     }
@@ -33,6 +35,13 @@ public class CrossWordEditUI : MonoBehaviour
             editorView.CreateMatrix += crossWordView.SetCellItem;
             editorView.CreateNewQuestion += crossWordView.SetNewQuestionData;
         }
+
+        if (crossWordView != null)
+        {
+            crossWordView.AddQuestion += CrossWordGroupManager.AddQuestion;
+            crossWordView.SelctItem += GroupInfoController.SetItemQuestionInfo;
+            GroupInfoController.DeleteActiom += CrossWordGroupManager.DeleteQuestion;
+        }
     }
 
     private void DisAllow()
@@ -42,6 +51,13 @@ public class CrossWordEditUI : MonoBehaviour
             editorView.CreateMatrix -= crossWordView.SetGridCellSize;
             editorView.CreateMatrix -= crossWordView.SetCellItem;
             editorView.CreateNewQuestion -= crossWordView.SetNewQuestionData;
+        }
+        
+        if (crossWordView != null)
+        {
+            crossWordView.AddQuestion -= CrossWordGroupManager.AddQuestion;
+            crossWordView.SelctItem -= GroupInfoController.SetItemQuestionInfo;
+            GroupInfoController.DeleteActiom -= CrossWordGroupManager.DeleteQuestion;
         }
     }
 }
