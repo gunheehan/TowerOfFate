@@ -29,7 +29,7 @@ public class CrossWordModel
         }
         return true;
     }
-    public bool GetNewQuestionData(string answer, string explantion, bool isrow, List<WordItem> wordItems)
+    public bool SetNewQuestion(string answer, string explantion, bool isrow, List<WordItem> wordItems)
     {
         bool isCanInput = false;
 

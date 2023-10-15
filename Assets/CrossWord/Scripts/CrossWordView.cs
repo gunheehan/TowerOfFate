@@ -6,6 +6,7 @@ public class CrossWordView : MonoBehaviour
 {
     [SerializeField] private RectTransform RootRect = null;
     [SerializeField] private GridLayoutGroup gridLayoutGroup = null;
+    [SerializeField] private GroupInfoController GroupInfoController = null;
 
     [SerializeField] private WordItem wordItemPrefab;
     [SerializeField] private Transform itemContentsTr;
@@ -42,7 +43,7 @@ public class CrossWordView : MonoBehaviour
         int startIndex = currentSeletItem.GetMatrixIndex(!isrow);
         int fixIndex = currentSeletItem.GetMatrixIndex(isrow);
         List<WordItem> currentSelectItemList = GetInputAreaWord(isrow, startIndex, startIndex + wordLengh, fixIndex);
-        wordModel.GetNewQuestionData(answer, explantion, isrow, currentSelectItemList);
+        wordModel.SetNewQuestion(answer, explantion, isrow, currentSelectItemList);
     }
     
     private List<WordItem> GetInputAreaWord(bool isrow, int startIndex, int endIndex, int fixIndex)
@@ -117,5 +118,6 @@ public class CrossWordView : MonoBehaviour
             SelectItem = null;
         
         currentSeletItem = SelectItem;
+        GroupInfoController.SetItemQuestionInfo(SelectItem);
     }
 }
