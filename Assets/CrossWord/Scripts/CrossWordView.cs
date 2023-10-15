@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class CrossWordView : MonoBehaviour
@@ -16,7 +14,6 @@ public class CrossWordView : MonoBehaviour
     private Stack<WordItem> itemPool;
 
     private CrossWordModel wordModel = new CrossWordModel();
-    private List<WordItem> currentSelectItemList = new List<WordItem>();
     private WordItem currentSeletItem = null;
 
     private void Start()
@@ -44,49 +41,23 @@ public class CrossWordView : MonoBehaviour
         int wordLengh = answer.Length;
         int startIndex = currentSeletItem.GetMatrixIndex(!isrow);
         int fixIndex = currentSeletItem.GetMatrixIndex(isrow);
-        bool isCanInput = false;
-        SetInputAreaWord(isrow, startIndex, startIndex + wordLengh, fixIndex);
-
-        if (isrow)
-            isCanInput = wordModel.CheckNewQuestion(currentSelectItemList, answer, WordItemType.ROW);
-        else
-            isCanInput = wordModel.CheckNewQuestion(currentSelectItemList, answer, WordItemType.COL);
-
-        if (isCanInput)
-        {
-            WordItemType type = isrow ? WordItemType.ROW : WordItemType.COL;
-
-            CrossWordInfo.GroupWord newWordGroup = new CrossWordInfo.GroupWord()
-            {
-                answer = answer,
-                explanation = explantion,
-                startCol = currentSelectItemList[0].WordData.colIndex,
-                startRow = currentSelectItemList[0].WordData.rowIndex,
-                wordItemType = type
-            };
-            for (int index = 0; index < currentSelectItemList.Count; index++)
-            {
-                WordItem checkItem = currentSelectItemList[index];
-                checkItem.SetItemData(answer[index], newWordGroup);
-            }
-        }
+        List<WordItem> currentSelectItemList = GetInputAreaWord(isrow, startIndex, startIndex + wordLengh, fixIndex);
+        wordModel.GetNewQuestionData(answer, isrow, currentSelectItemList);
     }
-
-    private void SetInputAreaWord(bool isrow, int startIndex, int endIndex, int fixIndex)
+    
+    private List<WordItem> GetInputAreaWord(bool isrow, int startIndex, int endIndex, int fixIndex)
     {
-        currentSelectItemList.Clear();
+        List<WordItem> currentSelectItemList = new List<WordItem>();
         
         for (int index = startIndex; index < endIndex; index++)
         {
             if (isrow)
-            {
                 currentSelectItemList.Add(itemMatrix[fixIndex,index]);
-            }
             else
-            {
                 currentSelectItemList.Add(itemMatrix[index,fixIndex]);
-            }
         }
+
+        return currentSelectItemList;
     }
 
     #region MatrixItemSetting
@@ -146,6 +117,5 @@ public class CrossWordView : MonoBehaviour
             SelectItem = null;
         
         currentSeletItem = SelectItem;
-        wordModel.SetWordItem(SelectItem);
     }
 }

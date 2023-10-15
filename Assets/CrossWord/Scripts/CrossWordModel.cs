@@ -1,16 +1,8 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrossWordModel : MonoBehaviour
+public class CrossWordModel
 {
-    private WordItem selsctWordItem = null;
-
-    public void SetWordItem(WordItem selectItem)
-    {
-        selsctWordItem = selectItem;
-    }
-
     public bool CheckNewQuestion(List<WordItem> inputPosWordItems, string answer, WordItemType newType)
     {
         for (int index = 0; index < inputPosWordItems.Count; index++)
@@ -36,5 +28,26 @@ public class CrossWordModel : MonoBehaviour
             }
         }
         return true;
+    }
+    public bool GetNewQuestionData(string answer, bool isrow, List<WordItem> wordItems)
+    {
+        bool isCanInput = false;
+
+        if (isrow)
+            isCanInput = CheckNewQuestion(wordItems, answer, WordItemType.ROW);
+        else
+            isCanInput = CheckNewQuestion(wordItems, answer, WordItemType.COL);
+
+        if (isCanInput)
+        {
+            WordItemType type = isrow ? WordItemType.ROW : WordItemType.COL;
+            for (int index = 0; index < wordItems.Count; index++)
+            {
+                WordItem checkItem = wordItems[index];
+                checkItem.SetItemData(answer[index], type);
+            }
+        }
+
+        return isCanInput;
     }
 }
