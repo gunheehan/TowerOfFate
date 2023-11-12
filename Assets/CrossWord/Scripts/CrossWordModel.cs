@@ -29,6 +29,18 @@ public class CrossWordModel
         }
         return true;
     }
+
+    public bool CheckAbleInputNewQuiz(string answer, List<WordItem> wordItems, WordItemType type)
+    {
+        bool isCanInput;
+
+        if (type == WordItemType.ROW)
+            isCanInput = CheckNewQuestion(wordItems, answer, WordItemType.ROW);
+        else
+            isCanInput = CheckNewQuestion(wordItems, answer, WordItemType.COL);
+
+        return isCanInput;
+    }
     public bool SetNewQuestion(CrossWordInfo.GroupWord newWordGroup, List<WordItem> wordItems)
     {
         bool isCanInput;

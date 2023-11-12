@@ -4,7 +4,17 @@ using UnityEngine;
 public class CrossWordGroupManager
 {
     private Dictionary<string, CrossWordInfo.GroupWord> wordsQuestionDic = new Dictionary<string, CrossWordInfo.GroupWord>();
+    
+    public CrossWordInfo.GroupWord GetQuestionInfo(string answerKey)
+    {
+        if (wordsQuestionDic.ContainsKey(answerKey))
+        {
+            return wordsQuestionDic[answerKey];
+        }
 
+        return null;
+    }
+    
     public void AddQuestion(CrossWordInfo.GroupWord questionInfo)
     {
         if (wordsQuestionDic.ContainsKey(questionInfo.answer))
@@ -18,15 +28,5 @@ public class CrossWordGroupManager
     public void DeleteQuestion(string answer)
     {
         wordsQuestionDic.Remove(answer);
-    }
-
-    public CrossWordInfo.GroupWord GetQuestionInfo(string answerKey)
-    {
-        if (wordsQuestionDic.ContainsKey(answerKey))
-        {
-            return wordsQuestionDic[answerKey];
-        }
-
-        return null;
     }
 }

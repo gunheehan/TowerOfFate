@@ -21,6 +21,44 @@ public class WordItem : MonoBehaviour
         OnClickWordAction?.Invoke(this);
     }
 
+    public bool IsAbleNewData(WordItemType dataType)
+    {
+        bool isAble = true;
+
+        if (dataType == wordData.wordItemType)
+            isAble = false;
+        else if (wordData.wordItemType == WordItemType.CROSS)
+            isAble = false;
+
+        return isAble;
+    }
+
+    public void DeleteData(CrossWordInfo.GroupWord itemData)
+    {
+        if (itemData.wordItemType == WordItemType.COL)
+        {
+            wordData.ColGroup = null;
+            if (itemData.wordItemType == WordItemType.CROSS)
+                itemData.wordItemType = WordItemType.ROW;
+            else
+            {
+                itemData.wordItemType = WordItemType.NONE;
+                Text_word.text = String.Empty;
+            }
+        }
+        else if (itemData.wordItemType == WordItemType.ROW)
+        {
+            wordData.RowGroup = null;
+            if (itemData.wordItemType == WordItemType.CROSS)
+                itemData.wordItemType = WordItemType.ROW;
+            else
+            {
+                itemData.wordItemType = WordItemType.NONE;
+                Text_word.text = String.Empty;
+            }
+        }
+    }
+
     public void SetItem(int row, int col)
     {
         Text_word.text = String.Empty;
