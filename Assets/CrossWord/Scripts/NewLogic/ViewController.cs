@@ -12,15 +12,14 @@ public class ViewController : MonoBehaviour
         DisAbleItem();
     }
 
-    public void SetItemView(WordItem selectItem)
+    public void SetItemView(CrossWordInfo.GroupWord[] wordData)
     {
         DisAbleItem();
-        
-        if (selectItem.WordData.ColGroup != null)
-            groupItem[0].SetItem(selectItem.WordData.ColGroup,OnClickDelete);
-        
-        if (selectItem.WordData.RowGroup != null)
-            groupItem[1].SetItem(selectItem.WordData.RowGroup,OnClickDelete);
+
+        for (int i = 0; i < wordData.Length; i++)
+        {
+            groupItem[i].SetItem(wordData[i], OnClickDelete);
+        }
     }
 
     private void DisAbleItem()

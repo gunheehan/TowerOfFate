@@ -5,13 +5,20 @@ using UnityEngine;
 public class QuizGroupManager : MonoBehaviour
 {
     public event Action<CrossWordInfo.GroupWord> InputNewQuiz = null;
-    public event Action<WordItem> ShowNewQuizData = null;
+    public event Action<CrossWordInfo.GroupWord[]> ShowNewQuizData = null;
     public event Action<CrossWordInfo.GroupWord> DeletQuizData = null;
     
     private WordItem[,] itemMatrix = null;
-    private CrossWordModel wordModel = new CrossWordModel();
+    private CrossWordModel wordModel;
     private WordItem currentSeletItem = null;
+    private List<CrossWordInfo.GroupWord> currentGroupList;
     private Dictionary<string, CrossWordInfo.GroupWord> wordsQuestionDic = new Dictionary<string, CrossWordInfo.GroupWord>();
+
+    private void Start()
+    {
+        wordModel = new CrossWordModel();
+        currentGroupList = new List<CrossWordInfo.GroupWord>();
+    }
 
     public void SetItemMatrix(WordItem[,] matrix)
     {
@@ -20,8 +27,26 @@ public class QuizGroupManager : MonoBehaviour
 
     public void SetSeletcItem(WordItem newItem)
     {
+        currentGroupList.Clear();
         currentSeletItem = newItem;
-        ShowNewQuizData?.Invoke(currentSeletItem);
+        CrossWordInfo.GroupWord newwordData;
+        if (currentSeletItem.WordData.ColGroup != null)
+        {
+            if (wordsQuestionDic.TryGetValue(currentSeletItem.WordData.ColGroup.answer, out newwordData))
+            {
+                currentGroupList.Add(newwordData);
+            }
+        }
+
+        if (currentSeletItem.WordData.RowGroup != null)
+        {
+            if (wordsQuestionDic.TryGetValue(currentSeletItem.WordData.RowGroup.answer, out newwordData))
+            {
+                currentGroupList.Add(newwordData);
+            }
+        }
+
+        ShowNewQuizData?.Invoke(currentGroupList.ToArray());
     }
 
     public void AddNewQuizData(string answer, string explantion, bool isrow)
