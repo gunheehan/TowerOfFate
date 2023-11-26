@@ -38,22 +38,22 @@ public class WordItem : MonoBehaviour
         if (itemData.wordItemType == WordItemType.COL)
         {
             wordData.ColGroup = null;
-            if (itemData.wordItemType == WordItemType.CROSS)
-                itemData.wordItemType = WordItemType.ROW;
+            if (wordData.wordItemType == WordItemType.CROSS)
+                wordData.wordItemType = WordItemType.ROW;
             else
             {
-                itemData.wordItemType = WordItemType.NONE;
+                wordData.wordItemType = WordItemType.NONE;
                 Text_word.text = String.Empty;
             }
         }
         else if (itemData.wordItemType == WordItemType.ROW)
         {
             wordData.RowGroup = null;
-            if (itemData.wordItemType == WordItemType.CROSS)
-                itemData.wordItemType = WordItemType.ROW;
+            if (wordData.wordItemType == WordItemType.CROSS)
+                wordData.wordItemType = WordItemType.ROW;
             else
             {
-                itemData.wordItemType = WordItemType.NONE;
+                wordData.wordItemType = WordItemType.NONE;
                 Text_word.text = String.Empty;
             }
         }
